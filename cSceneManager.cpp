@@ -41,14 +41,21 @@ void cSceneManager::Update()
 	if (m_nextScene) {
 		m_nowScene = m_nextScene;
 		m_nextScene = nullptr;
+		m_nowScene->Init();
 	}
 
-	if(!m_nowScene) DEBUG_LOG("현재 가리키는 씬이 읎는데 갱신하려고 해유..\n");
+	if (!m_nowScene) {
+		DEBUG_LOG("현재 가리키는 씬이 읎는데 갱신하려고 해유..\n");
+		return;
+	}
 	m_nowScene->Update();
 }
 
 void cSceneManager::Render()
 {
-	if (!m_nowScene) DEBUG_LOG("현재 가리키는 씬이 읎는데 그리려구 해유..\n");
+	if (!m_nowScene) {
+		DEBUG_LOG("현재 가리키는 씬이 읎는데 그리려구 해유..\n");
+		return;
+	}
 	m_nowScene->Render();
 }

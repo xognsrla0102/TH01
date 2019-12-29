@@ -44,6 +44,18 @@
     <Filter Include="Core\Manager\Image\Texture\multi">
       <UniqueIdentifier>{39c359cd-7467-4a6b-b7b4-ccd4217034bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Scenes\cLoadScene">
+      <UniqueIdentifier>{122ef9f2-a9b9-4bfe-8c52-afeb8ed9ee11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Scenes\cTitleScene">
+      <UniqueIdentifier>{e3d56da4-77b8-42a9-9078-e079b7c135d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Scenes\cScene">
+      <UniqueIdentifier>{a1753fb1-1b3a-4797-9ecb-a2536cd4e983}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\main">
+      <UniqueIdentifier>{a321ca21-c1a7-41f5-a104-3c5338accb10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -117,12 +129,6 @@
     <ClInclude Include="cSceneManager.h">
       <Filter>Core\Manager\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="cSingleton.h">
-      <Filter>Core\Manager\Singleton</Filter>
-    </ClInclude>
-    <ClInclude Include="cScene.h">
-      <Filter>Core\Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="cTexture.h">
       <Filter>Core\Manager\Image\Texture</Filter>
     </ClInclude>
@@ -135,6 +141,18 @@
     <ClInclude Include="cMultiTexture.h">
       <Filter>Core\Manager\Image\Texture\multi</Filter>
     </ClInclude>
+    <ClInclude Include="cScene.h">
+      <Filter>Core\Scenes\cScene</Filter>
+    </ClInclude>
+    <ClInclude Include="cLoadScene.h">
+      <Filter>Core\Scenes\cLoadScene</Filter>
+    </ClInclude>
+    <ClInclude Include="cSingleton.hpp">
+      <Filter>Core\Manager\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="cMain.h">
+      <Filter>Main\main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -145,9 +163,6 @@
     </ClCompile>
     <ClCompile Include="cSceneManager.cpp">
       <Filter>Core\Manager\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="cScene.cpp">
-      <Filter>Core\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="cTexture.cpp">
       <Filter>Core\Manager\Image\Texture</Filter>
@@ -160,6 +175,15 @@
     </ClCompile>
     <ClCompile Include="cMultiTexture.cpp">
       <Filter>Core\Manager\Image\Texture\multi</Filter>
+    </ClCompile>
+    <ClCompile Include="cLoadScene.cpp">
+      <Filter>Core\Scenes\cLoadScene</Filter>
+    </ClCompile>
+    <ClCompile Include="cScene.cpp">
+      <Filter>Core\Scenes\cScene</Filter>
+    </ClCompile>
+    <ClCompile Include="cMain.cpp">
+      <Filter>Main\main</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

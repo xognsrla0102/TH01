@@ -69,9 +69,35 @@ cTexture* cImageManager::FindImage(string name, int cnt)
 
 void cImageManager::Render(cTexture* text, VEC2 pos, float size, float rot, D3DCOLOR color, bool center)
 {
+	if (text) {
+		D3DXMATRIXA16 mat, s, r, t;
+		D3DXMatrixScaling(&s, size, size, size);
+		D3DXMatrixRotationZ(&r, D3DXToRadian(rot));
+		D3DXMatrixTranslation(&t, pos.x, pos.y, 0.f);
+
+		mat = s * r * t;
+		m_sprite->SetTransform(&mat);
+		if (center)
+			m_sprite->Draw(text->m_text, nullptr, &VEC3(text->m_info.Width / 2, text->m_info.Height / 2, 0.f), nullptr, color);
+		else
+			m_sprite->Draw(text->m_text, nullptr, nullptr, nullptr, color);
+	}
+	else DEBUG_LOG("텍스쳐가 비었소\n");
 }
 
 void cImageManager::CenterRender(cTexture* text, VEC2 pos, VEC2 center, float size, float rot, D3DCOLOR color)
 {
+	if (text) {
+		D3DXMATRIXA16 mat, s, r, t;
+		D3DXMatrixScaling(&s, size, size, size);
+		D3DXMatrixRotationZ(&r, D3DXToRadian(rot));
+		D3DXMatrixTranslation(&t, pos.x, pos.y, 0.f);
+
+		mat = s * r * t;
+
+		m_sprite->SetTransform(&mat);
+		m_sprite->Draw(text->m_text, nullptr, &VEC3(center.x, center.y, 0.f), nullptr, color);
+	}
+	else DEBUG_LOG("텍스쳐가 비었소\n");
 }
 
