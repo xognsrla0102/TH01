@@ -385,13 +385,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cImageManager.cpp" />
+    <ClCompile Include="cMultiTexture.cpp" />
     <ClCompile Include="cScene.cpp" />
     <ClCompile Include="cSceneManager.cpp" />
+    <ClCompile Include="cSingleTexture.cpp" />
     <ClCompile Include="cTexture.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClInclude Include="cImageManager.h" />
+    <ClInclude Include="cMultiTexture.h" />
     <ClInclude Include="cScene.h" />
     <ClInclude Include="cSceneManager.h" />
+    <ClInclude Include="cSingleTexture.h" />
     <ClInclude Include="cSingleton.h" />
     <ClInclude Include="cTexture.h" />
     <ClInclude Include="stdafx.h" />

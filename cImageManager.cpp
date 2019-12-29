@@ -1,4 +1,5 @@
 #include "DXUT.h"
+#include "cTexture.h"
 #include "cSingleTexture.h"
 #include "cMultiTexture.h"
 #include "cImageManager.h"
@@ -37,7 +38,7 @@ void cImageManager::ResetDevice()
 	m_sprite->OnResetDevice();
 }
 
-void cImageManager::AddImage(string name, string path, int cnt)
+void cImageManager::InsertImage(string name, string path, int cnt)
 {
 	auto find = m_imgs.find(name);
 	if (find != m_imgs.end()) {
@@ -45,8 +46,13 @@ void cImageManager::AddImage(string name, string path, int cnt)
 		return;
 	}
 	cTexture* text;
-	if (cnt == 0) text = new cSingleTexture;
-	else text = new cMultiTexture();
+	if (cnt == 1) text = new cSingleTexture;
+	else if (cnt > 1) text = new cMultiTexture;
+	else {
+		DEBUG_LOG("%d는 cnt에 넣을 수 없어유...\n", cnt);
+		return;
+	}
+
 	text->AddImage(path, cnt);
 	m_imgs.insert(map<string, cTexture*>::value_type(name, text));
 }

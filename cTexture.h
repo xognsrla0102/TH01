@@ -1,14 +1,13 @@
 #pragma once
-class cTexture
+class cTexture abstract
 {
-private:
+protected:
 	LPDIRECT3DTEXTURE9 m_text;
 	D3DXIMAGE_INFO m_info;
 public:
-	cTexture(LPDIRECT3DTEXTURE9 text, D3DXIMAGE_INFO info)
-		: m_text(text), m_info(info) {}
+	cTexture();
 	virtual ~cTexture() {}
 
-	virtual void AddImage(string name, string path, int cnt = 0) PURE;
-	virtual void FindImage(string name, int cnt = -1) PURE;
-}
+	virtual void AddImage(string path, int cnt = 1) PURE;
+	virtual cTexture* FindImage(int cnt = 0) PURE;
+};

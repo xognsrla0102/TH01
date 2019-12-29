@@ -32,11 +32,17 @@
     <Filter Include="Core\Manager\Singleton">
       <UniqueIdentifier>{b66d40d8-723a-4847-83ca-11d4f1050e56}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Manager\Texture">
-      <UniqueIdentifier>{19d67ee5-6ba7-439f-bb07-b538d857b87a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Manager\Image">
       <UniqueIdentifier>{d63a637c-769e-40d5-88d3-0145f641aeb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\Image\Texture">
+      <UniqueIdentifier>{19d67ee5-6ba7-439f-bb07-b538d857b87a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\Image\Texture\single">
+      <UniqueIdentifier>{9099ba23-75b0-4c6b-bdd2-b703b97168cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\Image\Texture\multi">
+      <UniqueIdentifier>{39c359cd-7467-4a6b-b7b4-ccd4217034bd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -118,10 +124,16 @@
       <Filter>Core\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="cTexture.h">
-      <Filter>Core\Manager\Texture</Filter>
+      <Filter>Core\Manager\Image\Texture</Filter>
     </ClInclude>
     <ClInclude Include="cImageManager.h">
       <Filter>Core\Manager\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="cSingleTexture.h">
+      <Filter>Core\Manager\Image\Texture\single</Filter>
+    </ClInclude>
+    <ClInclude Include="cMultiTexture.h">
+      <Filter>Core\Manager\Image\Texture\multi</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -138,10 +150,16 @@
       <Filter>Core\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="cTexture.cpp">
-      <Filter>Core\Manager\Texture</Filter>
+      <Filter>Core\Manager\Image\Texture</Filter>
     </ClCompile>
     <ClCompile Include="cImageManager.cpp">
       <Filter>Core\Manager\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="cSingleTexture.cpp">
+      <Filter>Core\Manager\Image\Texture\single</Filter>
+    </ClCompile>
+    <ClCompile Include="cMultiTexture.cpp">
+      <Filter>Core\Manager\Image\Texture\multi</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

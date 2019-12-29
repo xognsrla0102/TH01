@@ -19,11 +19,11 @@ public:
 	void LostDevice();
 	void ResetDevice();
 
-	void AddImage(string name, string path, int cnt = 0);
-	cTexture* FindImage(string name, int cnt = -1);
+	void InsertImage(string name, string path, int cnt = 1);
+	cTexture* FindImage(string name, int cnt = 0);
 
 	void Render(cTexture* text, VEC2 pos, float size = 1, float rot = 0, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255), bool center = false);
 	void CenterRender(cTexture* text, VEC2 pos, VEC2 center, float size = 1, float rot = 0, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
 };
 
-#define IMAGE cSingleton<cImageManager>::GetInst()
+#define IMAGE cImageManager::GetInst()

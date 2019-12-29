@@ -20,4 +20,4 @@ public:
 	void Render();
 };
 
-#define SCENE cSingleton<cSceneManager>::GetInst()
+#define SCENE cSceneManager::GetInst()
