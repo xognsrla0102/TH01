@@ -384,8 +384,16 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cImageManager.cpp" />
+    <ClCompile Include="cScene.cpp" />
+    <ClCompile Include="cSceneManager.cpp" />
+    <ClCompile Include="cTexture.cpp" />
     <ClCompile Include="stdafx.cpp" />
-    <ClInclude Include="singleton.h" />
+    <ClInclude Include="cImageManager.h" />
+    <ClInclude Include="cScene.h" />
+    <ClInclude Include="cSceneManager.h" />
+    <ClInclude Include="cSingleton.h" />
+    <ClInclude Include="cTexture.h" />
     <ClInclude Include="stdafx.h" />
     <None Include="DXUT\Optional\directx.ico" />
     <ClInclude Include="DXUT\Core\DXUT.h" />

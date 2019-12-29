@@ -1,5 +1,6 @@
 #include "DXUT.h"
 #include "stdafx.h"
+
 #ifdef _DEBUG
 void DEBUG_LOG(LPCSTR fmt, ...) {
 	char buf[200];

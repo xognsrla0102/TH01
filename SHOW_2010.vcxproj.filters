@@ -26,6 +26,18 @@
     <Filter Include="Core\Scenes">
       <UniqueIdentifier>{8fb85181-ea5d-4496-b878-a5ac049e40cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Manager\Scene">
+      <UniqueIdentifier>{4e4e5f95-a29e-42e2-a2b5-33f579587748}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\Singleton">
+      <UniqueIdentifier>{b66d40d8-723a-4847-83ca-11d4f1050e56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\Texture">
+      <UniqueIdentifier>{19d67ee5-6ba7-439f-bb07-b538d857b87a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\Image">
+      <UniqueIdentifier>{d63a637c-769e-40d5-88d3-0145f641aeb8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -96,8 +108,20 @@
     <ClInclude Include="stdafx.h">
       <Filter>Util\Stdafx</Filter>
     </ClInclude>
-    <ClInclude Include="singleton.h">
-      <Filter>Core\Manager</Filter>
+    <ClInclude Include="cSceneManager.h">
+      <Filter>Core\Manager\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="cSingleton.h">
+      <Filter>Core\Manager\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="cScene.h">
+      <Filter>Core\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="cTexture.h">
+      <Filter>Core\Manager\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="cImageManager.h">
+      <Filter>Core\Manager\Image</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +130,18 @@
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Util\Stdafx</Filter>
+    </ClCompile>
+    <ClCompile Include="cSceneManager.cpp">
+      <Filter>Core\Manager\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="cScene.cpp">
+      <Filter>Core\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="cTexture.cpp">
+      <Filter>Core\Manager\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="cImageManager.cpp">
+      <Filter>Core\Manager\Image</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
