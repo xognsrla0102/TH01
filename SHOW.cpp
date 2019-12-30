@@ -5,9 +5,11 @@
 //--------------------------------------------------------------------------------------
 #include "DXUT.h"
 #include "resource.h"
+#include "cInput.h"
 #include "cMain.h"
 
-cMain* main;
+cInput* keyboard = nullptr;
+cMain* main = nullptr;
 
 //--------------------------------------------------------------------------------------
 // Rejects any D3D9 devices that aren't acceptable to the app by returning false
@@ -42,8 +44,11 @@ bool CALLBACK ModifyDeviceSettings( DXUTDeviceSettings* pDeviceSettings, void* p
 HRESULT CALLBACK OnD3D9CreateDevice( IDirect3DDevice9* pd3dDevice, const D3DSURFACE_DESC* pBackBufferSurfaceDesc,
                                      void* pUserContext )
 {
+	keyboard = new cInput(DXUTGetHWND());
+
 	main = new cMain;
-    return S_OK;
+
+    return main != nullptr ? S_OK : E_FAIL;
 }
 
 
@@ -64,6 +69,7 @@ HRESULT CALLBACK OnD3D9ResetDevice( IDirect3DDevice9* pd3dDevice, const D3DSURFA
 //--------------------------------------------------------------------------------------
 void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext )
 {
+	keyboard->GetData();
 	main->Update();
 }
 
@@ -112,6 +118,7 @@ void CALLBACK OnD3D9LostDevice( void* pUserContext )
 void CALLBACK OnD3D9DestroyDevice( void* pUserContext )
 {
 	SAFE_DELETE(main);
+	SAFE_DELETE(keyboard);
 }
 
 

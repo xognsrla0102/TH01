@@ -56,6 +56,12 @@
     <Filter Include="Main\main">
       <UniqueIdentifier>{a321ca21-c1a7-41f5-a104-3c5338accb10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\cPlayer">
+      <UniqueIdentifier>{cc9f2bd9-9501-4670-89c9-a5322eb35cc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\Input">
+      <UniqueIdentifier>{7996c7e7-836d-4a02-b99d-1bb4d1c2cbbd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -153,6 +159,12 @@
     <ClInclude Include="cMain.h">
       <Filter>Main\main</Filter>
     </ClInclude>
+    <ClInclude Include="cPlayer.h">
+      <Filter>Core\cPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="cInput.h">
+      <Filter>Core\Manager\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -184,6 +196,12 @@
     </ClCompile>
     <ClCompile Include="cMain.cpp">
       <Filter>Main\main</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayer.cpp">
+      <Filter>Core\cPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="cInput.cpp">
+      <Filter>Core\Manager\Input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

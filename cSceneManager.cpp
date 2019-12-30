@@ -9,6 +9,7 @@ cSceneManager::cSceneManager()
 
 cSceneManager::~cSceneManager()
 {
+	if(m_nowScene) m_nowScene->Release();
 	for (auto iter : m_scenes)
 		SAFE_DELETE(iter.second);
 	m_scenes.clear();
