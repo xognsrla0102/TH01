@@ -38,8 +38,6 @@ void cLoadScene::Update()
 	d = getDistance(m_player->rtCol, rtCol2);
 	m_player->Update();
 
-	DEBUG_LOG("x : %.f\ny : %.f\nheight : %.f\nwidth : %.f\nrot : %.f\n\n", m_player->rtCol.left, m_player->rtCol.top, m_player->rtCol.height, m_player->rtCol.width, m_player->rtCol.rot);
-
 	if (OBB(m_player->rtCol, rtCol2)) {
 		m_player->isColl = true;
 	}

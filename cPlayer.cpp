@@ -8,13 +8,6 @@ extern cInput* keyboard;
 cPlayer::cPlayer()
 {
 	m_img = IMAGE->FindImage("player");
-	rtCol = {
-		m_pos.x - m_img->m_info.Width / 2.0,
-		m_pos.y - m_img->m_info.Height / 2.0,
-		(double)m_img->m_info.Height,
-		(double)m_img->m_info.Width,
-		(double)rot
-	};
 }
 
 cPlayer::~cPlayer()
