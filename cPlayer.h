@@ -1,7 +1,8 @@
 #pragma once
+#include "cObject.h"
 
 class cTexture;
-class cPlayer
+class cPlayer : public cObject
 {
 private:
 	cTexture* m_img = nullptr;

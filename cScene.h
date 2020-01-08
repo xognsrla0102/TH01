@@ -1,7 +1,8 @@
 #pragma once
+#include "cObject.h"
 
 class cTexture;
-class cScene abstract
+class cScene abstract : public cObject
 {
 private:
 	cTexture* m_BG = nullptr;

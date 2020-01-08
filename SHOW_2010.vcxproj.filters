@@ -23,9 +23,6 @@
     <Filter Include="Core\Manager">
       <UniqueIdentifier>{70de18fc-1646-4bbc-994d-b51900a69f9a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Scenes">
-      <UniqueIdentifier>{8fb85181-ea5d-4496-b878-a5ac049e40cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Manager\Scene">
       <UniqueIdentifier>{4e4e5f95-a29e-42e2-a2b5-33f579587748}</UniqueIdentifier>
     </Filter>
@@ -44,26 +41,35 @@
     <Filter Include="Core\Manager\Image\Texture\multi">
       <UniqueIdentifier>{39c359cd-7467-4a6b-b7b4-ccd4217034bd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Scenes\cLoadScene">
-      <UniqueIdentifier>{122ef9f2-a9b9-4bfe-8c52-afeb8ed9ee11}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Scenes\cTitleScene">
-      <UniqueIdentifier>{e3d56da4-77b8-42a9-9078-e079b7c135d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Scenes\cScene">
-      <UniqueIdentifier>{a1753fb1-1b3a-4797-9ecb-a2536cd4e983}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Main\main">
       <UniqueIdentifier>{a321ca21-c1a7-41f5-a104-3c5338accb10}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\cPlayer">
-      <UniqueIdentifier>{cc9f2bd9-9501-4670-89c9-a5322eb35cc1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\Manager\Input">
       <UniqueIdentifier>{7996c7e7-836d-4a02-b99d-1bb4d1c2cbbd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\Manager\Input\cInput">
       <UniqueIdentifier>{4e26ab8e-86a4-4fe2-a2b3-75edef1eb43e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object">
+      <UniqueIdentifier>{dd7d1e23-5a34-4359-b986-2065bce73afb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\cPlayer">
+      <UniqueIdentifier>{cc9f2bd9-9501-4670-89c9-a5322eb35cc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Scenes">
+      <UniqueIdentifier>{8fb85181-ea5d-4496-b878-a5ac049e40cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Scenes\cLoadScene">
+      <UniqueIdentifier>{122ef9f2-a9b9-4bfe-8c52-afeb8ed9ee11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Scenes\cTitleScene">
+      <UniqueIdentifier>{e3d56da4-77b8-42a9-9078-e079b7c135d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Scenes\cScene">
+      <UniqueIdentifier>{a1753fb1-1b3a-4797-9ecb-a2536cd4e983}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\Object">
+      <UniqueIdentifier>{daa54ede-96cc-48d5-9dc3-aea878d9a878}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -151,10 +157,10 @@
       <Filter>Core\Manager\Image\Texture\multi</Filter>
     </ClInclude>
     <ClInclude Include="cScene.h">
-      <Filter>Core\Scenes\cScene</Filter>
+      <Filter>Core\Object\Scenes\cScene</Filter>
     </ClInclude>
     <ClInclude Include="cLoadScene.h">
-      <Filter>Core\Scenes\cLoadScene</Filter>
+      <Filter>Core\Object\Scenes\cLoadScene</Filter>
     </ClInclude>
     <ClInclude Include="cSingleton.hpp">
       <Filter>Core\Manager\Singleton</Filter>
@@ -163,13 +169,19 @@
       <Filter>Main\main</Filter>
     </ClInclude>
     <ClInclude Include="cPlayer.h">
-      <Filter>Core\cPlayer</Filter>
+      <Filter>Core\Object\cPlayer</Filter>
     </ClInclude>
     <ClInclude Include="cInputManager.h">
       <Filter>Core\Manager\Input</Filter>
     </ClInclude>
     <ClInclude Include="cInput.h">
       <Filter>Core\Manager\Input\cInput</Filter>
+    </ClInclude>
+    <ClInclude Include="cObjectManager.h">
+      <Filter>Core\Manager\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="cObject.h">
+      <Filter>Core\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -195,22 +207,28 @@
       <Filter>Core\Manager\Image\Texture\multi</Filter>
     </ClCompile>
     <ClCompile Include="cLoadScene.cpp">
-      <Filter>Core\Scenes\cLoadScene</Filter>
+      <Filter>Core\Object\Scenes\cLoadScene</Filter>
     </ClCompile>
     <ClCompile Include="cScene.cpp">
-      <Filter>Core\Scenes\cScene</Filter>
+      <Filter>Core\Object\Scenes\cScene</Filter>
     </ClCompile>
     <ClCompile Include="cMain.cpp">
       <Filter>Main\main</Filter>
     </ClCompile>
     <ClCompile Include="cPlayer.cpp">
-      <Filter>Core\cPlayer</Filter>
+      <Filter>Core\Object\cPlayer</Filter>
     </ClCompile>
     <ClCompile Include="cInputManager.cpp">
       <Filter>Core\Manager\Input</Filter>
     </ClCompile>
     <ClCompile Include="cInput.cpp">
       <Filter>Core\Manager\Input\cInput</Filter>
+    </ClCompile>
+    <ClCompile Include="cObjectManager.cpp">
+      <Filter>Core\Manager\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="cObject.cpp">
+      <Filter>Core\Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
