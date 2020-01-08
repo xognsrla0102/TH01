@@ -386,6 +386,7 @@
   <ItemGroup>
     <ClCompile Include="cImageManager.cpp" />
     <ClCompile Include="cInput.cpp" />
+    <ClCompile Include="cInputManager.cpp" />
     <ClCompile Include="cLoadScene.cpp" />
     <ClCompile Include="cMain.cpp" />
     <ClCompile Include="cMultiTexture.cpp" />
@@ -397,6 +398,7 @@
     <ClCompile Include="stdafx.cpp" />
     <ClInclude Include="cImageManager.h" />
     <ClInclude Include="cInput.h" />
+    <ClInclude Include="cInputManager.h" />
     <ClInclude Include="cLoadScene.h" />
     <ClInclude Include="cMain.h" />
     <ClInclude Include="cMultiTexture.h" />

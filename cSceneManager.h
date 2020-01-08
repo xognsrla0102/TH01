@@ -1,5 +1,5 @@
 #pragma once
-#include "cSingleton.h"
+#include "cSingleton.hpp"
 
 class cScene;
 class cSceneManager : public cSingleton<cSceneManager>

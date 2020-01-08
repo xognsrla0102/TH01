@@ -87,11 +87,17 @@ HRESULT cInput::GetData()
 		} while (hr == DIERR_INPUTLOST);
 		return S_OK;
 	}
+
+	DEBUG_LOG("%d\n", m_Keys[DIK_A]);
 	return S_OK;
 }
 
 BOOL cInput::KeyDown(BYTE key)
 {
-	if(m_Keys[key] & 0x80) return true;
+	if (m_Keys[key] & 0x80) {
+		m_Keys[key] = true;
+		return true;
+	}
+	m_Keys[key] = false;
 	return false;
 }

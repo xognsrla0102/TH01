@@ -10,12 +10,14 @@ cMain::cMain()
 
 cMain::~cMain()
 {
+	cInputManager::ReleaseInst();
 	cSceneManager::ReleaseInst();
 	cImageManager::ReleaseInst();
 }
 
 void cMain::Update()
 {
+	INPUT->Update();
 	SCENE->Update();
 }
 

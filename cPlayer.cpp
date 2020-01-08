@@ -1,9 +1,6 @@
 #include "DXUT.h"
-#include "cInput.h"
 #include "cTexture.h"
 #include "cPlayer.h"
-
-extern cInput* keyboard;
 
 cPlayer::cPlayer()
 {
@@ -27,18 +24,19 @@ void cPlayer::Update()
 	if (isColl) m_img = IMAGE->FindImage("isColl");
 	else m_img = IMAGE->FindImage("player");
 
-	if (keyboard->KeyDown(DIK_A))
+	if (INPUT->KeyDown(DIK_A))
 		m_pos.x -= 300 * D_TIME;
-	if (keyboard->KeyDown(DIK_D))
+	if (INPUT->KeyDown(DIK_D))
 		m_pos.x += 300 * D_TIME;
-	if (keyboard->KeyDown(DIK_W))
+	if (INPUT->KeyDown(DIK_W))
 		m_pos.y -= 300 * D_TIME;
-	if (keyboard->KeyDown(DIK_S))
+	if (INPUT->KeyDown(DIK_S))
 		m_pos.y += 300 * D_TIME;
-	if (keyboard->KeyDown(DIK_PGUP))
+
+	if (INPUT->KeyDown(DIK_PGUP))
 		if (rot < 0) rot += 360;
 		else rot -= 2;
-	if (keyboard->KeyDown(DIK_PGDN))
+	if (INPUT->KeyDown(DIK_PGDN))
 		if (rot > 360) rot -= 360;
 		else rot += 2;
 }

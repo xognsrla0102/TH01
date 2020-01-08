@@ -1,5 +1,5 @@
 #pragma once
-#include "cSingleton.h"
+#include "cSingleton.hpp"
 
 class cTexture;
 class cImageManager : public cSingleton<cImageManager>
