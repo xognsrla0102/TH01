@@ -71,6 +71,9 @@
     <Filter Include="Core\Manager\Object">
       <UniqueIdentifier>{daa54ede-96cc-48d5-9dc3-aea878d9a878}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Object\Bullet">
+      <UniqueIdentifier>{b7cb0d90-7f50-4f38-a1e4-160336b2b4d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">

@@ -18,6 +18,7 @@ cLoadScene::~cLoadScene()
 
 void cLoadScene::Init()
 {
+	IMAGE->InsertImage("player", "resource/scene/loadscene/obj1.png");
 }
 
 void cLoadScene::Update()
