@@ -1,6 +1,7 @@
 #pragma once
 #include "cSingleton.hpp"
-using TAGS::TAG_END;
+
+using namespace TAGS;
 
 class cObject;
 class cObjectManager : public cSingleton<cObjectManager>
@@ -8,8 +9,13 @@ class cObjectManager : public cSingleton<cObjectManager>
 private:
 	vector<cObject*> m_objs[TAG_END];
 public:
-	void AddOBJ(cObject* obj);
-	vector<cObject*>& FindOBJ(int tagNum);
+	cObjectManager();
+	virtual ~cObjectManager();
+
+	void AddOBJ(cObject* obj, int tagNum);
+
+	void Update();
+	void Render();
 };
 
 #define OBJECT cObjectManager::GetInst()

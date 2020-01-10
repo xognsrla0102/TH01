@@ -2,13 +2,43 @@
 #include "cObject.h"
 #include "cObjectManager.h"
 
-void cObjectManager::AddOBJ(cObject* obj)
+cObjectManager::cObjectManager()
 {
-	
 }
 
-vector<cObject*>& cObjectManager::FindOBJ(int tagNum)
+cObjectManager::~cObjectManager()
 {
-	if (m_objs[tagNum].size()) return m_objs[tagNum];
-	else DEBUG_LOG("해당 객체집합이 존재하지 않습니다.\n");
+	for (auto objIdx : m_objs) {
+		for (auto iter : objIdx)
+			SAFE_DELETE(iter);
+	}
+	m_objs->clear();
+}
+
+void cObjectManager::AddOBJ(cObject* obj, int tagNum)
+{
+	obj->SetTag(tagNum);
+	m_objs->push_back(obj);
+}
+
+void cObjectManager::Update()
+{
+	for (int i = 0; i < TAG_END; i++) {
+		auto& refObjs = m_objs[i];
+		for (auto j = refObjs.begin(); j != refObjs.end();) {
+			//dead status
+			if (!(*j)->GetLive()) {
+				SAFE_DELETE(*(j));
+				j = refObjs.erase(j);
+			}
+			else {
+				(*j)->Update();
+				j++;
+			}
+		}
+	}
+}
+
+void cObjectManager::Render()
+{
 }

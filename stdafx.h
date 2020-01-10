@@ -18,7 +18,12 @@ using VEC4 = D3DXVECTOR4;
 
 namespace TAGS {
 	enum {
-		PLAYER, ENEMY, BULLET, TAG_END
+		BG,
+		UI,
+		PLAYER,
+		ENEMY,
+		BULLET,
+		TAG_END
 	};
 }
 
