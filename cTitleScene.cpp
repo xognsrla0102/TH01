@@ -18,7 +18,7 @@ void cTitleScene::Init()
 void cTitleScene::Update()
 {
 	static VEC2 alphaVec(255, 0);
-	D3DXVec2Lerp(&alphaVec, &alphaVec, &VEC2(0, 0), 0.03f);
+	D3DXVec2Lerp(&alphaVec, &alphaVec, &VEC2(0, 0), 0.01f);
 	m_alpha = alphaVec.x;
 }
 
