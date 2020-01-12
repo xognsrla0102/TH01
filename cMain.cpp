@@ -12,6 +12,7 @@ cMain::~cMain()
 {
 	cInputManager::ReleaseInst();
 	cSceneManager::ReleaseInst();
+	cObjectManager::ReleaseInst();
 	cImageManager::ReleaseInst();
 }
 

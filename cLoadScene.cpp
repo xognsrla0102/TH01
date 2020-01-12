@@ -1,6 +1,5 @@
 #include "DXUT.h"
-#include "cTexture.h"
-#include "cPlayer.h"
+#include "cTitleScene.h"
 #include "cLoadScene.h"
 
 cLoadScene::cLoadScene()
@@ -18,11 +17,17 @@ cLoadScene::~cLoadScene()
 
 void cLoadScene::Init()
 {
-	IMAGE->InsertImage("player", "resource/scene/loadscene/obj1.png");
+	//이미지 로딩
+	IMAGE->InsertImage("whiteBG", "resource/scene/titleScene/whitebg.png");
+	IMAGE->InsertImage("titleBG", "resource/scene/titleScene/bg.png");
+
+	//씬 생성
+	SCENE->AddScene("titleScene", new cTitleScene);
 }
 
 void cLoadScene::Update()
 {
+	SCENE->ChangeScene("titleScene");
 }
 
 void cLoadScene::Render()

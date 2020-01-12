@@ -4,8 +4,8 @@ class cObject abstract
 protected:
 	VEC2 m_pos;
 	VEC2 m_size;
-	FLOAT m_rot;
-	BOOL m_isLive;
+	FLOAT m_rot = 0.f;
+	BOOL m_isLive = TRUE;
 	int m_tag;
 public:
 	cObject() {}

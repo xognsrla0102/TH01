@@ -397,6 +397,7 @@
     <ClCompile Include="cSceneManager.cpp" />
     <ClCompile Include="cSingleTexture.cpp" />
     <ClCompile Include="cTexture.cpp" />
+    <ClCompile Include="cTitleScene.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClInclude Include="cImageManager.h" />
     <ClInclude Include="cInput.h" />
@@ -412,6 +413,7 @@
     <ClInclude Include="cSingleTexture.h" />
     <ClInclude Include="cSingleton.hpp" />
     <ClInclude Include="cTexture.h" />
+    <ClInclude Include="cTitleScene.h" />
     <ClInclude Include="stdafx.h" />
     <None Include="DXUT\Optional\directx.ico" />
     <ClInclude Include="DXUT\Core\DXUT.h" />

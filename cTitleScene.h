@@ -1,14 +1,16 @@
 #pragma once
 #include "cScene.h"
 
-class cLoadScene : public cScene
+class cTitleScene : public cScene
 {
 private:
-	cTexture* m_BG = nullptr;
-	map<string, cTexture*> m_datas;
+	cTexture* m_whiteEffect = nullptr;
+	cTexture* m_bg = nullptr;
+
+	int m_alpha = 255;
 public:
-	cLoadScene();
-	virtual ~cLoadScene();
+	cTitleScene();
+	virtual ~cTitleScene();
 
 	virtual void Init() override;
 	virtual void Update() override;

@@ -87,8 +87,6 @@ HRESULT cInput::GetData()
 		} while (hr == DIERR_INPUTLOST);
 		return S_OK;
 	}
-
-	DEBUG_LOG("%d\n", m_Keys[DIK_A]);
 	return S_OK;
 }
 

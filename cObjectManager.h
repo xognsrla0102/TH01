@@ -19,3 +19,4 @@ public:
 };
 
 #define OBJECT cObjectManager::GetInst()
+#define OBJADD(i, j) OBJECT->AddOBJ(i, j);
