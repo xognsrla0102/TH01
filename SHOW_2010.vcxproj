@@ -396,6 +396,7 @@
     <ClCompile Include="cScene.cpp" />
     <ClCompile Include="cSceneManager.cpp" />
     <ClCompile Include="cSingleTexture.cpp" />
+    <ClCompile Include="cSoundManager.cpp" />
     <ClCompile Include="cTexture.cpp" />
     <ClCompile Include="cTitleScene.cpp" />
     <ClCompile Include="stdafx.cpp" />
@@ -412,6 +413,7 @@
     <ClInclude Include="cSceneManager.h" />
     <ClInclude Include="cSingleTexture.h" />
     <ClInclude Include="cSingleton.hpp" />
+    <ClInclude Include="cSoundManager.h" />
     <ClInclude Include="cTexture.h" />
     <ClInclude Include="cTitleScene.h" />
     <ClInclude Include="stdafx.h" />

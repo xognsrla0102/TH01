@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <dinput.h>
+#include <mmsystem.h>
 #include <vector>
 #include <map>
 using namespace std;
@@ -35,5 +36,6 @@ namespace TAGS {
 #include "cSceneManager.h"
 #include "cInputManager.h"
 #include "cObjectManager.h"
+#include "cSoundManager.h"
 //STL의 clear 함수는 값만 비워주지 포인터가 가르키는 곳까지 해제해주진 않으므로
 //모든 원소에 접근해서 SAFE_DELETE 해줘야함. 포인터 시퀀스가 아니라면 굳이 일일이 SAFE_DELETE 해줄 필요없음

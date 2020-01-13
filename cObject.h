@@ -2,9 +2,11 @@
 class cObject abstract
 {
 protected:
-	VEC2 m_pos;
-	VEC2 m_size;
+	cTexture* m_img = nullptr;
+	VEC2 m_pos = VEC2(0, 0);
+	VEC2 m_size = VEC2(1, 1);
 	FLOAT m_rot = 0.f;
+	FLOAT m_speed = 0.f;
 	BOOL m_isLive = TRUE;
 	int m_tag;
 public:

@@ -77,6 +77,9 @@
     <Filter Include="Core\Object\Scenes\TitleScene">
       <UniqueIdentifier>{e3d56da4-77b8-42a9-9078-e079b7c135d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Manager\Sound">
+      <UniqueIdentifier>{400448ef-829e-4b05-8d41-b38bdc103671}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -192,6 +195,7 @@
     <ClInclude Include="cTitleScene.h">
       <Filter>Core\Object\Scenes\TitleScene</Filter>
     </ClInclude>
+    <ClInclude Include="cSoundManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -242,5 +246,6 @@
     <ClCompile Include="cTitleScene.cpp">
       <Filter>Core\Object\Scenes\TitleScene</Filter>
     </ClCompile>
+    <ClCompile Include="cSoundManager.cpp" />
   </ItemGroup>
 </Project>
