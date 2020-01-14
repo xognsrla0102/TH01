@@ -11,4 +11,10 @@ private:
 	UINT wDeviceID = 0;
 public:
 	DWORD LoadMP3(HWND hWnd, LPCTSTR name);
+	void PlayMP3();
+	void PlaySoundEffect();
 };
+
+#define SOUND cSoundManager::GetInst()
+#define LOADSND(i, j) SOUND->LoadMP3(i, j)
+#define PLAYSND SOUND->PlayMP3f()

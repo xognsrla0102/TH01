@@ -3,6 +3,7 @@
 #include <iostream>
 #include <dinput.h>
 #include <mmsystem.h>
+#include <Digitalv.h>
 #include <vector>
 #include <map>
 using namespace std;

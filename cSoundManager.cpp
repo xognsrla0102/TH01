@@ -19,9 +19,19 @@ DWORD cSoundManager::LoadMP3(HWND hWnd, LPCTSTR name)
 	if (result) return result;
 
 	wDeviceID = mciOpen.wDeviceID;
+
 	mciPlay.dwCallback = (DWORD)hWnd;
 
-	if (result) return result;
-
 	return 0;
+}
+
+void cSoundManager::PlayMP3()
+{
+	mciSendCommand(wDeviceID, MCI_PLAY, MCI_DGV_PLAY_REPEAT,
+		(DWORD)(LPVOID)&mciPlay);
+}
+
+void cSoundManager::PlaySoundEffect()
+{
+	//PlaySoundW(, NULL, SND_ASYNC);
 }

@@ -195,7 +195,9 @@
     <ClInclude Include="cTitleScene.h">
       <Filter>Core\Object\Scenes\TitleScene</Filter>
     </ClInclude>
-    <ClInclude Include="cSoundManager.h" />
+    <ClInclude Include="cSoundManager.h">
+      <Filter>Core\Manager\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -246,6 +248,8 @@
     <ClCompile Include="cTitleScene.cpp">
       <Filter>Core\Object\Scenes\TitleScene</Filter>
     </ClCompile>
-    <ClCompile Include="cSoundManager.cpp" />
+    <ClCompile Include="cSoundManager.cpp">
+      <Filter>Core\Manager\Sound</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

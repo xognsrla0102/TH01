@@ -3,6 +3,8 @@
 
 cTitleScene::cTitleScene()
 {
+	LOADSND(DXUTGetHWND(), L"./resource/bgm/title.wav");
+
 	m_whiteEffect = IMAGE->FindImage("whiteBG");
 	m_bg = IMAGE->FindImage("titleBG");
 } 
