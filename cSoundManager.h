@@ -6,15 +6,21 @@ class cSoundManager : public cSingleton<cSoundManager>
 private:
 	MCI_OPEN_PARMS mciOpen;
 	MCI_PLAY_PARMS mciPlay;
-	MCI_STATUS_PARMS mciStatus;
 
 	UINT wDeviceID = 0;
 public:
-	DWORD LoadMP3(HWND hWnd, LPCTSTR name);
-	void PlayMP3();
-	void PlaySoundEffect();
+	cSoundManager(HWND hWnd, LPCTSTR name);
+	virtual ~cSoundManager();
+
+	void Play();
+	void Pause();
+	void Resume();
+	void Stop();
+
+	void PlayEffect(const string& path);
 };
 
 #define SOUND cSoundManager::GetInst()
-#define LOADSND(i, j) SOUND->LoadMP3(i, j)
-#define PLAYSND SOUND->PlayMP3f()
+#define LOAD(i, j) SOUND->LoadMP3(i, j)
+#define PLAY(i) SOUND->PlayMP3(i)
+#define PLAYEFT(i) SOUND->PlayEffect(i)
