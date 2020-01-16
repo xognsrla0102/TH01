@@ -399,6 +399,9 @@
     <ClCompile Include="cSoundManager.cpp" />
     <ClCompile Include="cTexture.cpp" />
     <ClCompile Include="cTitleScene.cpp" />
+    <ClCompile Include="DXUT\Core\SDKmisc.cpp" />
+    <ClCompile Include="DXUT\Core\SDKsound.cpp" />
+    <ClCompile Include="DXUT\Core\SDKwavefile.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClInclude Include="cImageManager.h" />
     <ClInclude Include="cInput.h" />
@@ -416,6 +419,9 @@
     <ClInclude Include="cSoundManager.h" />
     <ClInclude Include="cTexture.h" />
     <ClInclude Include="cTitleScene.h" />
+    <ClInclude Include="DXUT\Core\SDKmisc.h" />
+    <ClInclude Include="DXUT\Core\SDKsound.h" />
+    <ClInclude Include="DXUT\Core\SDKwavefile.h" />
     <ClInclude Include="stdafx.h" />
     <None Include="DXUT\Optional\directx.ico" />
     <ClInclude Include="DXUT\Core\DXUT.h" />

@@ -198,6 +198,15 @@
     <ClInclude Include="cSoundManager.h">
       <Filter>Core\Manager\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="DXUT\Core\SDKmisc.h">
+      <Filter>Util\DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Core\SDKsound.h">
+      <Filter>Util\DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Core\SDKwavefile.h">
+      <Filter>Util\DXUT</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -250,6 +259,15 @@
     </ClCompile>
     <ClCompile Include="cSoundManager.cpp">
       <Filter>Core\Manager\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Core\SDKmisc.cpp">
+      <Filter>Util\DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Core\SDKsound.cpp">
+      <Filter>Util\DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Core\SDKwavefile.cpp">
+      <Filter>Util\DXUT</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

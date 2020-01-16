@@ -17,6 +17,9 @@ cLoadScene::~cLoadScene()
 
 void cLoadScene::Init()
 {
+	//소리 로딩
+	SOUND->AddSound("titleBGM", L"./resource/bgm/title.wav");
+
 	//이미지 로딩
 	IMAGE->InsertImage("whiteBG", "resource/scene/titleScene/whitebg.png");
 	IMAGE->InsertImage("titleBG", "resource/scene/titleScene/bg.png");
@@ -27,6 +30,7 @@ void cLoadScene::Init()
 
 void cLoadScene::Update()
 {
+	SOUND->Play("titleBGM", true);
 	SCENE->ChangeScene("titleScene");
 }
 

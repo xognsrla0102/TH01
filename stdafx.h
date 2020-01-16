@@ -2,8 +2,6 @@
 
 #include <iostream>
 #include <dinput.h>
-#include <mmsystem.h>
-#include <Digitalv.h>
 #include <vector>
 #include <map>
 using namespace std;
@@ -33,6 +31,7 @@ namespace TAGS {
 	void DEBUG_LOG(LPCSTR fmt, ...);
 #endif
 
+#include "SDKsound.h"
 #include "cImageManager.h"
 #include "cSceneManager.h"
 #include "cInputManager.h"

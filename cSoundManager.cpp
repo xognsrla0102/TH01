@@ -1,97 +1,49 @@
 #include "DXUT.h"
 #include "cSoundManager.h"
 
-cSoundManager::cSoundManager(HWND hWnd, LPCTSTR path)
+cSoundManager::cSoundManager()
 {
-	//mp3형식 재생
-	mciOpen.lpstrDeviceType = L"mpegvideo";
-	//wav파일일 경우 waveaudio로 설정
-	mciOpen.lpstrElementName = path;
-	//파일 경로
-
-	mciSendCommand(
-		wDeviceID,
-		MCI_OPEN,
-		MCI_OPEN_TYPE | MCI_OPEN_ELEMENT,
-		(DWORD)(LPVOID)&mciOpen
-	);
-
-	//MCI_OPEN_TYPE : 마지막 인수인
-	//구조체에 지정된 MCI 장치를 사용
-
-	//MCI_OPEN_ELEMENT : 마지막 인수인
-	//구조체에 지정된 파일을 사용
-
-	wDeviceID = mciOpen.wDeviceID;
-	//노래를 넣은 이 장치의 아이디 옮겨줌
-	//이 아이디를 통해 이 노래를 조작
-
-	mciPlay.dwCallback = (DWORD)hWnd;
-	//나중에 실행할 때 필요한 정보
+	m_sound = new CSoundManager;
+	m_sound->Initialize(DXUTGetHWND(), DSSCL_PRIORITY);
 }
 
 cSoundManager::~cSoundManager()
 {
-	MCI_GENERIC_PARMS mciGen;
-
-	mciSendCommand(
-		wDeviceID,
-		MCI_CLOSE,
-		MCI_WAIT,
-		(DWORD)(LPVOID)&mciGen
-	);
+	Reset();
+	SAFE_DELETE(m_sound);
 }
 
-void cSoundManager::Play()
+void cSoundManager::AddSound(const string& key, const wstring& path)
 {
-	mciSendCommand(
-		wDeviceID,
-		MCI_PLAY,
-		MCI_DGV_PLAY_REPEAT,
-		(DWORD)(LPVOID)&mciPlay
-	);
-	//3번째 인자에 MCI_NOTIFY 를 입력하면
-	//곡이 종료될 때 윈도우에
-	//MM_MCINOTIFY 라는 메세지 보냄
+	CSound* sound;
+	m_sound->Create(&sound, (LPWSTR)path.c_str());
+	m_sounds[key] = sound;
 }
 
-void cSoundManager::Pause()
+void cSoundManager::Play(const string& key, bool loop)
 {
-	MCI_GENERIC_PARMS mciGen;
-
-	mciSendCommand(
-		wDeviceID,
-		MCI_PAUSE,
-		MCI_WAIT,
-		(DWORD)(LPVOID)&mciGen
-	);
+	m_sounds[key]->Play(0, loop);
 }
 
-void cSoundManager::Resume()
+void cSoundManager::Stop(const string& key)
 {
-	MCI_GENERIC_PARMS mciGen;
-
-	mciSendCommand(
-		wDeviceID,
-		MCI_RESUME,
-		MCI_WAIT,
-		(DWORD)(LPVOID)&mciGen
-	);
+	m_sounds[key]->Stop();
 }
 
-void cSoundManager::Stop()
+void cSoundManager::Copy(const string& key)
 {
-	MCI_GENERIC_PARMS mciGen;
-
-	mciSendCommand(
-		wDeviceID,
-		MCI_STOP,
-		MCI_WAIT,
-		(DWORD)(LPVOID)&mciGen
+	LPDIRECTSOUNDBUFFER pBuf;
+	m_sound->GetDirectSound()->DuplicateSoundBuffer(
+		m_sounds[key]->GetBuffer(0),
+		&pBuf
 	);
+
+	pBuf->SetCurrentPosition(0);
+	pBuf->Play(0, 0, 0);
 }
 
-void cSoundManager::PlayEffect(const string& path)
+void cSoundManager::Reset()
 {
-	sndPlaySound((LPCWSTR)path.c_str(), SND_ASYNC);
+	for (auto iter : m_sounds)
+		SAFE_DELETE(iter.second);
 }

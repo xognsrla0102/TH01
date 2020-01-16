@@ -10,6 +10,7 @@ cMain::cMain()
 
 cMain::~cMain()
 {
+	cSoundManager::ReleaseInst();
 	cInputManager::ReleaseInst();
 	cSceneManager::ReleaseInst();
 	cObjectManager::ReleaseInst();

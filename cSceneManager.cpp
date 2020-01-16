@@ -24,7 +24,7 @@ void cSceneManager::AddScene(string name, cScene* scene)
 		DEBUG_LOG("이미 만든 씬이에유...\n");
 		return;
 	}
-	m_scenes.insert(map<string, cScene*>::value_type(name, scene));
+	m_scenes[name] = scene;
 }
 
 void cSceneManager::ChangeScene(string name)

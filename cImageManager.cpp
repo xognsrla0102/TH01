@@ -54,7 +54,7 @@ void cImageManager::InsertImage(string name, string path, int cnt)
 	}
 
 	text->AddImage(path, cnt);
-	m_imgs.insert(map<string, cTexture*>::value_type(name, text));
+	m_imgs[name] = text;
 }
 
 cTexture* cImageManager::FindImage(string name, int cnt)
