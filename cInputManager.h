@@ -16,7 +16,7 @@ public:
 	void Update();
 
 	BOOL KeyDown(BYTE key);
-	BOOL KeyUP(BYTE key);
+	BOOL KeyUp(BYTE key);
 	BOOL KeyPress(BYTE key);
 };
 

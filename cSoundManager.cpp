@@ -20,8 +20,17 @@ void cSoundManager::AddSound(const string& key, const wstring& path)
 	m_sounds[key] = sound;
 }
 
-void cSoundManager::Play(const string& key, bool loop)
+void cSoundManager::Play(const string& key, bool isBGM, bool loop)
 {
+	if (isBGM == true) {
+		char str[256];
+		if (isMidi == true)
+			sprintf(str, key.c_str(), "midi");
+		else
+			sprintf(str, key.c_str(), "wav");
+		m_sounds[str]->Play(0, loop);
+		return;
+	}
 	m_sounds[key]->Play(0, loop);
 }
 

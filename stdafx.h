@@ -27,6 +27,25 @@ namespace TAGS {
 	};
 }
 
+namespace TITLE_ENUM {
+	enum BUTTON {
+		START,
+		REPLAY,
+		SCORE,
+		MUSIC,
+		OPTION,
+		EXIT,
+		BUTTON_END
+	};
+}
+
+extern bool isMidi;
+
+template <typename T>
+void Lerp(T& start, T end, float t) {
+	start = start + t * (end - start);
+}
+
 #ifdef _DEBUG
 	void DEBUG_LOG(LPCSTR fmt, ...);
 #endif

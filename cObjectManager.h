@@ -7,15 +7,13 @@ class cObject;
 class cObjectManager : public cSingleton<cObjectManager>
 {
 private:
-	vector<cObject*> m_objs[TAG_END];
+	cObject* m_objs[TAG_END] = { 0 };
 public:
 	cObjectManager();
 	virtual ~cObjectManager();
 
 	void AddOBJ(cObject* obj, int tagNum);
-
-	void Update();
-	void Render();
+	cObject* FindOBJ(int tagNum);
 };
 
 #define OBJECT cObjectManager::GetInst()

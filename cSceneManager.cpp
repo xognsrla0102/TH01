@@ -10,8 +10,10 @@ cSceneManager::cSceneManager()
 cSceneManager::~cSceneManager()
 {
 	if(m_nowScene) m_nowScene->Release();
-	for (auto iter : m_scenes)
+	for (auto iter : m_scenes) {
+		iter.second->Release();
 		SAFE_DELETE(iter.second);
+	}
 	m_scenes.clear();
 
 	m_nowScene = m_nextScene = nullptr;

@@ -8,40 +8,19 @@ cObjectManager::cObjectManager()
 
 cObjectManager::~cObjectManager()
 {
-	for (auto objIdx : m_objs)
-		for (auto iter : objIdx)
-			SAFE_DELETE(iter);
+	for (auto iter : m_objs)
+		SAFE_DELETE(iter);
 }
 
 void cObjectManager::AddOBJ(cObject* obj, int tagNum)
 {
-	obj->SetTag(tagNum);
-	m_objs->push_back(obj);
+	if (m_objs[tagNum] == nullptr)
+		DEBUG_LOG("찾는 태그가 없어유...\n");
+	m_objs[tagNum] = obj;
 }
 
-void cObjectManager::Update()
+cObject* cObjectManager::FindOBJ(int tagNum)
 {
-	for (int i = 0; i < TAG_END; i++) {
-		auto& refObjs = m_objs[i];
-		for (auto j = refObjs.begin(); j != refObjs.end();) {
-			if ((*j)->GetLive() == false) {
-				//dead status
-				SAFE_DELETE(*(j));
-				j = refObjs.erase(j);
-			}
-			else {
-				(*j)->Update();
-				j++;
-			}
-		}
-	}
+	return m_objs[tagNum];
 }
 
-void cObjectManager::Render()
-{
-	for (int i = 0; i < TAG_END; i++) {
-		auto& refObjs = m_objs[i];
-		for (auto j : refObjs)
-			j->Render();
-	}
-}

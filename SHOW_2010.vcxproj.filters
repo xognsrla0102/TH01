@@ -80,6 +80,21 @@
     <Filter Include="Core\Manager\Sound">
       <UniqueIdentifier>{400448ef-829e-4b05-8d41-b38bdc103671}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Object\Scenes\OptionScene">
+      <UniqueIdentifier>{9c36427c-030b-4378-bced-1ff5a497bc34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Scenes\StartScene">
+      <UniqueIdentifier>{5f0f004e-4416-41ee-a368-91bf1185e909}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Scenes\ReplayScene">
+      <UniqueIdentifier>{efaac199-ec62-4950-94a8-ee5ad401f348}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Scenes\ScoreScene">
+      <UniqueIdentifier>{15784650-a0cc-482b-9f7b-d87c57b08c9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Scenes\MusicScene">
+      <UniqueIdentifier>{52de7d90-4fa1-4c66-8298-911bea1a5a39}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -207,6 +222,9 @@
     <ClInclude Include="DXUT\Core\SDKwavefile.h">
       <Filter>Util\DXUT</Filter>
     </ClInclude>
+    <ClInclude Include="cButton.h">
+      <Filter>Core\Object\Button</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -268,6 +286,9 @@
     </ClCompile>
     <ClCompile Include="DXUT\Core\SDKwavefile.cpp">
       <Filter>Util\DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="cButton.cpp">
+      <Filter>Core\Object\Button</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

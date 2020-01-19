@@ -4,6 +4,8 @@
 
 cMain::cMain()
 {
+	isMidi = false;
+
 	SCENE->AddScene("loadScene", new cLoadScene);
 	SCENE->ChangeScene("loadScene");
 }

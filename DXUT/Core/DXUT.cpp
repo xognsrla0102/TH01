@@ -1710,26 +1710,26 @@ LRESULT CALLBACK DXUTStaticWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
         {
             switch( wParam )
             {
-                case VK_ESCAPE:
-                {
-                    if( GetDXUTState().GetHandleEscape() )
-                        SendMessage( hWnd, WM_CLOSE, 0, 0 );
-                    break;
-                }
+				/*case VK_ESCAPE:
+				{
+					if (GetDXUTState().GetHandleEscape())
+						SendMessage(hWnd, WM_CLOSE, 0, 0);
+					break;
+				}*/
 
                 case VK_PAUSE:
-                {
-                    if( GetDXUTState().GetHandlePause() )
-                    {
-                        bool bTimePaused = DXUTIsTimePaused();
-                        bTimePaused = !bTimePaused;
-                        if( bTimePaused )
-                            DXUTPause( true, false );
-                        else
-                            DXUTPause( false, false );
-                    }
-                    break;
-                }
+				{
+					if (GetDXUTState().GetHandlePause())
+					{
+						bool bTimePaused = DXUTIsTimePaused();
+						bTimePaused = !bTimePaused;
+						if (bTimePaused)
+							DXUTPause(true, false);
+						else
+							DXUTPause(false, false);
+					}
+					break;
+				}
             }
             break;
         }

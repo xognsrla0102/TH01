@@ -67,7 +67,7 @@ cTexture* cImageManager::FindImage(string name, int cnt)
 	return find->second->FindImage(cnt);
 }
 
-void cImageManager::Render(cTexture* text, VEC2 pos, float size, float rot, D3DCOLOR color, bool center)
+void cImageManager::Render(cTexture* text, VEC2 pos, float size, float rot, bool center, D3DCOLOR color)
 {
 	if (text) {
 		D3DXMATRIXA16 mat, s, r, t;

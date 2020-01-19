@@ -11,7 +11,7 @@ public:
 	virtual ~cSoundManager();
 
 	void AddSound(const string& key, const wstring& path);
-	void Play(const string& key, bool loop);
+	void Play(const string& key, bool isBGM = false, bool loop = false);
 	void Stop(const string& key);
 	void Copy(const string& key);
 	void Reset();

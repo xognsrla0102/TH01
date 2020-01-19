@@ -11,3 +11,5 @@ void DEBUG_LOG(LPCSTR fmt, ...) {
 	OutputDebugStringA(buf);
 }
 #endif
+
+bool isMidi;

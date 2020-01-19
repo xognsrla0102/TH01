@@ -1,6 +1,8 @@
 #pragma once
 class cMain
 {
+private:
+	cTexture* m_fps[5] = { nullptr };
 public:
 	cMain();
 	~cMain();

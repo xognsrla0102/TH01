@@ -29,7 +29,7 @@ BOOL cInputManager::KeyDown(BYTE key)
 	return (!oldKey[key] && nowKey[key]);
 }
 
-BOOL cInputManager::KeyUP(BYTE key)
+BOOL cInputManager::KeyUp(BYTE key)
 {
 	return (oldKey[key] && !nowKey[key]);
 }
