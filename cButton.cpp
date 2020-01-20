@@ -7,12 +7,6 @@ cButton::cButton(const string& key) : m_key(key)
 	m_img = IMAGE->FindImage(key);
 }
 
-void cButton::Insert(cButton** oldBut, cButton** newBut)
-{
-	oldBut = newBut;
-	DEBUG_LOG("change : %p %p\n", this, this->m_down);
-}
-
 void cButton::Update()
 {
 	static float oldSize = m_size.x;

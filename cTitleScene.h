@@ -8,6 +8,7 @@ struct sIntroObject {
 
 	time_t m_startTime = timeGetTime();
 
+	VEC2 m_start;
 	VEC2 m_pos;
 	VEC2 m_end;
 
@@ -24,14 +25,15 @@ private:
 	cTexture* m_whiteEffect = nullptr;
 	cTexture* m_bg = nullptr;
 
-	sIntroObject m_intro[7] = { nullptr };
+	sIntroObject m_intro[6] = { nullptr };
 	vector<cButton*> m_buttons;
 
 	int m_alpha = 255;
 	int m_rgb = 255;
-	int m_nowButton = 1;
+	int m_nowButton = 0;
 
 	bool isEnter = false;
+	bool isChangeScene = false;
 public:
 	cTitleScene();
 	virtual ~cTitleScene();

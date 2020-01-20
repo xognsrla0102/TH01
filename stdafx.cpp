@@ -12,4 +12,5 @@ void DEBUG_LOG(LPCSTR fmt, ...) {
 }
 #endif
 
-bool isMidi;
+bool isMidi = true;
+bool isWindowed = true;

@@ -225,6 +225,9 @@
     <ClInclude Include="cButton.h">
       <Filter>Core\Object\Button</Filter>
     </ClInclude>
+    <ClInclude Include="cOptionScene.h">
+      <Filter>Core\Object\Scenes\OptionScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -289,6 +292,9 @@
     </ClCompile>
     <ClCompile Include="cButton.cpp">
       <Filter>Core\Object\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="cOptionScene.cpp">
+      <Filter>Core\Object\Scenes\OptionScene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

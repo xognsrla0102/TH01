@@ -15,7 +15,6 @@ cImageManager::~cImageManager()
 
 	for (auto iter : m_imgs)
 		SAFE_DELETE(iter.second);
-	m_imgs.clear();
 }
 
 void cImageManager::Begin()

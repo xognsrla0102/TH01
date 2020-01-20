@@ -1,5 +1,6 @@
 #include "DXUT.h"
 #include "cTitleScene.h"
+#include "cOptionScene.h"
 #include "cLoadScene.h"
 
 cLoadScene::cLoadScene()
@@ -48,7 +49,7 @@ void cLoadScene::Init()
 	key = "titleBG", path = "resource/scene/titleScene/bg.png";
 	Load(key, path);
 
-	for (int i = 0; i < 7; i++) {
+	for (int i = 0; i < 6; i++) {
 		char key[256], path[256];
 		sprintf(key, "title_text_%d", i);
 		sprintf(path, "resource/scene/titleScene/text/%d.png", i);
@@ -84,6 +85,8 @@ void cLoadScene::Update()
 		m_nowLoad[1] == m_imgs.size()
 		) {
 		SCENE->AddScene("titleScene", new cTitleScene);
+		SCENE->AddScene("optionScene", new cOptionScene);
+
 		SCENE->ChangeScene("titleScene");
 	}
 }

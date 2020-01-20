@@ -40,6 +40,7 @@ namespace TITLE_ENUM {
 }
 
 extern bool isMidi;
+extern bool isWindowed;
 
 template <typename T>
 void Lerp(T& start, T end, float t) {

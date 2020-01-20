@@ -4,10 +4,11 @@
 template <typename T1, typename T2>
 struct sData {
 public:
-	sData(T1 idx1, T2 idx2) : m_idx1(idx1), m_idx2(idx2) {}
-
 	T1 m_idx1;
 	T2 m_idx2;
+
+public:
+	sData(T1 idx1, T2 idx2) : m_idx1(idx1), m_idx2(idx2) {}
 };
 
 class cLoadScene : public cScene

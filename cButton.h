@@ -18,8 +18,6 @@ public:
 public:
 	cButton(const string& key);
 
-	void Insert(cButton** oldBut, cButton** newBut);
-
 	bool isLinkedLeft() { return (m_left != nullptr); }
 	bool isLinkedRight(){ return (m_right != nullptr);}
 	bool isLinkedUp()   { return (m_up != nullptr);   }

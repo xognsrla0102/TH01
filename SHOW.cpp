@@ -7,7 +7,7 @@
 #include "resource.h"
 #include "cMain.h"
 
-cMain* main = nullptr;
+cMain* pMain = nullptr;
 //--------------------------------------------------------------------------------------
 // Rejects any D3D9 devices that aren't acceptable to the app by returning false
 //--------------------------------------------------------------------------------------
@@ -41,9 +41,9 @@ bool CALLBACK ModifyDeviceSettings( DXUTDeviceSettings* pDeviceSettings, void* p
 HRESULT CALLBACK OnD3D9CreateDevice( IDirect3DDevice9* pd3dDevice, const D3DSURFACE_DESC* pBackBufferSurfaceDesc,
                                      void* pUserContext )
 {
-	main = new cMain;
+    pMain = new cMain;
 
-    return main != nullptr ? S_OK : E_FAIL;
+    return pMain != nullptr ? S_OK : E_FAIL;
 }
 
 
@@ -54,7 +54,7 @@ HRESULT CALLBACK OnD3D9CreateDevice( IDirect3DDevice9* pd3dDevice, const D3DSURF
 HRESULT CALLBACK OnD3D9ResetDevice( IDirect3DDevice9* pd3dDevice, const D3DSURFACE_DESC* pBackBufferSurfaceDesc,
                                     void* pUserContext )
 {
-	main->ResetDevice();
+    pMain->ResetDevice();
     return S_OK;
 }
 
@@ -64,7 +64,7 @@ HRESULT CALLBACK OnD3D9ResetDevice( IDirect3DDevice9* pd3dDevice, const D3DSURFA
 //--------------------------------------------------------------------------------------
 void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext )
 {
-	main->Update();
+    pMain->Update();
 }
 
 
@@ -81,7 +81,7 @@ void CALLBACK OnD3D9FrameRender( IDirect3DDevice9* pd3dDevice, double fTime, flo
     // Render the scene
     if( SUCCEEDED( pd3dDevice->BeginScene() ) )
     {
-		main->Render();
+        pMain->Render();
         V( pd3dDevice->EndScene() );
     }
 }
@@ -102,7 +102,7 @@ LRESULT CALLBACK MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam,
 //--------------------------------------------------------------------------------------
 void CALLBACK OnD3D9LostDevice( void* pUserContext )
 {
-	main->LostDevice();
+    pMain->LostDevice();
 }
 
 
@@ -111,7 +111,7 @@ void CALLBACK OnD3D9LostDevice( void* pUserContext )
 //--------------------------------------------------------------------------------------
 void CALLBACK OnD3D9DestroyDevice( void* pUserContext )
 {
-	SAFE_DELETE(main);
+	SAFE_DELETE(pMain);
 }
 
 
@@ -143,7 +143,7 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
     DXUTSetHotkeyHandling( true, true, true );  // handle the default hotkeys
     DXUTSetCursorSettings( true, true ); // Show the cursor and clip it when in full screen
     DXUTCreateWindow( L"TH01" );
-    DXUTCreateDevice( true, WINSIZEX, WINSIZEY );
+    DXUTCreateDevice( isWindowed, WINSIZEX, WINSIZEY );
 
     // Start the render loop
     DXUTMainLoop();
