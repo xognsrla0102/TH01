@@ -37,9 +37,18 @@ namespace TITLE_ENUM {
 		EXIT,
 		BUTTON_END
 	};
+
+	enum INTRO_POS {
+		START_POS,
+		MID_POS,
+		LEFT_POS,
+		FADE_OUT_POS
+	};
 }
 
 extern bool isMidi;
+extern bool onBGM;
+extern bool onSND;
 extern bool isWindowed;
 
 template <typename T>

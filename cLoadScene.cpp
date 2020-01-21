@@ -39,41 +39,52 @@ void cLoadScene::Init()
 		Load(key, path);
 	}
 
+	//효과음 추가
+	
+	Load("selectSND", L"./resource/soundeffect/select.wav");
+	Load("keymoveSND", L"./resource/soundeffect/keymove.wav");
+	Load("cancelSND", L"./resource/soundeffect/cancel.wav");
+
 	//이미지 로딩
 
 	//타이틀 씬 이미지
-	string key, path;
+	Load("whiteBG", "./resource/scene/titleScene/whitebg.png");
+	Load("titleBG", "./resource/scene/titleScene/bg.png");
 
-	key = "whiteBG", path = "resource/scene/titleScene/whitebg.png";
-	Load(key, path);
-	key = "titleBG", path = "resource/scene/titleScene/bg.png";
-	Load(key, path);
-
+	//동방홍마향 The embodiment of devil. 글자
 	for (int i = 0; i < 6; i++) {
 		char key[256], path[256];
 		sprintf(key, "title_text_%d", i);
-		sprintf(path, "resource/scene/titleScene/text/%d.png", i);
+		sprintf(path, "./resource/scene/titleScene/text/%d.png", i);
 
 		Load(key, path);
 	}
 
 	//타이틀 씬 버튼
-	for (int i = 0; i < 6; i++) {
-		char key[256], path[256];
-		sprintf(key, "title_bt_%d", i);
-		sprintf(path, "resource/button/%d.png", i);
+	Load("startBT", "./resource/button/title/start.png");
+	Load("replayBT", "./resource/button/title/replay.png");
+	Load("scoreBT", "./resource/button/title/score.png");
+	Load("musicBT", "./resource/button/title/musicroom.png");
+	Load("optionBT", "./resource/button/title/option.png");
+	Load("quitBT", "./resource/button/title/quit.png");
 
-		Load(key, path);
-	}
+	//옵션 씬 버튼
+	//총 18개임
+	Load("bgmBT", "./resource/button/option/bgm.png");
+	Load("onBT", "./resource/button/option/on.png");
+	Load("offBT", "./resource/button/option/off.png");
 }
 
 void cLoadScene::Update()
 {
+	//소리
 	if (m_nowLoad[0] < m_sounds.size()) {
 		int& idx = m_nowLoad[0];
 		SOUND->AddSound(m_sounds[idx]->m_idx1, m_sounds[idx]->m_idx2);
 		idx++;
 	}
+
+	//이미지
 	if (m_nowLoad[1] < m_imgs.size()) {
 		int& idx = m_nowLoad[1];
 		IMAGE->InsertImage(m_imgs[idx]->m_idx1, m_imgs[idx]->m_idx2);

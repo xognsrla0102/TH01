@@ -28,10 +28,12 @@ void cSoundManager::Play(const string& key, bool isBGM, bool loop)
 			sprintf(str, key.c_str(), "midi");
 		else
 			sprintf(str, key.c_str(), "wav");
-		m_sounds[str]->Play(0, loop);
+		if (onBGM == true)
+			m_sounds[str]->Play(0, loop);
 		return;
 	}
-	m_sounds[key]->Play(0, loop);
+	if(onSND == true)
+		m_sounds[key]->Play(0, loop);
 }
 
 void cSoundManager::Stop(const string& key)
@@ -48,7 +50,10 @@ void cSoundManager::Copy(const string& key)
 	);
 
 	pBuf->SetCurrentPosition(0);
-	pBuf->Play(0, 0, 0);
+
+	//Copy 함수는 효과음일 때 많이 쓰므로
+	if(onSND == true)
+		pBuf->Play(0, 0, 0);
 }
 
 void cSoundManager::Reset()

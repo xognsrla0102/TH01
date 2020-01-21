@@ -1,5 +1,5 @@
 #include "DXUT.h"
-#include "stdafx.h"
+
 
 #ifdef _DEBUG
 void DEBUG_LOG(LPCSTR fmt, ...) {
@@ -13,4 +13,6 @@ void DEBUG_LOG(LPCSTR fmt, ...) {
 #endif
 
 bool isMidi = true;
+bool onBGM = true;
+bool onSND = true;
 bool isWindowed = true;
