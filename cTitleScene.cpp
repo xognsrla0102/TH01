@@ -105,8 +105,9 @@ void cTitleScene::Update()
 	//게임 프레임
 	DEBUG_LOG("%.2f\n", DXUTGetFPS());
 
-	for (auto iter : m_buttons)
-		iter->Update();
+	if(isEnter == true)
+		for (auto iter : m_buttons)
+			iter->Update();
 
 	//버튼 나타났을 때
 	if (isEnter == true) {
@@ -137,15 +138,15 @@ void cTitleScene::Update()
 			SOUND->Play("keymoveSND");
 		}
 
-		//현재 위치의 씬으로 이동하기 전
+		//다음 씬으로 이동하기 전
 		if (KEYDOWN(DIK_RETURN) || KEYDOWN(DIK_Z)) {
 			SOUND->Play("selectSND");
 
+			nowIntroPos = INTRO_POS::FADE_OUT_POS;
+			isChangeScene = true;
+
 			//다시 타이틀 씬으로 돌아왔을 때 인트로가 시작되야 하므로
 			isEnter = false;
-
-			isChangeScene = true;
-			nowIntroPos = INTRO_POS::FADE_OUT_POS;
 		}
 
 		if (KEYDOWN(DIK_ESCAPE) || KEYDOWN(DIK_X)) {
@@ -174,17 +175,13 @@ void cTitleScene::Update()
 	if (isChangeScene == true) {
 		static time_t chkTime = timeGetTime();
 
+		//배경 어두워짐
 		Lerp(m_rgb, 0, 0.08);
+		//글자들도 사라짐
 		Lerp(m_intro[2].m_alpha, 0, 0.08);
 		Lerp(m_intro[5].m_alpha, 0, 0.08);
 
 		if (timeGetTime() - chkTime > 800) {
-			isChangeScene = false;
-			m_nowButton = 0;
-			m_alpha = 255;
-			m_rgb = 255;
-			INTRO_POS nowIntroPos = INTRO_POS::MID_POS;
-
 			switch (m_nowButton) {
 			case BUTTON::START:
 				DEBUG_LOG("리플레이는 아직 미구현...\n");
@@ -213,6 +210,11 @@ void cTitleScene::Update()
 				PostQuitMessage(0);
 				break;
 			}
+
+			isChangeScene = false;
+			m_nowButton = 0;
+			INTRO_POS nowIntroPos = INTRO_POS::MID_POS;
+
 			return;
 		}
 	}

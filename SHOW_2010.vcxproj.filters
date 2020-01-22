@@ -95,6 +95,9 @@
     <Filter Include="Core\Object\Scenes\MusicScene">
       <UniqueIdentifier>{52de7d90-4fa1-4c66-8298-911bea1a5a39}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Manager\FILE">
+      <UniqueIdentifier>{c7872808-c73b-4478-90a0-ee48960dc918}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -228,6 +231,9 @@
     <ClInclude Include="cOptionScene.h">
       <Filter>Core\Object\Scenes\OptionScene</Filter>
     </ClInclude>
+    <ClInclude Include="cFileManager.h">
+      <Filter>Core\Manager\FILE</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -295,6 +301,9 @@
     </ClCompile>
     <ClCompile Include="cOptionScene.cpp">
       <Filter>Core\Object\Scenes\OptionScene</Filter>
+    </ClCompile>
+    <ClCompile Include="cFileManager.cpp">
+      <Filter>Core\Manager\FILE</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

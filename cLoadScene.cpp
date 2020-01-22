@@ -61,18 +61,19 @@ void cLoadScene::Init()
 	}
 
 	//Å¸ÀÌÆ² ¾À ¹öÆ°
-	Load("startBT", "./resource/button/title/start.png");
-	Load("replayBT", "./resource/button/title/replay.png");
-	Load("scoreBT", "./resource/button/title/score.png");
-	Load("musicBT", "./resource/button/title/musicroom.png");
-	Load("optionBT", "./resource/button/title/option.png");
-	Load("quitBT", "./resource/button/title/quit.png");
+	Load("startBT", "./resource/button/start.png");
+	Load("replayBT", "./resource/button/replay.png");
+	Load("scoreBT", "./resource/button/score.png");
+	Load("musicBT", "./resource/button/musicroom.png");
+	Load("optionBT", "./resource/button/option.png");
+	Load("quitBT", "./resource/button/quit.png");
 
 	//¿É¼Ç ¾À ¹öÆ°
 	//ÃÑ 18°³ÀÓ
-	Load("bgmBT", "./resource/button/option/bgm.png");
-	Load("onBT", "./resource/button/option/on.png");
-	Load("offBT", "./resource/button/option/off.png");
+	Load("bgmBT", "./resource/button/bgm.png");
+	Load("soundBT", "./resource/button/sound.png");
+	Load("onBT", "./resource/button/on.png");
+	Load("offBT", "./resource/button/off.png");
 }
 
 void cLoadScene::Update()
