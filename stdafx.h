@@ -16,44 +16,44 @@ using VEC4 = D3DXVECTOR4;
 #define WINSIZEX 1280
 #define WINSIZEY 720
 
-namespace TAGS {
-	enum {
-		BG,
-		UI,
-		PLAYER,
-		ENEMY,
-		BULLET,
-		TAG_END
-	};
-}
+enum TAGS{
+	BG,
+	UI,
+	PLAYER,
+	ENEMY,
+	BULLET,
+	TAG_END
+};
 
-namespace TITLE_ENUM {
-	enum BUTTON {
-		START,
-		REPLAY,
-		SCORE,
-		MUSIC,
-		OPTION,
-		EXIT,
-		BUTTON_END
-	};
+enum INTRO_POS {
+	START_POS,
+	MID_POS,
+	LEFT_POS,
+	FADE_OUT_POS
+};
 
-	enum INTRO_POS {
-		START_POS,
-		MID_POS,
-		LEFT_POS,
-		FADE_OUT_POS
-	};
-}
+enum TITLE_BUTTON {
+	tSTART,
+	tREPLAY,
+	tSCORE,
+	tMUSIC,
+	tOPTION,
+	tEXIT
+};
 
-namespace OPTION_ENUM {
-	enum BUTTON {
-		BGM,
-		SOUND,
-		QUIT
-	};
-}
+enum OPTION_BUTTON {
+	oLIFE,
+	oBOMB,
+	oBGM,
+	oSOUND,
+	oWINDOWED,
+	oRESTORE,
+	oQUIT,
+	oBUTTON_END
+};
 
+extern int playerLife;
+extern int playerBomb;
 extern bool isMidi;
 extern bool onBGM;
 extern bool onSND;

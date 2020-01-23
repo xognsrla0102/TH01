@@ -4,7 +4,7 @@
 class cFileManager : public cSingleton<cFileManager>
 {
 private:
-	static FILE* pFile;
+	FILE* pFile;
 public:
 	cFileManager() {}
 	virtual ~cFileManager() {

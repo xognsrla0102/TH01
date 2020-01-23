@@ -6,6 +6,8 @@ class cSoundManager : public cSingleton<cSoundManager>
 private:
 	CSoundManager* m_sound = nullptr;
 	map<string, CSound*> m_sounds;
+
+	int m_volume = 0;
 public:
 	cSoundManager();
 	virtual ~cSoundManager();

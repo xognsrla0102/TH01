@@ -9,7 +9,7 @@ cTitleScene::cTitleScene()
 	m_whiteEffect = IMAGE->FindImage("whiteBG");
 	m_bg = IMAGE->FindImage("titleBG");
 
-	for (int i = 0; i < 6; i++) {
+	for (size_t i = 0; i < 6; i++) {
 		char str[256];
 		sprintf(str, "title_text_%d", i);
 		m_intro[i].m_img = IMAGE->FindImage(str);
@@ -59,14 +59,12 @@ cTitleScene::cTitleScene()
 	m_intro[4].m_end.push_back(
 		VEC2(m_intro[4].m_end[INTRO_POS::LEFT_POS].x, -100)
 	);
-
 	m_intro[1].m_end.push_back(
 		VEC2(-100, m_intro[1].m_end[INTRO_POS::LEFT_POS].y)
 	);
 	m_intro[3].m_end.push_back(
 		VEC2(-100, m_intro[3].m_end[INTRO_POS::LEFT_POS].y)
 	);
-
 	m_intro[2].m_end.push_back(VEC2(m_intro[2].m_end[INTRO_POS::LEFT_POS]));
 	m_intro[5].m_end.push_back(VEC2(m_intro[5].m_end[INTRO_POS::LEFT_POS]));
 
@@ -78,15 +76,18 @@ cTitleScene::cTitleScene()
 	m_buttons.push_back(new cButton("optionBT"));
 	m_buttons.push_back(new cButton("quitBT"));
 
-	for(int i = 0; i < m_buttons.size(); i++)
+	for(size_t i = 0; i < m_buttons.size(); i++)
 		m_buttons[i]->SetPos(VEC2(1000 - i * 15, 200 + i * 70));
 
 	m_buttons[m_nowButton]->m_isOn = true;
 
 	//버튼 이어주기
-	for (int i = 5; i > 0; i--)
+
+	//상 잇기
+	for (size_t i = m_buttons.size() - 1; i > 0; i--)
 		m_buttons[i]->m_up = m_buttons[i - 1];
-	for (int i = 0; i < 5; i++)
+	//하 잇기
+	for (size_t i = 0; i < m_buttons.size() - 1; i++)
 		m_buttons[i]->m_down = m_buttons[i + 1];
 } 
 
@@ -152,7 +153,7 @@ void cTitleScene::Update()
 		if (KEYDOWN(DIK_ESCAPE) || KEYDOWN(DIK_X)) {
 			SOUND->Copy("cancelSND");
 			m_buttons[m_nowButton]->m_isOn = false;
-			m_nowButton = BUTTON::EXIT;
+			m_nowButton = tEXIT;
 			m_buttons[m_nowButton]->m_isOn = true;
 		}
 	}
@@ -183,30 +184,30 @@ void cTitleScene::Update()
 
 		if (timeGetTime() - chkTime > 800) {
 			switch (m_nowButton) {
-			case BUTTON::START:
+			case tSTART:
 				DEBUG_LOG("리플레이는 아직 미구현...\n");
 				PostQuitMessage(0);
 				//SCENE->ChangeScene("startScene");
 				break;
-			case BUTTON::REPLAY:
+			case tREPLAY:
 				DEBUG_LOG("리플레이는 아직 미구현...\n");
 				PostQuitMessage(0);
 				//SCENE->ChangeScene("replayScene");
 				break;
-			case BUTTON::SCORE:
+			case tSCORE:
 				DEBUG_LOG("점수는 아직 미구현...\n");
 				PostQuitMessage(0);
 				//SCENE->ChangeScene("scoreScene");
 				break;
-			case BUTTON::MUSIC:
+			case tMUSIC:
 				DEBUG_LOG("점수는 아직 미구현...\n");
 				PostQuitMessage(0);
 				//SCENE->ChangeScene("musicScene");
 				break;
-			case BUTTON::OPTION:
+			case tOPTION:
 				SCENE->ChangeScene("optionScene");
 				break;
-			case BUTTON::EXIT:
+			case tEXIT:
 				PostQuitMessage(0);
 				break;
 			}

@@ -40,7 +40,6 @@ void cLoadScene::Init()
 	}
 
 	//효과음 추가
-	
 	Load("selectSND", L"./resource/soundeffect/select.wav");
 	Load("keymoveSND", L"./resource/soundeffect/keymove.wav");
 	Load("cancelSND", L"./resource/soundeffect/cancel.wav");
@@ -70,8 +69,23 @@ void cLoadScene::Init()
 
 	//옵션 씬 버튼
 	//총 18개임
+	Load("0BT", "./resource/button/0.png");
+	Load("1BT", "./resource/button/1.png");
+	Load("2BT", "./resource/button/2.png");
+	Load("3BT", "./resource/button/3.png");
+	Load("4BT", "./resource/button/4.png");
+	Load("5BT", "./resource/button/5.png");
+
+	Load("lifeBT", "./resource/button/player.png");
+	Load("bombBT", "./resource/button/bomb.png");
 	Load("bgmBT", "./resource/button/bgm.png");
+	Load("wavBT", "./resource/button/wav.png");
+	Load("midiBT", "./resource/button/midi.png");
 	Load("soundBT", "./resource/button/sound.png");
+	Load("modeBT", "./resource/button/mode.png");
+	Load("windowBT", "./resource/button/window.png");
+	Load("fullBT", "./resource/button/full.png");
+	Load("restoreBT", "./resource/button/restore.png");
 	Load("onBT", "./resource/button/on.png");
 	Load("offBT", "./resource/button/off.png");
 }

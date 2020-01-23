@@ -1,9 +1,6 @@
 #pragma once
 #include "cScene.h"
 
-using TITLE_ENUM::BUTTON;
-using TITLE_ENUM::INTRO_POS;
-
 struct sIntroObject {
 	cTexture* m_img = nullptr;
 

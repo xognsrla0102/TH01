@@ -1,8 +1,6 @@
 #pragma once
 #include "cSingleton.hpp"
 
-using namespace TAGS;
-
 class cObject;
 class cObjectManager : public cSingleton<cObjectManager>
 {

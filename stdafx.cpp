@@ -12,7 +12,12 @@ void DEBUG_LOG(LPCSTR fmt, ...) {
 }
 #endif
 
-bool isMidi = true;
+int playerLife = 3;
+int playerBomb = 2;
+
 bool onBGM = true;
+bool isMidi = false;
+
 bool onSND = true;
+
 bool isWindowed = true;
