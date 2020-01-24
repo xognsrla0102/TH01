@@ -13,11 +13,11 @@ void DEBUG_LOG(LPCSTR fmt, ...) {
 #endif
 
 int playerLife = 3;
-int playerBomb = 2;
+int playerBomb = 3;
 
 bool onBGM = true;
 bool isMidi = false;
 
 bool onSND = true;
 
-bool isWindowed = true;
+bool isWindowed = false;

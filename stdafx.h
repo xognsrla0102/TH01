@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <direct.h>
 #include <dinput.h>
 #include <vector>
 #include <map>
@@ -34,6 +35,7 @@ enum INTRO_POS {
 
 enum TITLE_BUTTON {
 	tSTART,
+	tHOWTO,
 	tREPLAY,
 	tSCORE,
 	tMUSIC,

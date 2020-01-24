@@ -98,6 +98,9 @@
     <Filter Include="Core\Manager\FILE">
       <UniqueIdentifier>{c7872808-c73b-4478-90a0-ee48960dc918}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Object\Scenes\howtoScene">
+      <UniqueIdentifier>{a454b7f8-3c34-4540-b158-3cb95914b925}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -234,6 +237,9 @@
     <ClInclude Include="cFileManager.h">
       <Filter>Core\Manager\FILE</Filter>
     </ClInclude>
+    <ClInclude Include="cHowtoScene.h">
+      <Filter>Core\Object\Scenes\howtoScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -304,6 +310,9 @@
     </ClCompile>
     <ClCompile Include="cFileManager.cpp">
       <Filter>Core\Manager\FILE</Filter>
+    </ClCompile>
+    <ClCompile Include="cHowtoScene.cpp">
+      <Filter>Core\Object\Scenes\howtoScene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

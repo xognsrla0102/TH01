@@ -1,5 +1,6 @@
 #include "DXUT.h"
 #include "cTitleScene.h"
+#include "cHowtoScene.h"
 #include "cOptionScene.h"
 #include "cLoadScene.h"
 
@@ -22,7 +23,7 @@ void cLoadScene::Init()
 	//소리 로딩
 
 	//배경음악
-	for (int i = 1; i < 4; i++) {
+	for (size_t i = 1; i < 4; i++) {
 		char key[256];
 		WCHAR path[256];
 
@@ -51,7 +52,7 @@ void cLoadScene::Init()
 	Load("titleBG", "./resource/scene/titleScene/bg.png");
 
 	//동방홍마향 The embodiment of devil. 글자
-	for (int i = 0; i < 6; i++) {
+	for (size_t i = 0; i < 6; i++) {
 		char key[256], path[256];
 		sprintf(key, "title_text_%d", i);
 		sprintf(path, "./resource/scene/titleScene/text/%d.png", i);
@@ -61,6 +62,7 @@ void cLoadScene::Init()
 
 	//타이틀 씬 버튼
 	Load("startBT", "./resource/button/start.png");
+	Load("howtoBT", "./resource/button/howto.png");
 	Load("replayBT", "./resource/button/replay.png");
 	Load("scoreBT", "./resource/button/score.png");
 	Load("musicBT", "./resource/button/musicroom.png");
@@ -111,6 +113,7 @@ void cLoadScene::Update()
 		m_nowLoad[1] == m_imgs.size()
 		) {
 		SCENE->AddScene("titleScene", new cTitleScene);
+		SCENE->AddScene("howtoScene", new cHowtoScene);
 		SCENE->AddScene("optionScene", new cOptionScene);
 
 		SCENE->ChangeScene("titleScene");

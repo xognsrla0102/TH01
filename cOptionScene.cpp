@@ -147,12 +147,13 @@ cOptionScene::~cOptionScene()
 
 void cOptionScene::Init()
 {
+	m_nowLine = 0;
+	m_rgb = 0;
+	m_manyButtons[m_nowLine][0]->m_isOn = true;
 }
 
 void cOptionScene::Update()
 {
-	DEBUG_LOG("%d\n", onBGM);
-
 	for (auto iter : m_manyButtons)
 		for (auto jter : iter)
 			jter->Update();
@@ -229,12 +230,8 @@ void cOptionScene::Update()
 			else if (optionValue[m_nowLine] == 2) onSND = true;
 			break;
 		case oWINDOWED:
-			/*
-			if(optionValue[m_nowLine] == 1)
-				isWindowed = true;
-			else if(optionValue[m_nowLine] == 2)
-				isWindowed = false;
-			*/
+			if (optionValue[m_nowLine] == 1 || optionValue[m_nowLine] == 2)
+				DXUTToggleFullScreen();
 			break;
 		}
 
@@ -255,12 +252,12 @@ void cOptionScene::Update()
 			onBGM = true;
 			isMidi = false;
 			onSND = true;
-			isWindowed = true;
 			playerLife = 3;
-			playerBomb = 2;
+			playerBomb = 3;
 
 			optionValue[oLIFE] = playerLife;
 			optionValue[oBOMB] = playerBomb + 1;
+
 			if (onBGM == true) {
 				if (isMidi == true) optionValue[oBGM] = 3;
 				else optionValue[oBGM] = 2;
@@ -270,15 +267,15 @@ void cOptionScene::Update()
 			if (onSND == true) optionValue[oSOUND] = 2;
 			else optionValue[oSOUND] = 1;
 
-			if (isWindowed == true) optionValue[oWINDOWED] = 1;
-			else optionValue[oWINDOWED] = 2;
-
 			for (size_t i = 0; i < m_manyButtons.size() - 1; i++)
 				m_manyButtons[i][optionValue[i]]->m_isOn = true;
 			SOUND->Play("th_01_%s", true, true);
 			break;
 		case oQUIT:
+			m_manyButtons[m_nowLine][0]->m_isOn = false;
 			SCENE->ChangeScene("titleScene");
+
+			return;
 			break;
 		}
 	}

@@ -5300,7 +5300,7 @@ HRESULT WINAPI DXUTToggleFullScreen()
     else
     {
         // No previous data, so just switch to defaults
-        matchOptions.eResolution = DXUTMT_IGNORE_INPUT;
+        matchOptions.eResolution = DXUTMT_CLOSEST_TO_INPUT;
     }
 
     hr = DXUTFindValidDeviceSettings( &deviceSettings, &deviceSettings, &matchOptions );

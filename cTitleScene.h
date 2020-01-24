@@ -12,7 +12,6 @@ struct sIntroObject {
 	int m_alpha = 255;
 
 	float m_speed = 300;
-	float m_timeScale = 1.f;
 	float m_size = 1.3f;
 	float m_rot = 0.f;
 };
@@ -27,7 +26,7 @@ private:
 	sIntroObject m_intro[6] = { nullptr };
 	vector<cButton*> m_buttons;
 
-	INTRO_POS nowIntroPos = INTRO_POS::MID_POS;
+	INTRO_POS nowIntroPos = MID_POS;
 
 	int m_alpha = 255;
 	int m_rgb = 255;

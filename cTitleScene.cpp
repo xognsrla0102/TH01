@@ -20,7 +20,7 @@ cTitleScene::cTitleScene()
 	//동
 	m_intro[0].m_pos = VEC2(WINSIZEX / 2, WINSIZEY + 100);
 	m_intro[0].m_end.push_back(m_intro[0].m_pos); //START_POS
-	m_intro[0].m_end.push_back(VEC2(WINSIZEX / 2, 100)); //ENTER_POS
+	m_intro[0].m_end.push_back(VEC2(WINSIZEX / 2, 100)); //MID_POS
 
 	//방
 	m_intro[1].m_pos = VEC2(-100, 220);
@@ -50,26 +50,27 @@ cTitleScene::cTitleScene()
 	//IsEnter 진입했을 때(메뉴판 떳을 때)
 	//LEFT_POS
 	for (auto& iter : m_intro)
-		iter.m_end.push_back(VEC2(330, iter.m_end[INTRO_POS::MID_POS].y));
+		iter.m_end.push_back(VEC2(330, iter.m_end[MID_POS].y));
 
 	//FADE_OUT_POS
 	m_intro[0].m_end.push_back(
-		VEC2(m_intro[0].m_end[INTRO_POS::LEFT_POS].x, WINSIZEY + 100)
+		VEC2(m_intro[0].m_end[LEFT_POS].x, WINSIZEY + 100)
 	);
 	m_intro[4].m_end.push_back(
-		VEC2(m_intro[4].m_end[INTRO_POS::LEFT_POS].x, -100)
+		VEC2(m_intro[4].m_end[LEFT_POS].x, -100)
 	);
 	m_intro[1].m_end.push_back(
-		VEC2(-100, m_intro[1].m_end[INTRO_POS::LEFT_POS].y)
+		VEC2(-100, m_intro[1].m_end[LEFT_POS].y)
 	);
 	m_intro[3].m_end.push_back(
-		VEC2(-100, m_intro[3].m_end[INTRO_POS::LEFT_POS].y)
+		VEC2(-100, m_intro[3].m_end[LEFT_POS].y)
 	);
-	m_intro[2].m_end.push_back(VEC2(m_intro[2].m_end[INTRO_POS::LEFT_POS]));
-	m_intro[5].m_end.push_back(VEC2(m_intro[5].m_end[INTRO_POS::LEFT_POS]));
+	m_intro[2].m_end.push_back(VEC2(m_intro[2].m_end[LEFT_POS]));
+	m_intro[5].m_end.push_back(VEC2(m_intro[5].m_end[LEFT_POS]));
 
 	//버튼 세팅
 	m_buttons.push_back(new cButton("startBT"));
+	m_buttons.push_back(new cButton("howtoBT"));
 	m_buttons.push_back(new cButton("replayBT"));
 	m_buttons.push_back(new cButton("scoreBT"));
 	m_buttons.push_back(new cButton("musicBT"));
@@ -77,7 +78,7 @@ cTitleScene::cTitleScene()
 	m_buttons.push_back(new cButton("quitBT"));
 
 	for(size_t i = 0; i < m_buttons.size(); i++)
-		m_buttons[i]->SetPos(VEC2(1000 - i * 15, 200 + i * 70));
+		m_buttons[i]->SetPos(VEC2(1000 - i * 15, 150 + i * 70));
 
 	m_buttons[m_nowButton]->m_isOn = true;
 
@@ -99,6 +100,23 @@ cTitleScene::~cTitleScene()
 
 void cTitleScene::Init()
 {
+	for (auto& iter : m_intro) {
+		iter.m_pos = iter.m_end[START_POS];
+		iter.m_startTime = timeGetTime();
+	}
+	m_intro[2].m_alpha = 0;
+	m_intro[2].m_rot = 2080.f;
+	m_intro[5].m_alpha = 255;
+	m_intro[5].m_rot = 70;
+
+	nowIntroPos = MID_POS;
+
+	m_alpha = 255;
+	m_rgb = 255;
+	m_nowButton = 0;
+
+	isEnter = false;
+	isChangeScene = false;
 }
 
 void cTitleScene::Update()
@@ -143,7 +161,7 @@ void cTitleScene::Update()
 		if (KEYDOWN(DIK_RETURN) || KEYDOWN(DIK_Z)) {
 			SOUND->Play("selectSND");
 
-			nowIntroPos = INTRO_POS::FADE_OUT_POS;
+			nowIntroPos = FADE_OUT_POS;
 			isChangeScene = true;
 
 			//다시 타이틀 씬으로 돌아왔을 때 인트로가 시작되야 하므로
@@ -163,7 +181,7 @@ void cTitleScene::Update()
 		(isEnter == false && isChangeScene == false)
 		) {
 		SOUND->Play("selectSND");
-		nowIntroPos = INTRO_POS::LEFT_POS;
+		nowIntroPos = LEFT_POS;
 		if (m_alpha > 80) m_alpha = 80;
 		isEnter = true;
 	}
@@ -175,7 +193,9 @@ void cTitleScene::Update()
 	//씬 바꿀 때 페이드아웃
 	if (isChangeScene == true) {
 		static time_t chkTime = timeGetTime();
-
+		//다시 타이틀 씬으로 돌아올 땐 -1이므로 새로 받아야함
+		if (chkTime == -1)
+			chkTime = timeGetTime();
 		//배경 어두워짐
 		Lerp(m_rgb, 0, 0.08);
 		//글자들도 사라짐
@@ -188,6 +208,9 @@ void cTitleScene::Update()
 				DEBUG_LOG("리플레이는 아직 미구현...\n");
 				PostQuitMessage(0);
 				//SCENE->ChangeScene("startScene");
+				break;
+			case tHOWTO:
+				SCENE->ChangeScene("howtoScene");
 				break;
 			case tREPLAY:
 				DEBUG_LOG("리플레이는 아직 미구현...\n");
@@ -212,10 +235,10 @@ void cTitleScene::Update()
 				break;
 			}
 
-			isChangeScene = false;
+			m_buttons[m_nowButton]->m_isOn = false;
 			m_nowButton = 0;
-			INTRO_POS nowIntroPos = INTRO_POS::MID_POS;
-
+			m_buttons[m_nowButton]->m_isOn = true;
+			chkTime = -1;
 			return;
 		}
 	}
