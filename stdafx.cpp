@@ -20,4 +20,4 @@ bool isMidi = false;
 
 bool onSND = true;
 
-bool isWindowed = false;
+bool isWindowed = true;

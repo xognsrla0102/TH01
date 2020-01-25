@@ -230,17 +230,18 @@ void cOptionScene::Update()
 			else if (optionValue[m_nowLine] == 2) onSND = true;
 			break;
 		case oWINDOWED:
-			if (optionValue[m_nowLine] == 1 || optionValue[m_nowLine] == 2)
+			if (optionValue[m_nowLine] == 1 || optionValue[m_nowLine] == 2) {
+				isWindowed = !isWindowed;
 				DXUTToggleFullScreen();
+			}
 			break;
 		}
-
 		m_manyButtons[m_nowLine][optionValue[m_nowLine]]->m_isOn = true;
 	}
 
 	if (KEYDOWN(DIK_RETURN) || KEYDOWN(DIK_Z)) {
-		if(m_nowLine == oRESTORE || m_nowLine == oQUIT)
-			SOUND->Play("selectSND");
+		SOUND->Play("selectSND");
+		bool wasWindowed = isWindowed;
 
 		switch (m_nowLine) {
 		case oRESTORE:
@@ -248,6 +249,11 @@ void cOptionScene::Update()
 
 			for (size_t i = 0; i < m_manyButtons.size() - 1; i++)
 				m_manyButtons[i][optionValue[i]]->m_isOn = false;
+
+			isWindowed = true;
+			if (isWindowed != wasWindowed) {
+				DXUTToggleFullScreen();
+			}
 
 			onBGM = true;
 			isMidi = false;
@@ -267,6 +273,9 @@ void cOptionScene::Update()
 			if (onSND == true) optionValue[oSOUND] = 2;
 			else optionValue[oSOUND] = 1;
 
+			if (isWindowed == true) optionValue[oWINDOWED] = 1;
+			else optionValue[oWINDOWED] = 2;
+
 			for (size_t i = 0; i < m_manyButtons.size() - 1; i++)
 				m_manyButtons[i][optionValue[i]]->m_isOn = true;
 			SOUND->Play("th_01_%s", true, true);
@@ -275,6 +284,8 @@ void cOptionScene::Update()
 			m_manyButtons[m_nowLine][0]->m_isOn = false;
 			SCENE->ChangeScene("titleScene");
 
+			//나갈 때 설정 저장함
+			FILEMANAGER->OptionSave();
 			return;
 			break;
 		}

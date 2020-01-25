@@ -10,11 +10,12 @@ cMain::cMain()
 
 cMain::~cMain()
 {
-	cSoundManager::ReleaseInst();
-	cInputManager::ReleaseInst();
-	cSceneManager::ReleaseInst();
-	cObjectManager::ReleaseInst();
-	cImageManager::ReleaseInst();
+	INPUT->ReleaseInst();
+	SCENE->ReleaseInst();
+	OBJECT->ReleaseInst();
+	SOUND->ReleaseInst();
+	IMAGE->ReleaseInst();
+	FILEMANAGER->ReleaseInst();
 }
 
 void cMain::Update()

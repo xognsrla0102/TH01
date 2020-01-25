@@ -1,12 +1,11 @@
 #include "DXUT.h"
 #include "cFileManager.h"
 
-void cFileManager::WriteFile(const string& fileName, const string& text)
+void cFileManager::WriteFile(const string fileName, const string text)
 {
-	_mkdir("./gameInfo");
+	char path[256];
 
-	char path[256] = "./gameInfo/%s.txt";
-	sprintf(path, path, fileName.c_str());
+	sprintf(path, "./gameInfo/%s.txt", fileName.c_str());
 
 	m_writeInfo = fopen(path, "wt+");
 
@@ -15,7 +14,13 @@ void cFileManager::WriteFile(const string& fileName, const string& text)
 	fclose(m_writeInfo);
 }
 
-string cFileManager::ReadFile(const string& path)
+bool cFileManager::MakeDir(const string dirPath)
+{
+	if (_mkdir(dirPath.c_str()) == 0) return true;
+	return false;
+}
+
+string cFileManager::ReadFile(const string path)
 {
 	char str[256];
 
@@ -26,4 +31,24 @@ string cFileManager::ReadFile(const string& path)
 	fclose(m_readInfo);
 
 	return string(str);
+}
+
+void cFileManager::OptionLoad()
+{
+	playerLife = stoi(FILEMANAGER->ReadFile("./gameInfo/LifeInfo.txt"));
+	playerBomb = stoi(FILEMANAGER->ReadFile("./gameInfo/BombInfo.txt"));
+	onBGM = stoi(FILEMANAGER->ReadFile("./gameInfo/BGMInfo.txt"));
+	isMidi = stoi(FILEMANAGER->ReadFile("./gameInfo/MidiInfo.txt"));
+	onSND = stoi(FILEMANAGER->ReadFile("./gameInfo/SoundInfo.txt"));
+	isWindowed = stoi(FILEMANAGER->ReadFile("./gameInfo/WinModeInfo.txt"));
+}
+
+void cFileManager::OptionSave()
+{
+	FILEMANAGER->WriteFile("LifeInfo", to_string(playerLife));
+	FILEMANAGER->WriteFile("BombInfo", to_string(playerBomb));
+	FILEMANAGER->WriteFile("BGMInfo", to_string(onBGM));
+	FILEMANAGER->WriteFile("MidiInfo", to_string(isMidi));
+	FILEMANAGER->WriteFile("SoundInfo", to_string(onSND));
+	FILEMANAGER->WriteFile("WinModeInfo", to_string(isWindowed));
 }

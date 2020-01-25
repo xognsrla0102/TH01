@@ -13,8 +13,12 @@ public:
 		if (m_readInfo != nullptr) fclose(m_readInfo);
 	}
 
-	void WriteFile(const string& fileName, const string& text);
-	string ReadFile(const string& path);
+	void WriteFile(const string fileName, const string text);
+	bool MakeDir(const string dirPath);
+	string ReadFile(const string path);
+	
+	void OptionLoad();
+	void OptionSave();
 };
 
 #define FILEMANAGER cFileManager::GetInst()

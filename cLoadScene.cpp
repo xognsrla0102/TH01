@@ -20,6 +20,22 @@ cLoadScene::~cLoadScene()
 
 void cLoadScene::Init()
 {
+	//파일 로딩
+
+	//정보가 없을 경우
+	if (FILEMANAGER->MakeDir("./gameInfo"))
+		FILEMANAGER->OptionSave();
+	//있으면 가져오기
+	else {
+		//윈도우 모드는 겜 실행후에 변수를 받으므로 직접 전환 시켜줘야함
+		FILEMANAGER->OptionLoad();
+		//디폴트 윈도우 모드가 창모드(isWindowed = true)이므로
+		//정보를 받았을 때 전체화면일 경우에만 전환시켜주고
+		//창모드일 때는 따로 처리시켜줄 필요가 없음
+		if (isWindowed != true)
+			DXUTToggleFullScreen();
+	}
+
 	//소리 로딩
 
 	//배경음악
