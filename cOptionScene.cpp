@@ -4,7 +4,7 @@
 
 cOptionScene::cOptionScene()
 {
-	m_BG = IMAGE->FindImage("titleBG");
+	m_BG = IMAGE->FindImage("optionBG");
 
 	//¸ñ¼û ¹öÆ°
 	m_buttons.push_back(new cButton("lifeBT"));
@@ -147,6 +147,8 @@ cOptionScene::~cOptionScene()
 
 void cOptionScene::Init()
 {
+	SOUND->Play("th_04_%s", true, true);
+
 	m_nowLine = 0;
 	m_rgb = 0;
 	m_manyButtons[m_nowLine][0]->m_isOn = true;
@@ -204,7 +206,7 @@ void cOptionScene::Update()
 			playerBomb = optionValue[m_nowLine] - 1;
 			break;
 		case oBGM:
-			SOUND->Stop("th_01_%s");
+			SOUND->Stop("th_04_%s");
 			switch (optionValue[m_nowLine]) {
 			//off
 			case 1:
@@ -221,7 +223,7 @@ void cOptionScene::Update()
 				isMidi = true;
 				break;
 			}
-			SOUND->Play("th_01_%s", true, true);
+			SOUND->Play("th_04_%s", true, true);
 			break;
 		case oSOUND:
 			//off
@@ -232,7 +234,9 @@ void cOptionScene::Update()
 		case oWINDOWED:
 			if (optionValue[m_nowLine] == 1 || optionValue[m_nowLine] == 2) {
 				isWindowed = !isWindowed;
+				DXUTPause(true, true);
 				DXUTToggleFullScreen();
+				DXUTPause(false, false);
 			}
 			break;
 		}
@@ -241,18 +245,19 @@ void cOptionScene::Update()
 
 	if (KEYDOWN(DIK_RETURN) || KEYDOWN(DIK_Z)) {
 		SOUND->Play("selectSND");
+		SOUND->Stop("th_04_%s");
 		bool wasWindowed = isWindowed;
 
 		switch (m_nowLine) {
 		case oRESTORE:
-			SOUND->Stop("th_01_%s");
-
 			for (size_t i = 0; i < m_manyButtons.size() - 1; i++)
 				m_manyButtons[i][optionValue[i]]->m_isOn = false;
 
 			isWindowed = true;
 			if (isWindowed != wasWindowed) {
+				DXUTPause(true, true);
 				DXUTToggleFullScreen();
+				DXUTPause(false, false);
 			}
 
 			onBGM = true;
@@ -278,7 +283,7 @@ void cOptionScene::Update()
 
 			for (size_t i = 0; i < m_manyButtons.size() - 1; i++)
 				m_manyButtons[i][optionValue[i]]->m_isOn = true;
-			SOUND->Play("th_01_%s", true, true);
+			SOUND->Play("th_04_%s", true, true);
 			break;
 		case oQUIT:
 			m_manyButtons[m_nowLine][0]->m_isOn = false;

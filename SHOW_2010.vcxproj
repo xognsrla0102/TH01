@@ -385,6 +385,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cButton.cpp" />
+    <ClCompile Include="cCameraManager.cpp" />
     <ClCompile Include="cFileManager.cpp" />
     <ClCompile Include="cHowtoScene.cpp" />
     <ClCompile Include="cImageManager.cpp" />
@@ -408,6 +409,7 @@
     <ClCompile Include="DXUT\Core\SDKwavefile.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClInclude Include="cButton.h" />
+    <ClInclude Include="cCameraManager.h" />
     <ClInclude Include="cFileManager.h" />
     <ClInclude Include="cHowtoScene.h" />
     <ClInclude Include="cImageManager.h" />

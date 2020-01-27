@@ -100,6 +100,8 @@ cTitleScene::~cTitleScene()
 
 void cTitleScene::Init()
 {
+	SOUND->Play("th_01_%s", true, true);
+
 	for (auto& iter : m_intro) {
 		iter.m_pos = iter.m_end[START_POS];
 		iter.m_startTime = timeGetTime();
@@ -228,6 +230,7 @@ void cTitleScene::Update()
 				//SCENE->ChangeScene("musicScene");
 				break;
 			case tOPTION:
+				SOUND->Stop("th_01_%s");
 				SCENE->ChangeScene("optionScene");
 				break;
 			case tEXIT:

@@ -101,6 +101,9 @@
     <Filter Include="Core\Object\Scenes\howtoScene">
       <UniqueIdentifier>{a454b7f8-3c34-4540-b158-3cb95914b925}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Manager\Camera">
+      <UniqueIdentifier>{e92ecc13-a831-4406-beb8-6e098de12260}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -240,6 +243,9 @@
     <ClInclude Include="cHowtoScene.h">
       <Filter>Core\Object\Scenes\howtoScene</Filter>
     </ClInclude>
+    <ClInclude Include="cCameraManager.h">
+      <Filter>Core\Manager\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -313,6 +319,9 @@
     </ClCompile>
     <ClCompile Include="cHowtoScene.cpp">
       <Filter>Core\Object\Scenes\howtoScene</Filter>
+    </ClCompile>
+    <ClCompile Include="cCameraManager.cpp">
+      <Filter>Core\Manager\Camera</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

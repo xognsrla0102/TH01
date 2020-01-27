@@ -32,34 +32,37 @@ void cLoadScene::Init()
 		//디폴트 윈도우 모드가 창모드(isWindowed = true)이므로
 		//정보를 받았을 때 전체화면일 경우에만 전환시켜주고
 		//창모드일 때는 따로 처리시켜줄 필요가 없음
-		if (isWindowed != true)
+		if (isWindowed != true) {
+			DXUTPause(true, true);
 			DXUTToggleFullScreen();
+			DXUTPause(false, false);
+		}
 	}
 
 	//소리 로딩
 
 	//배경음악
-	for (size_t i = 1; i < 4; i++) {
+	for (size_t i = 1; i <= 4; i++) {
 		char key[256];
 		WCHAR path[256];
 
 		//midi사운드 추가
 		sprintf(key, "th_%02d_midi", i);
-		wsprintf(path, L"./resource/sound/midi/th06_%02d.wav", i);
+		wsprintf(path, L"./resource/music/midi/th06_%02d.wav", i);
 
 		Load(key, path);
 
 		//wav사운드 추가
 		sprintf(key, "th_%02d_wav", i);
-		wsprintf(path, L"./resource/sound/wav/th06_%02d.wav", i);
+		wsprintf(path, L"./resource/music/wav/th06_%02d.wav", i);
 
 		Load(key, path);
 	}
 
 	//효과음 추가
-	Load("selectSND", L"./resource/soundeffect/select.wav");
-	Load("keymoveSND", L"./resource/soundeffect/keymove.wav");
-	Load("cancelSND", L"./resource/soundeffect/cancel.wav");
+	Load("selectSND", L"./resource/sound/select.wav");
+	Load("keymoveSND", L"./resource/sound/keymove.wav");
+	Load("cancelSND", L"./resource/sound/cancel.wav");
 
 	//이미지 로딩
 
@@ -75,6 +78,20 @@ void cLoadScene::Init()
 
 		Load(key, path);
 	}
+
+	//하우투 씬 이미지
+	for (size_t i = 0; i < 12; i++) {
+		char key[256], path[256];
+		sprintf(key, "howto_%d", i);
+		sprintf(path, "./resource/scene/howtoScene/%d.png", i);
+
+		Load(key, path);
+	}
+
+
+	//옵션 씬 이미지
+	Load("optionBG", "./resource/scene/optionScene/bg.png");
+
 
 	//타이틀 씬 버튼
 	Load("startBT", "./resource/button/start.png");

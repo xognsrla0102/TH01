@@ -1695,9 +1695,9 @@ LRESULT CALLBACK DXUTStaticWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
                         if( ( lParam & dwMask ) != 0 ) // Alt is down also
                         {
                             // Toggle the full screen/window mode
-                            DXUTPause( true, true );
-                            DXUTToggleFullScreen();
-                            DXUTPause( false, false );
+                            //DXUTPause( true, true );
+                            //DXUTToggleFullScreen();
+                            //DXUTPause( false, false );
                             return 0;
                         }
                     }

@@ -15,11 +15,13 @@ cMain::~cMain()
 	OBJECT->ReleaseInst();
 	SOUND->ReleaseInst();
 	IMAGE->ReleaseInst();
+	CAMERA->ReleaseInst();
 	FILEMANAGER->ReleaseInst();
 }
 
 void cMain::Update()
 {
+	CAMERA->Update();
 	INPUT->Update();
 	SCENE->Update();
 }
@@ -27,7 +29,10 @@ void cMain::Update()
 void cMain::Render()
 {
 	IMAGE->Begin(); 
+
+	CAMERA->SetTransform();
 	SCENE->Render();
+
 	IMAGE->End();
 }
 
