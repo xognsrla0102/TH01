@@ -1,6 +1,8 @@
 #include "DXUT.h"
 #include "cTitleScene.h"
+#include "cStartScene.h"
 #include "cHowtoScene.h"
+#include "cMusicScene.h"
 #include "cOptionScene.h"
 #include "cLoadScene.h"
 
@@ -66,6 +68,16 @@ void cLoadScene::Init()
 
 	//이미지 로딩
 
+	//숫자 이미지 로딩
+	for (size_t i = 0; i < 10; i++) {
+		char key[256], path[256];
+		sprintf(key, "num_%d", i);
+		sprintf(path, "./resource/number/%d.png", i);
+
+		Load(key, path);
+	}
+	Load("num_dot", "./resource/number/dot.png");
+
 	//타이틀 씬 이미지
 	Load("whiteBG", "./resource/scene/titleScene/whitebg.png");
 	Load("titleBG", "./resource/scene/titleScene/bg.png");
@@ -79,6 +91,10 @@ void cLoadScene::Init()
 		Load(key, path);
 	}
 
+	//스타트 씬 이미지
+	Load("startBG", "./resource/scene/startScene/bg.png");
+	Load("startSELECT", "./resource/scene/startScene/select.png");
+
 	//하우투 씬 이미지
 	for (size_t i = 0; i < 12; i++) {
 		char key[256], path[256];
@@ -88,10 +104,17 @@ void cLoadScene::Init()
 		Load(key, path);
 	}
 
+	//음악 룸 씬 이미지
+	Load("musicBG", "./resource/scene/musicScene/bg.png");
+	for (size_t i = 1; i <= 4; i++) {
+		char key[256], path[256];
+		sprintf(key, "music_th%d", i);
+		sprintf(path, "./resource/scene/musicScene/%d.png", i);
+		Load(key, path);
+	}
 
 	//옵션 씬 이미지
 	Load("optionBG", "./resource/scene/optionScene/bg.png");
-
 
 	//타이틀 씬 버튼
 	Load("startBT", "./resource/button/start.png");
@@ -102,8 +125,16 @@ void cLoadScene::Init()
 	Load("optionBT", "./resource/button/option.png");
 	Load("quitBT", "./resource/button/quit.png");
 
+	//스타트 씬 버튼
+	Load("lunaticBT", "./resource/scene/startScene/lunatic.png");
+
+	//음악 룸 씬 버튼
+	Load("th01BT", "./resource/button/th01.png");
+	Load("th02BT", "./resource/button/th02.png");
+	Load("th03BT", "./resource/button/th03.png");
+	Load("th04BT", "./resource/button/th04.png");
+
 	//옵션 씬 버튼
-	//총 18개임
 	Load("0BT", "./resource/button/0.png");
 	Load("1BT", "./resource/button/1.png");
 	Load("2BT", "./resource/button/2.png");
@@ -146,7 +177,9 @@ void cLoadScene::Update()
 		m_nowLoad[1] == m_imgs.size()
 		) {
 		SCENE->AddScene("titleScene", new cTitleScene);
+		SCENE->AddScene("startScene", new cStartScene);
 		SCENE->AddScene("howtoScene", new cHowtoScene);
+		SCENE->AddScene("musicScene", new cMusicScene);
 		SCENE->AddScene("optionScene", new cOptionScene);
 
 		SCENE->ChangeScene("titleScene");
@@ -156,6 +189,8 @@ void cLoadScene::Update()
 void cLoadScene::Render()
 {
 	IMAGE->Render(m_BG, VEC2(0, 0));
+
+	DRAW_FRAME(to_string(DXUTGetFPS()), VEC2(1000, 680));
 }
 
 void cLoadScene::Release()

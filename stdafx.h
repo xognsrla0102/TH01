@@ -23,6 +23,7 @@ enum TAGS{
 	UI,
 	PLAYER,
 	ENEMY,
+	EFFECT,
 	BULLET,
 	TAG_END
 };

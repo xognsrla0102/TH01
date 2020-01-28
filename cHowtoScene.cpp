@@ -53,6 +53,8 @@ void cHowtoScene::Render()
 	IMAGE->Render(m_bgs[m_nowImg], VEC2(0, 0), 1.f, 0.f, false,
 		D3DCOLOR_ARGB(m_rgb, m_rgb, m_rgb, m_rgb)
 	);
+
+	DRAW_FRAME(to_string(DXUTGetFPS()), VEC2(1000, 680));
 }
 
 void cHowtoScene::Release()

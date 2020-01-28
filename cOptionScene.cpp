@@ -7,12 +7,12 @@ cOptionScene::cOptionScene()
 	m_BG = IMAGE->FindImage("optionBG");
 
 	//목숨 버튼
-	m_buttons.push_back(new cButton("lifeBT"));
-	m_buttons.push_back(new cButton("1BT"));
-	m_buttons.push_back(new cButton("2BT"));
-	m_buttons.push_back(new cButton("3BT"));
-	m_buttons.push_back(new cButton("4BT"));
-	m_buttons.push_back(new cButton("5BT"));
+	m_buttons.push_back(new cButton("lifeBT", VEC2(1.5f, 1.5f)));
+	m_buttons.push_back(new cButton("1BT", VEC2(1.3f, 1.3f)));
+	m_buttons.push_back(new cButton("2BT", VEC2(1.3f, 1.3f)));
+	m_buttons.push_back(new cButton("3BT", VEC2(1.3f, 1.3f)));
+	m_buttons.push_back(new cButton("4BT", VEC2(1.3f, 1.3f)));
+	m_buttons.push_back(new cButton("5BT", VEC2(1.3f, 1.3f)));
 
 	//위치 설정
 	for (size_t i = 0; i < m_buttons.size(); i++)
@@ -26,11 +26,11 @@ cOptionScene::cOptionScene()
 	m_buttons.clear();
 
 	//폭탄 버튼
-	m_buttons.push_back(new cButton("bombBT"));
-	m_buttons.push_back(new cButton("0BT"));
-	m_buttons.push_back(new cButton("1BT"));
-	m_buttons.push_back(new cButton("2BT"));
-	m_buttons.push_back(new cButton("3BT"));
+	m_buttons.push_back(new cButton("bombBT", VEC2(1.5f, 1.5f)));
+	m_buttons.push_back(new cButton("0BT", VEC2(1.3f, 1.3f)));
+	m_buttons.push_back(new cButton("1BT", VEC2(1.3f, 1.3f)));
+	m_buttons.push_back(new cButton("2BT", VEC2(1.3f, 1.3f)));
+	m_buttons.push_back(new cButton("3BT", VEC2(1.3f, 1.3f)));
 
 	for (size_t i = 0; i < m_buttons.size(); i++)
 		m_buttons[i]->SetPos(VEC2(300 + i * 100, 200));
@@ -38,10 +38,10 @@ cOptionScene::cOptionScene()
 	m_buttons.clear();
 
 	//BGM 버튼들
-	m_buttons.push_back(new cButton("bgmBT"));
-	m_buttons.push_back(new cButton("offBT"));
-	m_buttons.push_back(new cButton("wavBT"));
-	m_buttons.push_back(new cButton("midiBT"));
+	m_buttons.push_back(new cButton("bgmBT", VEC2(1.5f, 1.5f)));
+	m_buttons.push_back(new cButton("offBT", VEC2(1.3f, 1.3f)));
+	m_buttons.push_back(new cButton("wavBT", VEC2(1.3f, 1.3f)));
+	m_buttons.push_back(new cButton("midiBT", VEC2(1.3f, 1.3f)));
 	
 	for (size_t i = 0; i < m_buttons.size(); i++)
 		m_buttons[i]->SetPos(VEC2(300 + i * 120, 280));
@@ -49,9 +49,9 @@ cOptionScene::cOptionScene()
 	m_buttons.clear();
 
 	//SOUND 버튼
-	m_buttons.push_back(new cButton("soundBT"));
-	m_buttons.push_back(new cButton("offBT"));
-	m_buttons.push_back(new cButton("onBT"));
+	m_buttons.push_back(new cButton("soundBT", VEC2(1.5f, 1.5f)));
+	m_buttons.push_back(new cButton("offBT", VEC2(1.3f, 1.3f)));
+	m_buttons.push_back(new cButton("onBT", VEC2(1.3f, 1.3f)));
 
 	for (size_t i = 0; i < m_buttons.size(); i++)
 		m_buttons[i]->SetPos(VEC2(300 + i * 120, 360));
@@ -59,9 +59,9 @@ cOptionScene::cOptionScene()
 	m_buttons.clear();
 
 	//WINDOW 버튼
-	m_buttons.push_back(new cButton("modeBT"));
-	m_buttons.push_back(new cButton("windowBT"));
-	m_buttons.push_back(new cButton("fullBT"));
+	m_buttons.push_back(new cButton("modeBT", VEC2(1.5f, 1.5f)));
+	m_buttons.push_back(new cButton("windowBT", VEC2(1.3f, 1.3f)));
+	m_buttons.push_back(new cButton("fullBT", VEC2(1.3f, 1.3f)));
 
 	for (size_t i = 0; i < m_buttons.size(); i++)
 		m_buttons[i]->SetPos(VEC2(300 + i * 200, 440));
@@ -75,7 +75,7 @@ cOptionScene::cOptionScene()
 	m_buttons.clear();
 
 	//QUIT버튼
-	m_buttons.push_back(new cButton("quitBT"));
+	m_buttons.push_back(new cButton("quitBT", VEC2(1.5f, 1.5f)));
 	m_buttons[0]->SetPos(VEC2(300, 600));
 	m_manyButtons.push_back(m_buttons);
 	m_buttons.clear();
@@ -313,6 +313,8 @@ void cOptionScene::Render()
 	for (auto iter : m_manyButtons)
 		for(auto jter : iter)
 			jter->Render();
+
+	DRAW_FRAME(to_string(DXUTGetFPS()), VEC2(1000, 680));
 }
 
 void cOptionScene::Release()

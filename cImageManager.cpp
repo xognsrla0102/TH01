@@ -100,3 +100,18 @@ void cImageManager::CenterRender(cTexture* text, VEC2 pos, VEC2 center, float si
 	else DEBUG_LOG("텍스쳐가 비었소\n");
 }
 
+void cImageManager::DrawFrame(string text, VEC2 pos)
+{
+	cTexture* nowImg;
+	for (size_t i = 0; i < 5; i++) {
+		if (text[i] == '.')
+			nowImg = FindImage("num_dot");
+		else {
+			char key[256];
+			sprintf(key, "num_%c", text[i]);
+			nowImg = FindImage(key);
+		}
+		Render(nowImg, VEC2(pos.x + (i * 20), pos.y));
+	}
+}
+

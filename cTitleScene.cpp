@@ -69,13 +69,13 @@ cTitleScene::cTitleScene()
 	m_intro[5].m_end.push_back(VEC2(m_intro[5].m_end[LEFT_POS]));
 
 	//버튼 세팅
-	m_buttons.push_back(new cButton("startBT"));
-	m_buttons.push_back(new cButton("howtoBT"));
-	m_buttons.push_back(new cButton("replayBT"));
-	m_buttons.push_back(new cButton("scoreBT"));
-	m_buttons.push_back(new cButton("musicBT"));
-	m_buttons.push_back(new cButton("optionBT"));
-	m_buttons.push_back(new cButton("quitBT"));
+	m_buttons.push_back(new cButton("startBT", VEC2(1.5f, 1.5f)));
+	m_buttons.push_back(new cButton("howtoBT", VEC2(1.5f, 1.5f)));
+	m_buttons.push_back(new cButton("replayBT", VEC2(1.5f, 1.5f)));
+	m_buttons.push_back(new cButton("scoreBT", VEC2(1.5f, 1.5f)));
+	m_buttons.push_back(new cButton("musicBT", VEC2(1.5f, 1.5f)));
+	m_buttons.push_back(new cButton("optionBT", VEC2(1.5f, 1.5f)));
+	m_buttons.push_back(new cButton("quitBT", VEC2(1.5f, 1.5f)));
 
 	for(size_t i = 0; i < m_buttons.size(); i++)
 		m_buttons[i]->SetPos(VEC2(1000 - i * 15, 150 + i * 70));
@@ -123,9 +123,6 @@ void cTitleScene::Init()
 
 void cTitleScene::Update()
 {
-	//게임 프레임
-	DEBUG_LOG("%.2f\n", DXUTGetFPS());
-
 	if(isEnter == true)
 		for (auto iter : m_buttons)
 			iter->Update();
@@ -161,7 +158,7 @@ void cTitleScene::Update()
 
 		//다음 씬으로 이동하기 전
 		if (KEYDOWN(DIK_RETURN) || KEYDOWN(DIK_Z)) {
-			SOUND->Play("selectSND");
+			SOUND->Copy("selectSND");
 
 			nowIntroPos = FADE_OUT_POS;
 			isChangeScene = true;
@@ -207,27 +204,21 @@ void cTitleScene::Update()
 		if (timeGetTime() - chkTime > 800) {
 			switch (m_nowButton) {
 			case tSTART:
-				DEBUG_LOG("리플레이는 아직 미구현...\n");
-				PostQuitMessage(0);
-				//SCENE->ChangeScene("startScene");
+				SCENE->ChangeScene("startScene");
 				break;
 			case tHOWTO:
 				SCENE->ChangeScene("howtoScene");
 				break;
 			case tREPLAY:
-				DEBUG_LOG("리플레이는 아직 미구현...\n");
 				PostQuitMessage(0);
 				//SCENE->ChangeScene("replayScene");
 				break;
 			case tSCORE:
-				DEBUG_LOG("점수는 아직 미구현...\n");
 				PostQuitMessage(0);
 				//SCENE->ChangeScene("scoreScene");
 				break;
 			case tMUSIC:
-				DEBUG_LOG("점수는 아직 미구현...\n");
-				PostQuitMessage(0);
-				//SCENE->ChangeScene("musicScene");
+				SCENE->ChangeScene("musicScene");
 				break;
 			case tOPTION:
 				SOUND->Stop("th_01_%s");
@@ -239,8 +230,7 @@ void cTitleScene::Update()
 			}
 
 			m_buttons[m_nowButton]->m_isOn = false;
-			m_nowButton = 0;
-			m_buttons[m_nowButton]->m_isOn = true;
+			m_buttons[0]->m_isOn = true;
 			chkTime = -1;
 			return;
 		}
@@ -267,7 +257,7 @@ void cTitleScene::Render()
 {
 	IMAGE->Render(m_bg, VEC2(0, 0), 1.f, 0.f, false, D3DCOLOR_XRGB(m_rgb, m_rgb, m_rgb, m_rgb));
 
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < sizeof(m_intro) / sizeof(m_intro[0]); i++)
 		IMAGE->Render(m_intro[i].m_img, m_intro[i].m_pos, m_intro[i].m_size, m_intro[i].m_rot, true,
 			D3DCOLOR_ARGB(m_intro[i].m_alpha, 255, 255, 255)
 		);
@@ -277,6 +267,8 @@ void cTitleScene::Render()
 			iter->Render();
 
 	IMAGE->Render(m_whiteEffect, VEC2(0, 0), 1.f, 0.f, false, D3DCOLOR_ARGB(m_alpha, 255, 255, 255));
+
+	DRAW_FRAME(to_string(DXUTGetFPS()), VEC2(1000, 680));
 }
 
 void cTitleScene::Release()

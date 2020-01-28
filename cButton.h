@@ -15,10 +15,11 @@ public:
 
 	int m_alpha = 255;
 
-	float oldSize = 1.f;
+	float m_oldSize = 1.f;
+	float m_deltaSize = 0.5f;
 
 public:
-	cButton(const string& key, VEC2 size = VEC2(1.5f, 1.5f));
+	cButton(const string& key, VEC2 size = VEC2(1.f, 1.f), float deltaSize = 0.5f);
 
 	bool isLinkedLeft() { return (m_left != nullptr); }
 	bool isLinkedRight(){ return (m_right != nullptr);}

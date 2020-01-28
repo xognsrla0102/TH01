@@ -24,6 +24,9 @@ public:
 
 	void Render(cTexture* text, VEC2 pos, float size = 1, float rot = 0, bool center = false, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
 	void CenterRender(cTexture* text, VEC2 pos, VEC2 center, float size = 1, float rot = 0, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
+
+	void DrawFrame(string text, VEC2 pos);
 };
 
 #define IMAGE cImageManager::GetInst()
+#define DRAW_FRAME(i, j) IMAGE->DrawFrame(i, j)
