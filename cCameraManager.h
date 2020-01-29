@@ -12,7 +12,7 @@ private:
 	//투영 행렬 처리
 	D3DXMATRIX m_matProj;
 
-	VEC2 m_pos = VEC2(WINSIZEX / 2, WINSIZEY / 2);
+	VEC2 m_pos = VEC2(0, 0);
 
 	float m_size = 1.f;
 public:

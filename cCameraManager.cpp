@@ -14,8 +14,9 @@ cCameraManager::cCameraManager()
 
 	//z Near Plane = 0.f
 	//z Far Plane = 1.f
-	D3DXMatrixOrthoLH(&m_matProj, WINSIZEX, -WINSIZEY, 0.f, 1.f);
 
+	D3DXMatrixOrthoOffCenterLH(&m_matProj, 0.f, WINSIZEX, WINSIZEY, 0.f, 0.f, 1.f);
+	
 	//투시 투영
 	//Perspective Projection
 
@@ -33,11 +34,13 @@ void cCameraManager::Update()
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixIdentity(&matT);
 
-	D3DXMatrixScaling(&matS, m_size, m_size, 0.f);
+	static float size = 1.f;
+	if (KEYPRESS(DIK_W)) size += 0.01;
+	if (KEYPRESS(DIK_S)) size -= 0.01;
 
-	D3DXMatrixTranslation(&matT, -m_pos.x, -m_pos.y, 0.f);
+	D3DXMatrixScaling(&matS, size, size, 1.f);
+	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, 0.f);
 
-	//뷰행렬에서 카메라의 이동결과를 도출
 	m_matView = matS * matT;
 }
 
