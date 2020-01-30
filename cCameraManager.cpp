@@ -34,11 +34,8 @@ void cCameraManager::Update()
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixIdentity(&matT);
 
-	static float size = 1.f;
-	if (KEYPRESS(DIK_W)) size += 0.01;
-	if (KEYPRESS(DIK_S)) size -= 0.01;
+	if (m_isShake) Shake();
 
-	D3DXMatrixScaling(&matS, size, size, 1.f);
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, 0.f);
 
 	m_matView = matS * matT;
@@ -54,4 +51,26 @@ void cCameraManager::SetTransform()
 
 void cCameraManager::Shake()
 {
+	static time_t start2 = timeGetTime();
+
+	static int accel = 1.f;
+	static int dir = 1.f;
+
+	if (timeGetTime() - start2 > 30) {
+		m_pos.x = rand() % accel - rand() % accel;
+		m_pos.y = rand() % accel - rand() % accel;
+		accel += dir;
+		start2 = timeGetTime();
+	}
+	
+	if (accel > 30) {
+		accel = 30;
+		dir = -dir;
+	}
+
+	else if (accel < 1) {
+		accel = 1;
+		dir = -dir;
+		m_isShake = false;
+	}
 }

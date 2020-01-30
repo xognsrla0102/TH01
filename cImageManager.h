@@ -15,6 +15,7 @@ public:
 
 	void Begin();
 	void End();
+	void ReBegin();
 
 	void LostDevice();
 	void ResetDevice();

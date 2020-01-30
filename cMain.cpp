@@ -28,7 +28,7 @@ void cMain::Update()
 
 void cMain::Render()
 {
-	IMAGE->Begin(); 
+	IMAGE->Begin();
 
 	CAMERA->SetTransform();
 	SCENE->Render();

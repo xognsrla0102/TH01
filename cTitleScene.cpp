@@ -102,6 +102,8 @@ void cTitleScene::Init()
 {
 	SOUND->Play("th_01_%s", true, true);
 
+	CAMERA->m_isShake = true;
+
 	for (auto& iter : m_intro) {
 		iter.m_pos = iter.m_end[START_POS];
 		iter.m_startTime = timeGetTime();
@@ -255,6 +257,7 @@ void cTitleScene::Update()
 
 void cTitleScene::Render()
 {
+	
 	IMAGE->Render(m_bg, VEC2(0, 0), 1.f, 0.f, false, D3DCOLOR_XRGB(m_rgb, m_rgb, m_rgb, m_rgb));
 
 	for (int i = 0; i < sizeof(m_intro) / sizeof(m_intro[0]); i++)
@@ -262,7 +265,7 @@ void cTitleScene::Render()
 			D3DCOLOR_ARGB(m_intro[i].m_alpha, 255, 255, 255)
 		);
 
-	if(isEnter == true)
+	if (isEnter == true)
 		for (auto iter : m_buttons)
 			iter->Render();
 

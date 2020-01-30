@@ -27,6 +27,14 @@ void cImageManager::End()
 	m_sprite->End();
 }
 
+void cImageManager::ReBegin()
+{
+	End();
+	Begin();
+}
+
+
+
 void cImageManager::LostDevice()
 {
 	m_sprite->OnLostDevice();

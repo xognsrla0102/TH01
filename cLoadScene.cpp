@@ -189,8 +189,6 @@ void cLoadScene::Update()
 void cLoadScene::Render()
 {
 	IMAGE->Render(m_BG, VEC2(0, 0));
-
-	DRAW_FRAME(to_string(DXUTGetFPS()), VEC2(1000, 680));
 }
 
 void cLoadScene::Release()
