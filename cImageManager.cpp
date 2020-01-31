@@ -17,9 +17,15 @@ cImageManager::~cImageManager()
 		SAFE_DELETE(iter.second);
 }
 
-void cImageManager::Begin()
+void cImageManager::Begin(bool isUI)
 {
-	m_sprite->Begin(D3DXSPRITE_ALPHABLEND);
+	if (isUI)
+		//OBJECTSPACE를 설정하지 않을 경우 이미지가 윈도우 좌표 기준으로 그려진다.
+		m_sprite->Begin(D3DXSPRITE_ALPHABLEND);
+	else
+		//OBJECTSPACE를 설정하면 카메라가 움직이더라도 이미지는 윈도우 좌표 기준이 아닌
+		//월드 좌표 기준으로 그려진다.
+		m_sprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_OBJECTSPACE);
 }
 
 void cImageManager::End()
@@ -27,10 +33,10 @@ void cImageManager::End()
 	m_sprite->End();
 }
 
-void cImageManager::ReBegin()
+void cImageManager::ReBegin(bool isUI)
 {
 	End();
-	Begin();
+	Begin(isUI);
 }
 
 

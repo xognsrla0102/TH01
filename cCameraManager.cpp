@@ -16,7 +16,10 @@ cCameraManager::cCameraManager()
 	//z Far Plane = 1.f
 
 	D3DXMatrixOrthoOffCenterLH(&m_matProj, 0.f, WINSIZEX, WINSIZEY, 0.f, 0.f, 1.f);
-	
+
+	//투영행렬 적용
+	g_device->SetTransform(D3DTS_PROJECTION, &m_matProj);
+
 	//투시 투영
 	//Perspective Projection
 
@@ -45,8 +48,6 @@ void cCameraManager::SetTransform()
 {
 	//뷰 행렬 설정
 	g_device->SetTransform(D3DTS_VIEW, &m_matView);
-	//투영 행렬 설정
-	g_device->SetTransform(D3DTS_PROJECTION, &m_matProj);
 }
 
 void cCameraManager::Shake()

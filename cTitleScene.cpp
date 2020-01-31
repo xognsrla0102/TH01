@@ -257,7 +257,6 @@ void cTitleScene::Update()
 
 void cTitleScene::Render()
 {
-	
 	IMAGE->Render(m_bg, VEC2(0, 0), 1.f, 0.f, false, D3DCOLOR_XRGB(m_rgb, m_rgb, m_rgb, m_rgb));
 
 	for (int i = 0; i < sizeof(m_intro) / sizeof(m_intro[0]); i++)

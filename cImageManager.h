@@ -13,9 +13,9 @@ public:
 	cImageManager();
 	virtual ~cImageManager();
 
-	void Begin();
+	void Begin(bool isUI);
 	void End();
-	void ReBegin();
+	void ReBegin(bool isUI);
 
 	void LostDevice();
 	void ResetDevice();
