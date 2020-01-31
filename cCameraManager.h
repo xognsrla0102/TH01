@@ -19,10 +19,12 @@ public:
 	cCameraManager();
 	virtual ~cCameraManager();
 
+	void ResetCamera();
 	void Update();
 	void SetTransform();
 
 	void Shake();
+
 };
 
 #define CAMERA cCameraManager::GetInst()

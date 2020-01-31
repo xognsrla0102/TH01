@@ -102,7 +102,7 @@ void cTitleScene::Init()
 {
 	SOUND->Play("th_01_%s", true, true);
 
-	CAMERA->m_isShake = true;
+	m_enterTime = timeGetTime();
 
 	for (auto& iter : m_intro) {
 		iter.m_pos = iter.m_end[START_POS];
@@ -165,7 +165,7 @@ void cTitleScene::Update()
 			nowIntroPos = FADE_OUT_POS;
 			isChangeScene = true;
 
-			//다시 타이틀 씬으로 돌아왔을 때 인트로가 시작되야 하므로
+			//버튼 안 보이게 전환
 			isEnter = false;
 		}
 
@@ -178,7 +178,8 @@ void cTitleScene::Update()
 	}
 
 	//버튼 나올 때 진입하기 전
-	if ((KEYDOWN(DIK_RETURN) || KEYDOWN(DIK_Z)) && 
+	if (timeGetTime() - m_enterTime > 1000 &&
+		(KEYDOWN(DIK_RETURN) || KEYDOWN(DIK_Z)) && 
 		(isEnter == false && isChangeScene == false)
 		) {
 		SOUND->Play("selectSND");
@@ -188,22 +189,20 @@ void cTitleScene::Update()
 	}
 	
 	//버튼 나올 때 살짝 어두워짐
-	if (isEnter == true)
-		Lerp(m_rgb, 150, 0.04);
+	if (isEnter == true) Lerp(m_rgb, 150, 0.04);
 
 	//씬 바꿀 때 페이드아웃
 	if (isChangeScene == true) {
 		static time_t chkTime = timeGetTime();
 		//다시 타이틀 씬으로 돌아올 땐 -1이므로 새로 받아야함
-		if (chkTime == -1)
-			chkTime = timeGetTime();
+		if (chkTime == -1) chkTime = timeGetTime();
 		//배경 어두워짐
 		Lerp(m_rgb, 0, 0.08);
 		//글자들도 사라짐
 		Lerp(m_intro[2].m_alpha, 0, 0.08);
 		Lerp(m_intro[5].m_alpha, 0, 0.08);
 
-		if (timeGetTime() - chkTime > 800) {
+		if (timeGetTime() - chkTime > 1000) {
 			switch (m_nowButton) {
 			case tSTART:
 				SCENE->ChangeScene("startScene");

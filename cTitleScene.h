@@ -23,6 +23,8 @@ private:
 	cTexture* m_whiteEffect = nullptr;
 	cTexture* m_bg = nullptr;
 
+	time_t m_enterTime = timeGetTime();
+
 	sIntroObject m_intro[6] = { nullptr };
 	vector<cButton*> m_buttons;
 

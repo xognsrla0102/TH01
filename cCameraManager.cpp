@@ -31,6 +31,12 @@ cCameraManager::~cCameraManager()
 {
 }
 
+void cCameraManager::ResetCamera()
+{
+	D3DXMatrixOrthoOffCenterLH(&m_matProj, 0.f, WINSIZEX, WINSIZEY, 0.f, 0.f, 1.f);
+	g_device->SetTransform(D3DTS_PROJECTION, &m_matProj);
+}
+
 void cCameraManager::Update()
 {
 	D3DXMATRIX matS, matT;
