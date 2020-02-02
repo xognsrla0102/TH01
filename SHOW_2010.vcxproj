@@ -401,7 +401,6 @@
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cScene.cpp" />
     <ClCompile Include="cSceneManager.cpp" />
-    <ClCompile Include="cSelectScene.cpp" />
     <ClCompile Include="cSingleTexture.cpp" />
     <ClCompile Include="cSoundManager.cpp" />
     <ClCompile Include="cStartScene.cpp" />
@@ -428,7 +427,6 @@
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cScene.h" />
     <ClInclude Include="cSceneManager.h" />
-    <ClInclude Include="cSelectScene.h" />
     <ClInclude Include="cSingleTexture.h" />
     <ClInclude Include="cSingleton.hpp" />
     <ClInclude Include="cSoundManager.h" />

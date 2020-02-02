@@ -24,7 +24,7 @@ void cLoadScene::Init()
 {
 	//파일 로딩
 
-	//정보가 없을 경우
+	//정보가 없을 경우 기존엔 파일이 없으니 디렉토리 만드는 것이 성공함
 	if (FILEMANAGER->MakeDir("./gameInfo"))
 		FILEMANAGER->OptionSave();
 	//있으면 가져오기
@@ -93,7 +93,9 @@ void cLoadScene::Init()
 
 	//스타트 씬 이미지
 	Load("startBG", "./resource/scene/startScene/bg.png");
-	Load("startSELECT", "./resource/scene/startScene/select.png");
+	Load("startSELECT_MODE", "./resource/scene/startScene/selectMode.png");
+	Load("startSELECT_CHARACTER", "./resource/scene/startScene/selectMode.png");
+	Load("startSELECT_WEAPON", "./resource/scene/startScene/selectWeapon.png");
 
 	//하우투 씬 이미지
 	for (size_t i = 0; i < 12; i++) {
@@ -127,6 +129,7 @@ void cLoadScene::Init()
 
 	//스타트 씬 버튼
 	Load("lunaticBT", "./resource/scene/startScene/lunatic.png");
+	Load("extraBT", "./resource/scene/startScene/extra.png");
 
 	//음악 룸 씬 버튼
 	Load("th01BT", "./resource/button/th01.png");

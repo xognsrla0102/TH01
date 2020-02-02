@@ -41,6 +41,7 @@ void cFileManager::OptionLoad()
 	isMidi = stoi(FILEMANAGER->ReadFile("./gameInfo/MidiInfo.txt"));
 	onSND = stoi(FILEMANAGER->ReadFile("./gameInfo/SoundInfo.txt"));
 	isWindowed = stoi(FILEMANAGER->ReadFile("./gameInfo/WinModeInfo.txt"));
+	isExtra = stoi(FILEMANAGER->ReadFile("./gameInfo/ExtraInfo.txt"));
 }
 
 void cFileManager::OptionSave()
@@ -51,4 +52,5 @@ void cFileManager::OptionSave()
 	FILEMANAGER->WriteFile("MidiInfo", to_string(isMidi));
 	FILEMANAGER->WriteFile("SoundInfo", to_string(onSND));
 	FILEMANAGER->WriteFile("WinModeInfo", to_string(isWindowed));
+	FILEMANAGER->WriteFile("ExtraInfo", to_string(isExtra));
 }

@@ -80,7 +80,7 @@ cTitleScene::cTitleScene()
 	for(size_t i = 0; i < m_buttons.size(); i++)
 		m_buttons[i]->SetPos(VEC2(1000 - i * 15, 150 + i * 70));
 
-	m_buttons[m_nowButton]->m_isOn = true;
+	m_buttons[0]->m_isOn = true;
 
 	//버튼 이어주기
 
@@ -118,6 +118,8 @@ void cTitleScene::Init()
 	m_alpha = 255;
 	m_rgb = 255;
 	m_nowButton = 0;
+
+	m_buttons[0]->m_isOn = true;
 
 	isEnter = false;
 	isChangeScene = false;
@@ -229,9 +231,7 @@ void cTitleScene::Update()
 				PostQuitMessage(0);
 				break;
 			}
-
 			m_buttons[m_nowButton]->m_isOn = false;
-			m_buttons[0]->m_isOn = true;
 			chkTime = -1;
 			return;
 		}

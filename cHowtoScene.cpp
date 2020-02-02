@@ -32,7 +32,7 @@ void cHowtoScene::Update()
 			SCENE->ChangeScene("titleScene");
 	}
 
-	if (KEYDOWN(DIK_Z)) {
+	if (KEYDOWN(DIK_Z) || KEYDOWN(DIK_RETURN)) {
 		SOUND->Copy("selectSND");
 		if(m_nowImg == m_bgs.size() - 1)
 			SCENE->ChangeScene("titleScene");

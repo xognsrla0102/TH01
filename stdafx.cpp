@@ -21,3 +21,5 @@ bool isMidi = false;
 bool onSND = true;
 
 bool isWindowed = true;
+
+bool isExtra = false;

@@ -22,6 +22,9 @@ public:
 	FLOAT GetRot() { return m_rot; }
 	BOOL GetLive() { return m_isLive; }
 
+	VEC2& GetRefPos() { return m_pos; }
+	VEC2& GetRefSize() { return m_size; }
+
 	void SetTag(INT tagNum) { m_tag = tagNum; }
 	void SetPos(VEC2 pos) { m_pos = pos; }
 	void SetSize(VEC2 size) { m_size = size; }

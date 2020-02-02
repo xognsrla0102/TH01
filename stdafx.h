@@ -18,9 +18,7 @@ using VEC4 = D3DXVECTOR4;
 #define WINSIZEX 1280
 #define WINSIZEY 720
 
-enum TAGS{
-	BG,
-	UI,
+enum TAGS {
 	PLAYER,
 	ENEMY,
 	EFFECT,
@@ -56,12 +54,18 @@ enum OPTION_BUTTON {
 	oBUTTON_END
 };
 
-extern int playerLife;
-extern int playerBomb;
+enum MODE_BUTTON {
+	mLUNATIC,
+	mEXTRA
+};
+
+extern int  playerLife;
+extern int  playerBomb;
 extern bool isMidi;
 extern bool onBGM;
 extern bool onSND;
 extern bool isWindowed;
+extern bool isExtra;
 
 template <typename T>
 void Lerp(T& start, T end, float t) {
@@ -81,4 +85,5 @@ void Lerp(T& start, T end, float t) {
 #include "cFileManager.h"
 #include "cCameraManager.h"
 //STL의 clear 함수는 요소 갯수를 지워주지 포인터가 가르키는 곳까지 해제해주진 않으므로
-//모든 원소에 접근해서 SAFE_DELETE 해줘야함. 포인터 시퀀스가 아니라면 굳이 일일이 SAFE_DELETE 해줄 필요없음
+//포인터 시퀀스라면 모든 원소에 접근해서 SAFE_DELETE 해줘야함.
+//포인터 시퀀스가 아니라면 굳이 일일이 SAFE_DELETE 해줄 필요없음

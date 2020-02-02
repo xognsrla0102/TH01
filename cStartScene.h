@@ -2,17 +2,23 @@
 #include "cScene.h"
 
 class cButton;
+class cModeButton {
+public:
+	cButton* m_button = nullptr;
+	vector<VEC2> m_butEndPos;
+};
+
 class cStartScene : public cScene
 {
 private:
-	cTexture* m_bg = nullptr;
-	cTexture* m_img = nullptr;
-	cButton* m_button = nullptr;
+	cTexture* m_mode = nullptr;
+	cTexture* m_char = nullptr;
+	cTexture* m_weapon = nullptr;
 
-	vector<VEC2> m_buttonPos;
+	vector<cModeButton*> m_buttons;
 
-	int m_imgYpos = -150;
 	int m_rgb = 0;
+	int m_nowButton = 0;
 public:
 	cStartScene();
 	virtual ~cStartScene();

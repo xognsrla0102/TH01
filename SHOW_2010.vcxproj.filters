@@ -101,9 +101,6 @@
     <Filter Include="Core\Object\Scenes\HowtoScene">
       <UniqueIdentifier>{a454b7f8-3c34-4540-b158-3cb95914b925}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Object\Scenes\SelectScene">
-      <UniqueIdentifier>{9796008e-0272-4cfe-9b1f-bfa693204ce7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Object\Scenes\_Scene">
       <UniqueIdentifier>{a1753fb1-1b3a-4797-9ecb-a2536cd4e983}</UniqueIdentifier>
     </Filter>
@@ -255,9 +252,6 @@
     <ClInclude Include="cStartScene.h">
       <Filter>Core\Object\Scenes\StartScene</Filter>
     </ClInclude>
-    <ClInclude Include="cSelectScene.h">
-      <Filter>Core\Object\Scenes\SelectScene</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -340,9 +334,6 @@
     </ClCompile>
     <ClCompile Include="cStartScene.cpp">
       <Filter>Core\Object\Scenes\StartScene</Filter>
-    </ClCompile>
-    <ClCompile Include="cSelectScene.cpp">
-      <Filter>Core\Object\Scenes\SelectScene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
