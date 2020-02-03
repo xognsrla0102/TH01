@@ -11,9 +11,9 @@ public:
 	cButton* m_up   =	nullptr;
 	cButton* m_down =	nullptr;
 
-	bool m_isOn = false;
+	int m_isOn = false;
 
-	int m_alpha = 255;
+	float m_alpha = 255.f;
 
 	float m_oldSize = 1.f;
 	float m_deltaSize = 0.5f;

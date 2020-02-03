@@ -99,7 +99,7 @@ void cMusicScene::Update()
 void cMusicScene::Render()
 {
 	IMAGE->Render(m_bg, VEC2(0, 0), 1.f, 0.f, false, m_bg->m_color);
-	IMAGE->Render(m_comments[m_nowPlayMusic], VEC2(300, 480));
+	IMAGE->Render(m_comments[m_nowPlayMusic], VEC2(300, 480), 1.f);
 
 	for (auto iter : m_buttons)
 		iter->Render();

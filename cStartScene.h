@@ -11,18 +11,27 @@ public:
 class cStartScene : public cScene
 {
 private:
+	time_t m_inputTime = timeGetTime();
+
 	cTexture* m_mode = nullptr;
 	cTexture* m_char = nullptr;
 	cTexture* m_weapon = nullptr;
 
 	vector<cModeButton*> m_buttons;
+	vector<cModeButton*> m_charButtons;
+	vector<cModeButton*> m_weaponButtons;
 
 	int m_nowButton = 0;
 	int m_nowButPosState = mSTART_POS;
 
-	int m_nowEnter = 0;
-	bool m_isNextEnter[3] = { false };
+	int m_charButton = 0;
+	int m_weaponButton = 0;
 
+	int m_nowEnter = 0;
+
+	bool m_isNextEnter[3] = { false };
+	bool isCharUp = false;
+	bool isCharDown = false;
 public:
 	cStartScene();
 	virtual ~cStartScene();

@@ -11,17 +11,18 @@ cButton::cButton(const string& key, VEC2 size, float deltaSize) : m_key(key)
 
 void cButton::Update()
 {
-	if (m_isOn) {
-		Lerp(m_alpha, 255, 0.25);
+	if (m_isOn == true) {
+		Lerp(m_alpha, 255.f, 0.25);
 		Lerp(m_size, VEC2(m_oldSize + m_deltaSize, m_oldSize + m_deltaSize), 0.25);
 	}
-	else {
-		Lerp(m_alpha, 150, 0.25);
+	else if(m_isOn == false) {
+		Lerp(m_alpha, 150.f, 0.25);
 		Lerp(m_size, VEC2(m_oldSize, m_oldSize), 0.25);
 	}
 }
 
 void cButton::Render()
 {
-	IMAGE->Render(m_img, m_pos, m_size.x, m_rot, true, D3DCOLOR_ARGB(m_alpha, m_alpha, m_alpha, m_alpha));
+	IMAGE->Render(m_img, m_pos, m_size.x, m_rot, true, D3DCOLOR_ARGB((int)m_alpha, 255, 255, 255));
 }
+
