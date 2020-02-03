@@ -9,11 +9,8 @@ cSceneManager::cSceneManager()
 
 cSceneManager::~cSceneManager()
 {
-	if(m_nowScene) m_nowScene->Release();
-	for (auto iter : m_scenes) {
-		iter.second->Release();
+	for (auto iter : m_scenes)
 		SAFE_DELETE(iter.second);
-	}
 	m_scenes.clear();
 
 	m_nowScene = m_nextScene = nullptr;
@@ -42,6 +39,7 @@ void cSceneManager::ChangeScene(string name)
 void cSceneManager::Update()
 {
 	if (m_nextScene) {
+		if (m_nowScene) m_nowScene->Release();
 		m_nowScene = m_nextScene;
 		m_nextScene = nullptr;
 		m_nowScene->Init();

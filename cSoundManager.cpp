@@ -71,4 +71,5 @@ void cSoundManager::Reset()
 {
 	for (auto iter : m_sounds)
 		SAFE_DELETE(iter.second);
+	m_sounds.clear();
 }

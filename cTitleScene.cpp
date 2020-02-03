@@ -96,6 +96,7 @@ cTitleScene::~cTitleScene()
 {
 	for (auto iter : m_buttons)
 		SAFE_DELETE(iter);
+	m_buttons.clear();
 }
 
 void cTitleScene::Init()
@@ -115,8 +116,9 @@ void cTitleScene::Init()
 
 	nowIntroPos = MID_POS;
 
-	m_alpha = 255;
-	m_rgb = 255;
+	m_whiteEffect->m_a = 255;
+	m_bg->m_a = 255;
+
 	m_nowButton = 0;
 
 	m_buttons[0]->m_isOn = true;
@@ -186,12 +188,12 @@ void cTitleScene::Update()
 		) {
 		SOUND->Play("selectSND");
 		nowIntroPos = LEFT_POS;
-		if (m_alpha > 80) m_alpha = 80;
+		if (m_whiteEffect->m_a != 0) m_whiteEffect->m_a = 0;
 		isEnter = true;
 	}
 	
 	//버튼 나올 때 살짝 어두워짐
-	if (isEnter == true) Lerp(m_rgb, 150, 0.04);
+	if (isEnter == true) Lerp(m_bg->m_a, 150.f, 0.04);
 
 	//씬 바꿀 때 페이드아웃
 	if (isChangeScene == true) {
@@ -199,10 +201,10 @@ void cTitleScene::Update()
 		//다시 타이틀 씬으로 돌아올 땐 -1이므로 새로 받아야함
 		if (chkTime == -1) chkTime = timeGetTime();
 		//배경 어두워짐
-		Lerp(m_rgb, 0, 0.08);
+		Lerp(m_bg->m_a, 0.f, 0.08);
 		//글자들도 사라짐
-		Lerp(m_intro[2].m_alpha, 0, 0.08);
-		Lerp(m_intro[5].m_alpha, 0, 0.08);
+		Lerp(m_intro[2].m_alpha, 0.f, 0.08);
+		Lerp(m_intro[5].m_alpha, 0.f, 0.08);
 
 		if (timeGetTime() - chkTime > 1000) {
 			switch (m_nowButton) {
@@ -244,30 +246,33 @@ void cTitleScene::Update()
 			//씬 바꿀 땐 이렇게 적용시키면 안됨
 			if (i == 2 && isChangeScene == false) {
 				//홍 글자의 경우엔 점점 나타나면서 회전이 약해짐
-				Lerp(m_intro[i].m_alpha, 255, 0.05);
+				Lerp(m_intro[i].m_alpha, 255.f, 0.05);
 				Lerp(m_intro[i].m_rot, 0.f, 0.03);
 			}
 		}
 	}
 
 	//인트로 페이드 인
-	Lerp(m_alpha, 0, 0.01);
+	Lerp(m_whiteEffect->m_a, 0.f, 0.01);
+
+	m_bg->SetNowRGB();
+	m_whiteEffect->SetNowRGB();
 }
 
 void cTitleScene::Render()
 {
-	IMAGE->Render(m_bg, VEC2(0, 0), 1.f, 0.f, false, D3DCOLOR_XRGB(m_rgb, m_rgb, m_rgb, m_rgb));
+	IMAGE->Render(m_bg, VEC2(0, 0), 1.f, 0.f, false, m_bg->m_color);
 
 	for (int i = 0; i < sizeof(m_intro) / sizeof(m_intro[0]); i++)
 		IMAGE->Render(m_intro[i].m_img, m_intro[i].m_pos, m_intro[i].m_size, m_intro[i].m_rot, true,
-			D3DCOLOR_ARGB(m_intro[i].m_alpha, 255, 255, 255)
+			D3DCOLOR_ARGB((int)m_intro[i].m_alpha, 255, 255, 255)
 		);
 
 	if (isEnter == true)
 		for (auto iter : m_buttons)
 			iter->Render();
 
-	IMAGE->Render(m_whiteEffect, VEC2(0, 0), 1.f, 0.f, false, D3DCOLOR_ARGB(m_alpha, 255, 255, 255));
+	IMAGE->Render(m_whiteEffect, VEC2(0, 0), 1.f, 0.f, false, m_whiteEffect->m_color);
 
 	DRAW_FRAME(to_string(DXUTGetFPS()), VEC2(1000, 680));
 }

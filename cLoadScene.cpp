@@ -16,8 +16,11 @@ cLoadScene::~cLoadScene()
 {
 	for (auto iter : m_sounds)
 		SAFE_DELETE(iter);
+	m_sounds.clear();
+
 	for (auto iter : m_imgs)
 		SAFE_DELETE(iter);
+	m_imgs.clear();
 }
 
 void cLoadScene::Init()
@@ -94,7 +97,7 @@ void cLoadScene::Init()
 	//스타트 씬 이미지
 	Load("startBG", "./resource/scene/startScene/bg.png");
 	Load("startSELECT_MODE", "./resource/scene/startScene/selectMode.png");
-	Load("startSELECT_CHARACTER", "./resource/scene/startScene/selectMode.png");
+	Load("startSELECT_CHARACTER", "./resource/scene/startScene/selectCharacter.png");
 	Load("startSELECT_WEAPON", "./resource/scene/startScene/selectWeapon.png");
 
 	//하우투 씬 이미지

@@ -10,24 +10,37 @@ cHowtoScene::cHowtoScene()
 	}
 }
 
+cHowtoScene::~cHowtoScene()
+{
+	m_bgs.clear();
+}
+
 void cHowtoScene::Init()
 {
+	for (auto iter : m_bgs)
+		iter->m_a = 0;
+
 	m_nowImg = 0;
-	m_rgb = 0;
 }
 
 void cHowtoScene::Update()
 {
 	if (KEYDOWN(DIK_LEFT)) {
 		SOUND->Play("keymoveSND");
-		if(m_nowImg > 0)
+		if (m_nowImg > 0) {
+			m_bgs[m_nowImg]->m_a = 0;
 			m_nowImg--;
+		}
+		else
+			SCENE->ChangeScene("titleScene");
 	}
 
 	if (KEYDOWN(DIK_RIGHT)) {
 		SOUND->Play("keymoveSND");
-		if(m_nowImg < m_bgs.size() - 1)
+		if (m_nowImg < m_bgs.size() - 1) {
+			m_bgs[m_nowImg]->m_a = 0;
 			m_nowImg++;
+		}
 		else
 			SCENE->ChangeScene("titleScene");
 	}
@@ -36,8 +49,10 @@ void cHowtoScene::Update()
 		SOUND->Copy("selectSND");
 		if(m_nowImg == m_bgs.size() - 1)
 			SCENE->ChangeScene("titleScene");
-		else
+		else {
+			m_bgs[m_nowImg]->m_a = 0;
 			m_nowImg++;
+		}
 	}
 
 	if (KEYDOWN(DIK_X)) {
@@ -45,14 +60,13 @@ void cHowtoScene::Update()
 		SCENE->ChangeScene("titleScene");
 	}
 
-	Lerp<int>(m_rgb, 255, 0.05);
+	Lerp(m_bgs[m_nowImg]->m_a, 255.f, 0.04);
+	m_bgs[m_nowImg]->SetNowRGB();
 }
 
 void cHowtoScene::Render()
 {
-	IMAGE->Render(m_bgs[m_nowImg], VEC2(0, 0), 1.f, 0.f, false,
-		D3DCOLOR_ARGB(m_rgb, m_rgb, m_rgb, m_rgb)
-	);
+	IMAGE->Render(m_bgs[m_nowImg], VEC2(0, 0), 1.f, 0.f, false, m_bgs[m_nowImg]->m_color);
 
 	DRAW_FRAME(to_string(DXUTGetFPS()), VEC2(1000, 680));
 }

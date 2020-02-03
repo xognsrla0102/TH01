@@ -17,8 +17,12 @@ private:
 
 	vector<cModeButton*> m_buttons;
 
-	int m_rgb = 0;
 	int m_nowButton = 0;
+	int m_nowButPosState = mSTART_POS;
+
+	int m_nowEnter = 0;
+	bool m_isNextEnter[3] = { false };
+
 public:
 	cStartScene();
 	virtual ~cStartScene();

@@ -15,7 +15,6 @@ private:
 	vector<int> optionValue;
 	//각 라인마다 설정된 값
 
-	int m_rgb = 0;
 	int m_nowLine = 0;
 
 public:

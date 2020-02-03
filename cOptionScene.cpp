@@ -140,9 +140,12 @@ cOptionScene::cOptionScene()
 
 cOptionScene::~cOptionScene()
 {
-	for (auto iter : m_manyButtons)
+	for (auto iter : m_manyButtons) {
 		for (auto jter : iter)
 			SAFE_DELETE(jter);
+		iter.clear();
+	}
+	m_manyButtons.clear();
 }
 
 void cOptionScene::Init()
@@ -150,7 +153,7 @@ void cOptionScene::Init()
 	SOUND->Play("th_04_%s", true, true);
 
 	m_nowLine = 0;
-	m_rgb = 0;
+	m_BG->m_a = 0;
 	m_manyButtons[m_nowLine][0]->m_isOn = true;
 }
 
@@ -303,12 +306,13 @@ void cOptionScene::Update()
 		m_nowLine = oQUIT;
 	}
 
-	Lerp<int>(m_rgb, 255, 0.05);
+	Lerp(m_BG->m_a, 255.f, 0.05);
+	m_BG->SetNowRGB();
 }
 
 void cOptionScene::Render()
 {
-	IMAGE->Render(m_BG, VEC2(0, 0), 1.f, 0.f, false, D3DCOLOR_ARGB(m_rgb, m_rgb, m_rgb, m_rgb));
+	IMAGE->Render(m_BG, VEC2(0, 0), 1.f, 0.f, false, m_BG->m_color);
 
 	for (auto iter : m_manyButtons)
 		for(auto jter : iter)

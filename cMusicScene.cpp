@@ -41,11 +41,12 @@ cMusicScene::~cMusicScene()
 {
 	for (auto iter : m_buttons)
 		SAFE_DELETE(iter);
+	m_buttons.clear();
 }
 
 void cMusicScene::Init()
 {
-	m_rgb = 0;
+	m_bg->m_a = 0;
 	m_nowLine = 0;
 	m_buttons[0]->m_isOn = true;
 
@@ -91,12 +92,13 @@ void cMusicScene::Update()
 		SCENE->ChangeScene("titleScene");
 	}
 
-	Lerp<int>(m_rgb, 255, 0.05);
+	Lerp(m_bg->m_a, 255.f, 0.05);
+	m_bg->SetNowRGB();
 }
 
 void cMusicScene::Render()
 {
-	IMAGE->Render(m_bg, VEC2(0, 0), 1.f, 0.f, false, D3DCOLOR_ARGB(m_rgb, m_rgb, m_rgb, m_rgb));
+	IMAGE->Render(m_bg, VEC2(0, 0), 1.f, 0.f, false, m_bg->m_color);
 	IMAGE->Render(m_comments[m_nowPlayMusic], VEC2(300, 480));
 
 	for (auto iter : m_buttons)

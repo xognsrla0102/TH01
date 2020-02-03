@@ -9,7 +9,7 @@ struct sIntroObject {
 	VEC2 m_pos;
 	vector<VEC2> m_end;
 
-	int m_alpha = 255;
+	float m_alpha = 255.f;
 
 	float m_speed = 300;
 	float m_size = 1.3f;
@@ -28,10 +28,8 @@ private:
 	sIntroObject m_intro[6] = { nullptr };
 	vector<cButton*> m_buttons;
 
-	INTRO_POS nowIntroPos = MID_POS;
+	int nowIntroPos = MID_POS;
 
-	int m_alpha = 255;
-	int m_rgb = 255;
 	int m_nowButton = 0;
 
 	bool isEnter = false;

@@ -11,7 +11,6 @@ private:
 	vector<cButton*> m_buttons;
 	vector<string> m_musicNames;
 
-	int m_rgb = 0;
 	int m_nowLine = 0;
 	int m_nowPlayMusic = 0;
 

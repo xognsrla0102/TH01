@@ -104,6 +104,12 @@
     <Filter Include="Core\Object\Scenes\_Scene">
       <UniqueIdentifier>{a1753fb1-1b3a-4797-9ecb-a2536cd4e983}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Object\Scenes\StageScene">
+      <UniqueIdentifier>{3306d7a3-ef8b-4755-bd5c-9108464f6333}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Scenes\StageScene\stage1Scene">
+      <UniqueIdentifier>{55873531-6f1f-4c5f-9eaf-92ffe7075197}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">

@@ -59,6 +59,11 @@ enum MODE_BUTTON {
 	mEXTRA
 };
 
+enum MODE_BUTPOS {
+	mSTART_POS,
+	mENTER_POS
+};
+
 extern int  playerLife;
 extern int  playerBomb;
 extern bool isMidi;
@@ -77,6 +82,7 @@ void Lerp(T& start, T end, float t) {
 #endif
 
 #include "SDKsound.h"
+#include "cTexture.h"
 #include "cImageManager.h"
 #include "cSceneManager.h"
 #include "cInputManager.h"
