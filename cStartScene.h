@@ -11,8 +11,6 @@ public:
 class cStartScene : public cScene
 {
 private:
-	time_t m_inputTime = timeGetTime();
-
 	cTexture* m_mode = nullptr;
 	cTexture* m_char = nullptr;
 	cTexture* m_weapon = nullptr;
