@@ -16,8 +16,9 @@ private:
 	cTexture* m_weapon = nullptr;
 
 	vector<cModeButton*> m_buttons;
-	vector<cModeButton*> m_charButtons;
-	vector<cModeButton*> m_weaponButtons;
+	vector<cButton*> m_charButtons;
+
+	vector<cButton*> m_charWeapon[2];
 
 	int m_nowButton = 0;
 	int m_nowButPosState = mSTART_POS;

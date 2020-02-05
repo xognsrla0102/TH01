@@ -134,7 +134,11 @@ void cLoadScene::Init()
 	Load("lunaticBT", "./resource/scene/startScene/lunatic.png");
 	Load("extraBT", "./resource/scene/startScene/extra.png");
 	Load("reimouBT", "./resource/scene/startScene/reimou.png");
+	Load("reimou1BT", "./resource/scene/startScene/reimou1.png");
+	Load("reimou2BT", "./resource/scene/startScene/reimou2.png");
 	Load("marisaBT", "./resource/scene/startScene/marisa.png");
+	Load("marisa1BT", "./resource/scene/startScene/marisa1.png");
+	Load("marisa2BT", "./resource/scene/startScene/marisa2.png");
 
 	//À½¾Ç ·ë ¾À ¹öÆ°
 	Load("th01BT", "./resource/button/th01.png");

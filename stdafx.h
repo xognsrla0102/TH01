@@ -61,6 +61,7 @@ enum MODE_BUTTON {
 
 enum MODE_BUTPOS {
 	mSTART_POS,
+	mLEFT_POS,
 	mENTER_POS
 };
 
