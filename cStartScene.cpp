@@ -1,5 +1,6 @@
 #include "DXUT.h"
 #include "cButton.h"
+#include "cPlayer.h"
 #include "cStartScene.h"
 
 cStartScene::cStartScene()
@@ -245,14 +246,9 @@ void cStartScene::Update()
 			m_charWeapon[1][m_weaponButton]->m_isOn = false;
 			m_charWeapon[0][0]->m_isOn = true;
 			m_charWeapon[1][0]->m_isOn = true;
-			//레이무
-			//if(m_charButton == 0)
-
-			//마리사
-			//else
-
 		}
 		else {
+			((cPlayer*)(OBJFIND(PLAYER)))->Set;
 			SCENE->ChangeScene("stage1Scene");
 			return;
 		}

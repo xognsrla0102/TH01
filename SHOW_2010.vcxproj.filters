@@ -258,6 +258,9 @@
     <ClInclude Include="cStartScene.h">
       <Filter>Core\Object\Scenes\StartScene</Filter>
     </ClInclude>
+    <ClInclude Include="cBullet.h">
+      <Filter>Core\Object\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -340,6 +343,9 @@
     </ClCompile>
     <ClCompile Include="cStartScene.cpp">
       <Filter>Core\Object\Scenes\StartScene</Filter>
+    </ClCompile>
+    <ClCompile Include="cBullet.cpp">
+      <Filter>Core\Object\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

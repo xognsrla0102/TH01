@@ -71,6 +71,20 @@ void cLoadScene::Init()
 
 	//이미지 로딩
 
+	//인게임 이미지 로딩
+
+	//4장의 이미지가 한쌍이 되서 로딩(애니메이션)
+	Load("player_reimou_idle", "./resource/scene/ingameScene/player/reimou/idle%d.png", 4);
+
+	Load("player_reimou_left", "./resource/scene/ingameScene/player/reimou/left%d.png", 7);
+	Load("player_reimou_right", "./resource/scene/ingameScene/player/reimou/right%d.png", 7);
+
+	Load("player_reimou_mainShot", "./resource/scene/ingameScene/player/reimou/mainShot.png");
+	Load("player_reimou_homingShot", "./resource/scene/ingameScene/player/reimou/homingShot.png");
+	Load("player_reimou_needleShot", "./resource/scene/ingameScene/player/reimou/needleShot.png");
+	
+	Load("player_reimou_ball", "./resource/scene/ingameScene/player/reimou/ball.png");
+
 	//숫자 이미지 로딩
 	for (size_t i = 0; i < 10; i++) {
 		char key[256], path[256];
@@ -180,7 +194,7 @@ void cLoadScene::Update()
 	//이미지
 	if (m_nowLoad[1] < m_imgs.size()) {
 		int& idx = m_nowLoad[1];
-		IMAGE->InsertImage(m_imgs[idx]->m_idx1, m_imgs[idx]->m_idx2);
+		IMAGE->InsertImage(m_imgs[idx]->m_idx1, m_imgs[idx]->m_idx2, m_imgs[idx]->m_cnt);
 		idx++;
 	}
 

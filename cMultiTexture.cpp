@@ -13,7 +13,7 @@ void cMultiTexture::AddImage(string path, int cnt)
 {
 	char sz[128] = "";
 	for (int i = 0; i < cnt; i++) {
-		sprintf_s(sz, strlen(sz), path.c_str(), i);
+		sprintf_s(sz, sizeof(sz), path.c_str(), i);
 		cTexture* text = new cSingleTexture;
 		text->AddImage(sz);
 		m_multiImgs.push_back(text);

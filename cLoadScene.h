@@ -6,9 +6,11 @@ struct sData {
 public:
 	T1 m_idx1;
 	T2 m_idx2;
-
+	int m_cnt;
 public:
-	sData(T1 idx1, T2 idx2) : m_idx1(idx1), m_idx2(idx2) {}
+	sData(T1 idx1, T2 idx2, int cnt = 1)
+		: m_idx1(idx1), m_idx2(idx2), m_cnt(cnt)
+	{}
 };
 
 class cLoadScene : public cScene
@@ -34,8 +36,11 @@ public:
 		m_sounds.push_back(new sData<string, wstring>(key, path));
 	}
 
-	void Load(const string& key, const string& path) {
-		m_imgs.push_back(new sData<string, string>(key, path));
+	void Load(const string& key, const string& path, int cnt = 1) {
+		if (cnt < 2)
+			m_imgs.push_back(new sData<string, string>(key, path));
+		else
+			m_imgs.push_back(new sData<string, string>(key, path, cnt));
 	}
 };
 
