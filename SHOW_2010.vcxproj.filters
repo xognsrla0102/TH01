@@ -110,6 +110,21 @@
     <Filter Include="Core\Object\Scenes\StageScene\stage1Scene">
       <UniqueIdentifier>{55873531-6f1f-4c5f-9eaf-92ffe7075197}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Object\Bullet\BulletAdmin">
+      <UniqueIdentifier>{17815393-f76f-47e5-a0b9-b59b80fbd597}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Bullet\PlayerBullet">
+      <UniqueIdentifier>{35f3ebba-577c-4365-a3eb-22150f433573}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Animation">
+      <UniqueIdentifier>{ba269487-bbaa-46f6-b7ed-1cecd49c3ccf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Animation\Timer">
+      <UniqueIdentifier>{0c9977f1-7546-4601-b344-6b8e7c2d7f80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Ball">
+      <UniqueIdentifier>{3f15fcc0-f550-4721-8e2d-9379ee28fa2f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -261,6 +276,21 @@
     <ClInclude Include="cBullet.h">
       <Filter>Core\Object\Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="cBulletAdmin.h">
+      <Filter>Core\Object\Bullet\BulletAdmin</Filter>
+    </ClInclude>
+    <ClInclude Include="cAnimation.h">
+      <Filter>Core\Object\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="cTimer.h">
+      <Filter>Core\Object\Animation\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="cPlayerBullet.h">
+      <Filter>Core\Object\Bullet\PlayerBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="cStage1Scene.h">
+      <Filter>Core\Object\Scenes\StageScene\stage1Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -346,6 +376,21 @@
     </ClCompile>
     <ClCompile Include="cBullet.cpp">
       <Filter>Core\Object\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="cBulletAdmin.cpp">
+      <Filter>Core\Object\Bullet\BulletAdmin</Filter>
+    </ClCompile>
+    <ClCompile Include="cAnimation.cpp">
+      <Filter>Core\Object\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="cTimer.cpp">
+      <Filter>Core\Object\Animation\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayerBullet.cpp">
+      <Filter>Core\Object\Bullet\PlayerBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="cStage1Scene.cpp">
+      <Filter>Core\Object\Scenes\StageScene\stage1Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

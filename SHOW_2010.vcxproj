@@ -384,7 +384,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cAnimation.cpp" />
     <ClCompile Include="cBullet.cpp" />
+    <ClCompile Include="cBulletAdmin.cpp" />
     <ClCompile Include="cButton.cpp" />
     <ClCompile Include="cCameraManager.cpp" />
     <ClCompile Include="cFileManager.cpp" />
@@ -400,18 +402,23 @@
     <ClCompile Include="cObjectManager.cpp" />
     <ClCompile Include="cOptionScene.cpp" />
     <ClCompile Include="cPlayer.cpp" />
+    <ClCompile Include="cPlayerBullet.cpp" />
     <ClCompile Include="cScene.cpp" />
     <ClCompile Include="cSceneManager.cpp" />
     <ClCompile Include="cSingleTexture.cpp" />
     <ClCompile Include="cSoundManager.cpp" />
+    <ClCompile Include="cStage1Scene.cpp" />
     <ClCompile Include="cStartScene.cpp" />
     <ClCompile Include="cTexture.cpp" />
+    <ClCompile Include="cTimer.cpp" />
     <ClCompile Include="cTitleScene.cpp" />
     <ClCompile Include="DXUT\Core\SDKmisc.cpp" />
     <ClCompile Include="DXUT\Core\SDKsound.cpp" />
     <ClCompile Include="DXUT\Core\SDKwavefile.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClInclude Include="cAnimation.h" />
     <ClInclude Include="cBullet.h" />
+    <ClInclude Include="cBulletAdmin.h" />
     <ClInclude Include="cButton.h" />
     <ClInclude Include="cCameraManager.h" />
     <ClInclude Include="cFileManager.h" />
@@ -427,13 +434,16 @@
     <ClInclude Include="cObjectManager.h" />
     <ClInclude Include="cOptionScene.h" />
     <ClInclude Include="cPlayer.h" />
+    <ClInclude Include="cPlayerBullet.h" />
     <ClInclude Include="cScene.h" />
     <ClInclude Include="cSceneManager.h" />
     <ClInclude Include="cSingleTexture.h" />
     <ClInclude Include="cSingleton.hpp" />
     <ClInclude Include="cSoundManager.h" />
+    <ClInclude Include="cStage1Scene.h" />
     <ClInclude Include="cStartScene.h" />
     <ClInclude Include="cTexture.h" />
+    <ClInclude Include="cTimer.h" />
     <ClInclude Include="cTitleScene.h" />
     <ClInclude Include="DXUT\Core\SDKmisc.h" />
     <ClInclude Include="DXUT\Core\SDKsound.h" />

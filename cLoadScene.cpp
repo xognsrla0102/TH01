@@ -1,9 +1,14 @@
 #include "DXUT.h"
+
+#include "cPlayer.h"
+#include "cBulletAdmin.h"
+
 #include "cTitleScene.h"
 #include "cStartScene.h"
 #include "cHowtoScene.h"
 #include "cMusicScene.h"
 #include "cOptionScene.h"
+#include "cStage1Scene.h"
 #include "cLoadScene.h"
 
 cLoadScene::cLoadScene()
@@ -80,10 +85,24 @@ void cLoadScene::Init()
 	Load("player_reimou_right", "./resource/scene/ingameScene/player/reimou/right%d.png", 7);
 
 	Load("player_reimou_mainShot", "./resource/scene/ingameScene/player/reimou/mainShot.png");
-	Load("player_reimou_homingShot", "./resource/scene/ingameScene/player/reimou/homingShot.png");
-	Load("player_reimou_needleShot", "./resource/scene/ingameScene/player/reimou/needleShot.png");
-	
+	Load("player_reimou_subShot0", "./resource/scene/ingameScene/player/reimou/homingShot.png");
+	Load("player_reimou_subShot1", "./resource/scene/ingameScene/player/reimou/needleShot.png");
 	Load("player_reimou_ball", "./resource/scene/ingameScene/player/reimou/ball.png");
+
+	//레이무 스펠 A 나중에 만들어야징
+	Load("player_reimou_spellB0", "./resource/scene/ingameScene/player/reimou/spellB0.png");
+	Load("player_reimou_spellB1", "./resource/scene/ingameScene/player/reimou/spellB1.png");
+
+	Load("player_marisa_idle", "./resource/scene/ingameScene/player/marisa/idle%d.png", 4);
+	Load("player_marisa_left", "./resource/scene/ingameScene/player/marisa/left%d.png", 8);
+	Load("player_marisa_right", "./resource/scene/ingameScene/player/marisa/right%d.png", 8);
+	
+	Load("player_marisa_mainShot", "./resource/scene/ingameScene/player/marisa/mainShot.png");
+	Load("player_marisa_subShot0", "./resource/scene/ingameScene/player/marisa/missileShot.png");
+	Load("player_marisa_subShot1", "./resource/scene/ingameScene/player/marisa/razerShot.png");
+	Load("player_marisa_ball", "./resource/scene/ingameScene/player/marisa/ball.png");
+	Load("player_marisa_spellA", "./resource/scene/ingameScene/player/marisa/spellA.png");
+	Load("player_marisa_spellB", "./resource/scene/ingameScene/player/marisa/spellB.png");
 
 	//숫자 이미지 로딩
 	for (size_t i = 0; i < 10; i++) {
@@ -104,7 +123,6 @@ void cLoadScene::Init()
 		char key[256], path[256];
 		sprintf(key, "title_text_%d", i);
 		sprintf(path, "./resource/scene/titleScene/text/%d.png", i);
-
 		Load(key, path);
 	}
 
@@ -119,7 +137,6 @@ void cLoadScene::Init()
 		char key[256], path[256];
 		sprintf(key, "howto_%d", i);
 		sprintf(path, "./resource/scene/howtoScene/%d.png", i);
-
 		Load(key, path);
 	}
 
@@ -202,13 +219,19 @@ void cLoadScene::Update()
 	if (m_nowLoad[0] == m_sounds.size() &&
 		m_nowLoad[1] == m_imgs.size()
 		) {
+
+		//OBJ생성
+		OBJECT->AddOBJ(new cPlayer, PLAYER);
+		OBJECT->AddOBJ(new cBulletAdmin, BULLET);
+
 		SCENE->AddScene("titleScene", new cTitleScene);
 		SCENE->AddScene("startScene", new cStartScene);
 		SCENE->AddScene("howtoScene", new cHowtoScene);
 		SCENE->AddScene("musicScene", new cMusicScene);
 		SCENE->AddScene("optionScene", new cOptionScene);
+		SCENE->AddScene("stage1Scene", new cStage1Scene);
 
-		SCENE->ChangeScene("titleScene");
+		SCENE->ChangeScene("startScene");
 	}
 }
 

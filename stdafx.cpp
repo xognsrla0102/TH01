@@ -23,3 +23,5 @@ bool onSND = true;
 bool isWindowed = true;
 
 bool isExtra = false;
+
+bool character[2][2] = { false };

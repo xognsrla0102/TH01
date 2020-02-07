@@ -72,6 +72,7 @@ extern bool onBGM;
 extern bool onSND;
 extern bool isWindowed;
 extern bool isExtra;
+extern bool character[2][2];
 
 template <typename T>
 void Lerp(T& start, T end, float t) {
@@ -84,6 +85,7 @@ void Lerp(T& start, T end, float t) {
 
 #include "SDKsound.h"
 #include "cTexture.h"
+#include "cAnimation.h"
 #include "cImageManager.h"
 #include "cSceneManager.h"
 #include "cInputManager.h"

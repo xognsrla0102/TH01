@@ -1,13 +1,20 @@
 #pragma once
+
 class cObject abstract
 {
 protected:
 	cTexture*	m_img	= nullptr;
+
+	cAnimation* m_ani	= nullptr;
+
 	VEC2		m_pos	= VEC2(0.f, 0.f);
 	VEC2		m_size	= VEC2(1.f, 1.f);
+
 	FLOAT		m_rot	= 0.f;
 	FLOAT		m_speed = 0.f;
+
 	BOOL		m_isLive= TRUE;
+
 	INT			m_tag	= -1;
 public:
 	cObject() {}
@@ -25,6 +32,7 @@ public:
 	VEC2& GetRefPos() { return m_pos; }
 	VEC2& GetRefSize() { return m_size; }
 
+	void SetImg(cTexture* img) { m_img = img; }
 	void SetTag(INT tagNum) { m_tag = tagNum; }
 	void SetPos(VEC2 pos) { m_pos = pos; }
 	void SetSize(VEC2 size) { m_size = size; }

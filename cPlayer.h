@@ -1,9 +1,11 @@
 #pragma once
 #include "cObject.h"
 
-class cTexture;
+class cBullet;
 class cPlayer : public cObject
 {
+public:
+	bool isHit = false;
 public:
 	cPlayer();
 	~cPlayer();

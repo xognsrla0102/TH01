@@ -22,6 +22,6 @@ void cMultiTexture::AddImage(string path, int cnt)
 
 cTexture* cMultiTexture::FindImage(int cnt)
 {
-	if (cnt == 0) return this;
-	return m_multiImgs[cnt - 1];
+	//if (cnt == 0) return this;
+	return m_multiImgs[cnt];
 }

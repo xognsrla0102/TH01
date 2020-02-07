@@ -12,5 +12,8 @@ public:
 
 	virtual void Update() PURE;
 	virtual void Render();
+
+	virtual void OutMapChk() PURE;
+	virtual void Collision() PURE;
 };
 
