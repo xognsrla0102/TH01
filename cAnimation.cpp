@@ -16,7 +16,7 @@ cAnimation::~cAnimation()
 void cAnimation::Update()
 {
 	if (m_timer->Update()) {
-		if (m_nowFrame != m_endFrame) m_nowFrame++;
-		else m_nowFrame = 0;
+		if (m_nowFrame == m_endFrame - 1) m_nowFrame = 0;
+		else m_nowFrame++;
 	}
 }

@@ -1,13 +1,13 @@
 #pragma once
 #include "cSingleton.hpp"
 
-class cTexture;
+class cMultiTexture;
 class cImageManager : public cSingleton<cImageManager>
 {
 private:
 	friend class cSingleton<cImageManager>;
 private:
-	map<string, cTexture*> m_imgs;
+	map<string, cMultiTexture*> m_imgs;
 	LPD3DXSPRITE m_sprite;
 public:
 	cImageManager();

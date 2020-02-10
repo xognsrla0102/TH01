@@ -70,9 +70,48 @@ void cLoadScene::Init()
 	}
 
 	//효과음 추가
-	Load("selectSND", L"./resource/sound/select.wav");
-	Load("keymoveSND", L"./resource/sound/keymove.wav");
+	Load("bombSND", L"./resource/sound/bomb.wav");
+	Load("bossdeadSND", L"./resource/sound/bossdead.wav");
+	Load("bossspellSND", L"./resource/sound/bossspell.wav");
+
 	Load("cancelSND", L"./resource/sound/cancel.wav");
+	Load("catSND", L"./resource/sound/cat.wav");
+	Load("chargeshotSND", L"./resource/sound/chargeshot.wav");
+
+	Load("deadSND", L"./resource/sound/dead.wav");
+
+	Load("enemydeadSND", L"./resource/sound/enemydead.wav");
+	Load("extendSND", L"./resource/sound/extend.wav");
+
+	Load("getitemSND", L"./resource/sound/getitem.wav");
+	Load("grazeSND", L"./resource/sound/graze.wav");
+
+	Load("hitSND", L"./resource/sound/hit.wav");
+
+	Load("kira0SND", L"./resource/sound/kira00.wav");
+	Load("kira1SND", L"./resource/sound/kira01.wav");
+	Load("kira2SND", L"./resource/sound/kira02.wav");
+
+	Load("lazer0SND", L"./resource/sound/lazer0.wav");
+	Load("lazer1SND", L"./resource/sound/lazer1.wav");
+
+	Load("marisabombSND", L"./resource/sound/marisabomb.wav");
+
+	Load("normalshotSND", L"./resource/sound/normalshot.wav");
+
+	Load("powerSND", L"./resource/sound/power.wav");
+	Load("powerupSND", L"./resource/sound/powerup.wav");
+
+	Load("reimoubombSND", L"./resource/sound/reimoubomb.wav");
+
+	Load("selectSND", L"./resource/sound/select.wav");
+	Load("shotSND", L"./resource/sound/shot.wav");
+
+	Load("timeSND", L"./resource/sound/time.wav");
+
+	Load("weakshotSND", L"./resource/sound/weakshot.wav");
+
+	Load("keymoveSND", L"./resource/sound/keymove.wav");
 
 	//이미지 로딩
 
@@ -103,6 +142,16 @@ void cLoadScene::Init()
 	Load("player_marisa_ball", "./resource/scene/ingameScene/player/marisa/ball.png");
 	Load("player_marisa_spellA", "./resource/scene/ingameScene/player/marisa/spellA.png");
 	Load("player_marisa_spellB", "./resource/scene/ingameScene/player/marisa/spellB.png");
+
+	Load("ingame_ui", "./resource/scene/ingameScene/ui/gameUI.png");
+	Load("ingame_circle", "./resource/scene/ingameScene/ui/circle.png");
+
+	for (size_t i = 0; i < 5; i++) {
+		char key[256], path[256];
+		sprintf(key, "ingame_%d", i);
+		sprintf(path, "./resource/scene/ingameScene/ui/%d.png", i);
+		Load(key, path);
+	}
 
 	//숫자 이미지 로딩
 	for (size_t i = 0; i < 10; i++) {

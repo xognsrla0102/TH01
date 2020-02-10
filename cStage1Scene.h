@@ -3,6 +3,8 @@
 class cStage1Scene : public cScene
 {
 public:
+	cTexture* m_ui = nullptr;
+public:
 	cStage1Scene();
 	virtual ~cStage1Scene();
 

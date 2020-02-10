@@ -249,16 +249,10 @@ void cStartScene::Update()
 			m_charWeapon[1][0]->m_isOn = true;
 		}
 		else {
-			character[m_charButton][m_weaponButton] = true;
+			isReimou = !m_charButton;
+			isA = !m_weaponButton;
 
-			//플레이어 이미지 처리
-			char key[256] = "";
-			//레이무
-			if (m_charButton == 0) sprintf(key, "player_reimou_idle");
-			//마리사
-			else sprintf(key, "player_marisa_idle");
-
-			OBJFIND(PLAYER)->SetImg(IMAGE->FindImage(key));
+			SOUND->Stop("th_01_%s");
 			SCENE->ChangeScene("stage1Scene");
 			return;
 		}

@@ -1,6 +1,9 @@
 #include "DXUT.h"
-#include "cSingleTexture.h"
 #include "cMultiTexture.h"
+
+cMultiTexture::cMultiTexture()
+{
+}
 
 cMultiTexture::~cMultiTexture()
 {
@@ -11,17 +14,18 @@ cMultiTexture::~cMultiTexture()
 
 void cMultiTexture::AddImage(string path, int cnt)
 {
-	char sz[128] = "";
+	char sz[128];
 	for (int i = 0; i < cnt; i++) {
-		sprintf_s(sz, sizeof(sz), path.c_str(), i);
-		cTexture* text = new cSingleTexture;
-		text->AddImage(sz);
-		m_multiImgs.push_back(text);
+		sprintf(sz, path.c_str(), i);
+		m_multiImgs.push_back(new cTexture(sz));
 	}
 }
 
 cTexture* cMultiTexture::FindImage(int cnt)
 {
-	//if (cnt == 0) return this;
+	if (cnt < 0) {
+		DEBUG_LOG("인덱스가 0미만이에유...\n");
+		return nullptr;
+	}
 	return m_multiImgs[cnt];
 }

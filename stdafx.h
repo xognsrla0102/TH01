@@ -65,6 +65,12 @@ enum MODE_BUTPOS {
 	mENTER_POS
 };
 
+enum PLAYER_STATUS {
+	pIDLE,
+	pLEFT,
+	pRIGHT
+};
+
 extern int  playerLife;
 extern int  playerBomb;
 extern bool isMidi;
@@ -72,7 +78,8 @@ extern bool onBGM;
 extern bool onSND;
 extern bool isWindowed;
 extern bool isExtra;
-extern bool character[2][2];
+extern bool isReimou;
+extern bool isA;
 
 template <typename T>
 void Lerp(T& start, T end, float t) {
@@ -85,6 +92,7 @@ void Lerp(T& start, T end, float t) {
 
 #include "SDKsound.h"
 #include "cTexture.h"
+#include "cMultiTexture.h"
 #include "cAnimation.h"
 #include "cImageManager.h"
 #include "cSceneManager.h"

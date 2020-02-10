@@ -24,4 +24,6 @@ bool isWindowed = true;
 
 bool isExtra = false;
 
-bool character[2][2] = { false };
+bool isReimou = false;
+
+bool isA = false;

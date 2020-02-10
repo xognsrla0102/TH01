@@ -3,7 +3,8 @@
 class cObject abstract
 {
 protected:
-	cTexture*	m_img	= nullptr;
+	cTexture*		m_img	= nullptr;
+	cMultiTexture*	m_imgs  = nullptr;
 
 	cAnimation* m_ani	= nullptr;
 

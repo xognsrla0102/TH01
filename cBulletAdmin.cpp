@@ -20,6 +20,8 @@ void cBulletAdmin::Update()
 			i--, size--;
 		}
 	}
+
+	DEBUG_LOG("%d\n", size);
 }
 
 void cBulletAdmin::Render()

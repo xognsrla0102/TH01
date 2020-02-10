@@ -405,7 +405,6 @@
     <ClCompile Include="cPlayerBullet.cpp" />
     <ClCompile Include="cScene.cpp" />
     <ClCompile Include="cSceneManager.cpp" />
-    <ClCompile Include="cSingleTexture.cpp" />
     <ClCompile Include="cSoundManager.cpp" />
     <ClCompile Include="cStage1Scene.cpp" />
     <ClCompile Include="cStartScene.cpp" />
@@ -437,7 +436,6 @@
     <ClInclude Include="cPlayerBullet.h" />
     <ClInclude Include="cScene.h" />
     <ClInclude Include="cSceneManager.h" />
-    <ClInclude Include="cSingleTexture.h" />
     <ClInclude Include="cSingleton.hpp" />
     <ClInclude Include="cSoundManager.h" />
     <ClInclude Include="cStage1Scene.h" />
