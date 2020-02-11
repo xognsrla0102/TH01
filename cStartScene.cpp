@@ -76,9 +76,6 @@ void cStartScene::Init()
 {
 	m_nowEnter = 0;
 
-	m_charButton = 0;
-	m_weaponButton = 0;
-
 	for (auto iter : m_isNextEnter)
 		iter = false;
 	m_isNextEnter[0] = true;
@@ -114,6 +111,12 @@ void cStartScene::Init()
 
 	m_charButtons[0]->m_isOn = -1;
 	m_charButtons[1]->m_isOn = -1;
+
+	m_charWeapon[m_charButton][m_weaponButton]->m_isOn = false;
+	m_charWeapon[m_charButton][m_weaponButton]->m_isOn = false;
+
+	m_charButton = 0;
+	m_weaponButton = 0;
 
 	for (size_t i = 0; i < sizeof(m_charWeapon) / sizeof(m_charWeapon[0]); i++) {
 		m_charWeapon[0][i]->SetPos(VEC2(400, 300 + i * 120));
@@ -249,8 +252,8 @@ void cStartScene::Update()
 			m_charWeapon[1][0]->m_isOn = true;
 		}
 		else {
-			isReimou = !m_charButton;
-			isA = !m_weaponButton;
+			isMarisa = m_charButton;
+			isB = m_weaponButton;
 
 			SOUND->Stop("th_01_%s");
 			SCENE->ChangeScene("stage1Scene");

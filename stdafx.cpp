@@ -24,6 +24,6 @@ bool isWindowed = true;
 
 bool isExtra = false;
 
-bool isReimou = false;
+bool isMarisa = false;
 
-bool isA = false;
+bool isB = false;

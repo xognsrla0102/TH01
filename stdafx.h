@@ -18,11 +18,16 @@ using VEC4 = D3DXVECTOR4;
 #define WINSIZEX 1280
 #define WINSIZEY 720
 
+#define INGAMEX 745
+#define INGAMEY 620
+
 enum TAGS {
 	PLAYER,
-	ENEMY,
-	EFFECT,
-	BULLET,
+	BALLS,
+	ITEMS,
+	ENEMYS,
+	EFFECTS,
+	BULLETS,
 	TAG_END
 };
 
@@ -78,12 +83,12 @@ extern bool onBGM;
 extern bool onSND;
 extern bool isWindowed;
 extern bool isExtra;
-extern bool isReimou;
-extern bool isA;
+extern bool isMarisa;
+extern bool isB;
 
 template <typename T>
 void Lerp(T& start, T end, float t) {
-	start = start + t * (end - start);
+	start = start + t * (end - start) * D_TIME * 70;
 }
 
 #ifdef _DEBUG

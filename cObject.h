@@ -15,8 +15,6 @@ protected:
 	FLOAT		m_speed = 0.f;
 
 	BOOL		m_isLive= TRUE;
-
-	INT			m_tag	= -1;
 public:
 	cObject() {}
 	virtual ~cObject() {}
@@ -24,7 +22,6 @@ public:
 	virtual void Update() PURE;
 	virtual void Render() PURE;
 
-	INT GetTag() { return m_tag; }
 	VEC2 GetPos() { return m_pos; }
 	VEC2 GetSize() { return m_size; }
 	FLOAT GetRot() { return m_rot; }
@@ -34,7 +31,6 @@ public:
 	VEC2& GetRefSize() { return m_size; }
 
 	void SetImg(cTexture* img) { m_img = img; }
-	void SetTag(INT tagNum) { m_tag = tagNum; }
 	void SetPos(VEC2 pos) { m_pos = pos; }
 	void SetSize(VEC2 size) { m_size = size; }
 	void SetRot(FLOAT rot) { m_rot = rot; }

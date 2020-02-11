@@ -385,6 +385,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cAnimation.cpp" />
+    <ClCompile Include="cBall.cpp" />
+    <ClCompile Include="cBallBullet.cpp" />
+    <ClCompile Include="cBalls.cpp" />
     <ClCompile Include="cBullet.cpp" />
     <ClCompile Include="cBulletAdmin.cpp" />
     <ClCompile Include="cButton.cpp" />
@@ -416,6 +419,9 @@
     <ClCompile Include="DXUT\Core\SDKwavefile.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClInclude Include="cAnimation.h" />
+    <ClInclude Include="cBall.h" />
+    <ClInclude Include="cBallBullet.h" />
+    <ClInclude Include="cBalls.h" />
     <ClInclude Include="cBullet.h" />
     <ClInclude Include="cBulletAdmin.h" />
     <ClInclude Include="cButton.h" />

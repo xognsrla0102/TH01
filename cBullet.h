@@ -3,9 +3,11 @@
 
 class cBullet abstract : public cObject
 {
-private:
-	VEC2 dir;
-	vector<VEC2> endPos;
+public:
+	VEC2 m_dir = VEC2(0, -1);
+	vector<VEC2> m_endPos;
+
+	float m_atk = 0.f;
 public:
 	cBullet() {}
 	virtual ~cBullet() {}

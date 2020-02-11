@@ -6,27 +6,40 @@ class cPlayer : public cObject
 {
 public:
 	cTimer* m_bulletTimer = nullptr;
+	cTimer* m_subBulletTimer = nullptr;
 
-	string pStatus[2][3] = {
-		{
-			"player_marisa_idle",
-			"player_marisa_left",
-			"player_marisa_right"
-		},
+	string m_pStatus[2][3] = {
 		{
 			"player_reimou_idle",
 			"player_reimou_left",
 			"player_reimou_right"
+		},
+		{
+			"player_marisa_idle",
+			"player_marisa_left",
+			"player_marisa_right"
 		}
 	};
-	bool isHit = false;
+	int m_nowPlayerStatus = pIDLE;
 
-	int nowPlayerStatus = pIDLE;
+	int m_nowBulletCnt = 0;
+	int m_bulletCnt = 5;
+	int m_nowSubBulletCnt = 0;
+	int m_subBulletCnt = 3;
+
+	int m_level = 2;
+
+	bool m_hasBall = false;
+	bool m_isHit = false;
+	bool m_isShot = false;
+	bool m_isSubShot = false;
 public:
 	cPlayer();
 	~cPlayer();
 
+	void Init();
 	void Update();
 	void Render();
+	void Release();
 };
 

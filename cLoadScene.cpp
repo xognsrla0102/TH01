@@ -1,6 +1,7 @@
 #include "DXUT.h"
 
 #include "cPlayer.h"
+#include "cBalls.h"
 #include "cBulletAdmin.h"
 
 #include "cTitleScene.h"
@@ -119,7 +120,6 @@ void cLoadScene::Init()
 
 	//4장의 이미지가 한쌍이 되서 로딩(애니메이션)
 	Load("player_reimou_idle", "./resource/scene/ingameScene/player/reimou/idle%d.png", 4);
-
 	Load("player_reimou_left", "./resource/scene/ingameScene/player/reimou/left%d.png", 7);
 	Load("player_reimou_right", "./resource/scene/ingameScene/player/reimou/right%d.png", 7);
 
@@ -145,6 +145,8 @@ void cLoadScene::Init()
 
 	Load("ingame_ui", "./resource/scene/ingameScene/ui/gameUI.png");
 	Load("ingame_circle", "./resource/scene/ingameScene/ui/circle.png");
+	Load("ingame_life", "./resource/scene/ingameScene/ui/lifeStar.png");
+	Load("ingame_bomb", "./resource/scene/ingameScene/ui/bombStar.png");
 
 	for (size_t i = 0; i < 5; i++) {
 		char key[256], path[256];
@@ -271,7 +273,8 @@ void cLoadScene::Update()
 
 		//OBJ생성
 		OBJECT->AddOBJ(new cPlayer, PLAYER);
-		OBJECT->AddOBJ(new cBulletAdmin, BULLET);
+		OBJECT->AddOBJ(new cBalls, BALLS);
+		OBJECT->AddOBJ(new cBulletAdmin, BULLETS);
 
 		SCENE->AddScene("titleScene", new cTitleScene);
 		SCENE->AddScene("startScene", new cStartScene);
@@ -280,7 +283,7 @@ void cLoadScene::Update()
 		SCENE->AddScene("optionScene", new cOptionScene);
 		SCENE->AddScene("stage1Scene", new cStage1Scene);
 
-		SCENE->ChangeScene("startScene");
+		SCENE->ChangeScene("titleScene");
 	}
 }
 

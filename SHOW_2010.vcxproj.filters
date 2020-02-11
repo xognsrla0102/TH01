@@ -122,6 +122,12 @@
     <Filter Include="Core\Manager\Image\Texture\MultiTexture">
       <UniqueIdentifier>{454994fd-15cc-463f-9121-70ccde1765dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Object\Ball\Balls">
+      <UniqueIdentifier>{30a69422-db69-4017-9060-6d56076c030e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Bullet\BallBullet">
+      <UniqueIdentifier>{ba6d355e-cc8c-46b8-88fc-865ffc77bd7e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -285,6 +291,15 @@
     <ClInclude Include="cMultiTexture.h">
       <Filter>Core\Manager\Image\Texture\MultiTexture</Filter>
     </ClInclude>
+    <ClInclude Include="cBall.h">
+      <Filter>Core\Object\Ball</Filter>
+    </ClInclude>
+    <ClInclude Include="cBalls.h">
+      <Filter>Core\Object\Ball\Balls</Filter>
+    </ClInclude>
+    <ClInclude Include="cBallBullet.h">
+      <Filter>Core\Object\Bullet\BallBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -382,6 +397,15 @@
     </ClCompile>
     <ClCompile Include="cMultiTexture.cpp">
       <Filter>Core\Manager\Image\Texture\MultiTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="cBall.cpp">
+      <Filter>Core\Object\Ball</Filter>
+    </ClCompile>
+    <ClCompile Include="cBalls.cpp">
+      <Filter>Core\Object\Ball\Balls</Filter>
+    </ClCompile>
+    <ClCompile Include="cBallBullet.cpp">
+      <Filter>Core\Object\Bullet\BallBullet</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
