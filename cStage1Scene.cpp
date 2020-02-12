@@ -11,6 +11,9 @@ cStage1Scene::cStage1Scene()
 	m_ui = IMAGE->FindImage("ingame_ui");
 	m_life = IMAGE->FindImage("ingame_life");
 	m_bomb = IMAGE->FindImage("ingame_bomb");
+
+	m_img = m_img2 = IMAGE->FindImage("ingame_bg");
+	m_black = IMAGE->FindImage("ingame_black");
 }
 
 cStage1Scene::~cStage1Scene()
@@ -34,10 +37,18 @@ void cStage1Scene::Init()
 	VEC2 playerPos = VEC2(50 + INGAMEX / 2, 50 + INGAMEY / 2);
 
 	OBJFIND(PLAYER)->SetPos(playerPos);
+
+	m_img->m_pos = VEC2(50, 50);
+	m_img2Pos = VEC2(50, 50 - m_img->m_info.Height);
+	스크롤맵 마저 만들자
 }
 
 void cStage1Scene::Update()
 {
+	//맵 스크롤
+	m_img->m_pos.y += 50.f * D_TIME;
+	m_img2->m_pos.y += 50.f * D_TIME;
+
 	if (KEYDOWN(DIK_ESCAPE)) {
 		SOUND->Stop("th_02_%s");
 		((cPlayer*)OBJFIND(PLAYER))->m_hasBall = false;
@@ -71,6 +82,13 @@ void cStage1Scene::Render()
 		iter->Render();
 	for (auto iter : bBullet)
 		iter->Render();
+
+	IMAGE->Render(m_img, m_img->m_pos, 1.f);
+	IMAGE->Render(m_img2, m_img2->m_pos, 1.f);
+
+	IMAGE->ReBegin(true);
+	IMAGE->Render(m_black, VEC2(50, 50), 1.2f);
+	IMAGE->ReBegin(false);
 
 	OBJFIND(PLAYER)->Render();
 	OBJFIND(BALLS)->Render();

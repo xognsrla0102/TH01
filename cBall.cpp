@@ -4,7 +4,7 @@
 #include "cBulletAdmin.h"
 #include "cBall.h"
 
-cBall::cBall(VEC2& pos, bool isLeft) : m_pPos(pos)
+cBall::cBall(VEC2 pos, bool isLeft)
 {
 	m_pos = pos;
 
@@ -19,16 +19,8 @@ cBall::~cBall()
 
 void cBall::Update()
 {
-	m_pos = m_pPos;
-
-	if (m_isLeft) {
-		m_pos.x = m_pPos.x - 50;
-		m_rot -= 4;
-	}
-	else {
-		m_pos.x = m_pPos.x + 45;
-		m_rot += 4;
-	}
+	if (m_isLeft) m_rot -= 4;
+	else m_rot += 4;
 }
 
 void cBall::Render()

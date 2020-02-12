@@ -148,6 +148,9 @@ void cLoadScene::Init()
 	Load("ingame_life", "./resource/scene/ingameScene/ui/lifeStar.png");
 	Load("ingame_bomb", "./resource/scene/ingameScene/ui/bombStar.png");
 
+	Load("ingame_bg", "./resource/scene/ingameScene/stage1/bg.png");
+	Load("ingame_black", "./resource/scene/ingameScene/stage1/black.png");
+
 	for (size_t i = 0; i < 5; i++) {
 		char key[256], path[256];
 		sprintf(key, "ingame_%d", i);
@@ -273,6 +276,7 @@ void cLoadScene::Update()
 
 		//OBJ»ý¼º
 		OBJECT->AddOBJ(new cPlayer, PLAYER);
+		((cPlayer*)OBJFIND(PLAYER))->Init();
 		OBJECT->AddOBJ(new cBalls, BALLS);
 		OBJECT->AddOBJ(new cBulletAdmin, BULLETS);
 

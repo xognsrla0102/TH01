@@ -7,7 +7,7 @@ class cBall : public cObject
 private:
 	cTimer* m_bulletTimer = nullptr;
 
-	VEC2& m_pPos;
+	VEC2 m_pPos;
 
 	string m_ballImg[2] = {
 		"player_reimou_ball",
@@ -25,10 +25,10 @@ private:
 		}
 	};
 	bool m_isLeft = false;
-	bool m_isShift = false;
 	bool m_isShot = false;
+
 public:
-	cBall(VEC2& pos, bool isLeft = false);
+	cBall(VEC2 pos, bool isLeft = false);
 	virtual ~cBall();
 
 	virtual void Update() override;

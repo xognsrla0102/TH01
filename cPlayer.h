@@ -25,14 +25,21 @@ public:
 	int m_nowBulletCnt = 0;
 	int m_bulletCnt = 5;
 	int m_nowSubBulletCnt = 0;
-	int m_subBulletCnt = 3;
 
-	int m_level = 2;
+	int m_level = 1;
+
+	int m_bRot[2][3] = {
+		{ -110, -130, -150 },
+		{ -70, -50, -30 }
+	};
+
+	int m_nowRot = 0;
 
 	bool m_hasBall = false;
 	bool m_isHit = false;
 	bool m_isShot = false;
 	bool m_isSubShot = false;
+
 public:
 	cPlayer();
 	~cPlayer();
