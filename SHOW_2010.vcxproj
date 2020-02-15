@@ -392,6 +392,7 @@
     <ClCompile Include="cBulletAdmin.cpp" />
     <ClCompile Include="cButton.cpp" />
     <ClCompile Include="cCameraManager.cpp" />
+    <ClCompile Include="cEffect.cpp" />
     <ClCompile Include="cFileManager.cpp" />
     <ClCompile Include="cHowtoScene.cpp" />
     <ClCompile Include="cImage.cpp" />
@@ -427,6 +428,7 @@
     <ClInclude Include="cBulletAdmin.h" />
     <ClInclude Include="cButton.h" />
     <ClInclude Include="cCameraManager.h" />
+    <ClInclude Include="cEffect.h" />
     <ClInclude Include="cFileManager.h" />
     <ClInclude Include="cHowtoScene.h" />
     <ClInclude Include="cImage.h" />

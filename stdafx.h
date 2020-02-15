@@ -26,7 +26,6 @@ enum TAGS {
 	BALLS,
 	ITEMS,
 	ENEMYS,
-	EFFECTS,
 	BULLETS,
 	TAG_END
 };

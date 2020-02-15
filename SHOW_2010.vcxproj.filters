@@ -131,6 +131,9 @@
     <Filter Include="Core\Manager\Image\Image">
       <UniqueIdentifier>{89107adb-00ce-4508-866a-85f605efab3d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Object\Effect">
+      <UniqueIdentifier>{7ed8fa96-472e-4755-aa1a-2e99de08f189}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -306,6 +309,9 @@
     <ClInclude Include="cImage.h">
       <Filter>Core\Manager\Image\Image</Filter>
     </ClInclude>
+    <ClInclude Include="cEffect.h">
+      <Filter>Core\Object\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -415,6 +421,9 @@
     </ClCompile>
     <ClCompile Include="cImage.cpp">
       <Filter>Core\Manager\Image\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="cEffect.cpp">
+      <Filter>Core\Object\Effect</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
