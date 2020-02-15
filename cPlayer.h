@@ -35,6 +35,8 @@ public:
 
 	int m_nowRot = 0;
 
+	float m_score = 0.f;
+
 	bool m_hasBall = false;
 	bool m_isHit = false;
 	bool m_isShot = false;

@@ -128,6 +128,9 @@
     <Filter Include="Core\Object\Bullet\BallBullet">
       <UniqueIdentifier>{ba6d355e-cc8c-46b8-88fc-865ffc77bd7e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Manager\Image\Image">
+      <UniqueIdentifier>{89107adb-00ce-4508-866a-85f605efab3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -300,6 +303,9 @@
     <ClInclude Include="cBallBullet.h">
       <Filter>Core\Object\Bullet\BallBullet</Filter>
     </ClInclude>
+    <ClInclude Include="cImage.h">
+      <Filter>Core\Manager\Image\Image</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -406,6 +412,9 @@
     </ClCompile>
     <ClCompile Include="cBallBullet.cpp">
       <Filter>Core\Object\Bullet\BallBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="cImage.cpp">
+      <Filter>Core\Manager\Image\Image</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

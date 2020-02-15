@@ -13,6 +13,7 @@ cStage1Scene::cStage1Scene()
 	m_bomb = IMAGE->FindImage("ingame_bomb");
 
 	m_img = m_img2 = IMAGE->FindImage("ingame_bg");
+
 	m_black = IMAGE->FindImage("ingame_black");
 }
 
@@ -38,16 +39,15 @@ void cStage1Scene::Init()
 
 	OBJFIND(PLAYER)->SetPos(playerPos);
 
-	m_img->m_pos = VEC2(50, 50);
-	m_img2Pos = VEC2(50, 50 - m_img->m_info.Height);
-	스크롤맵 마저 만들자
+	m_img1Pos = m_img2Pos = VEC2(50, 0);
 }
 
 void cStage1Scene::Update()
 {
 	//맵 스크롤
-	m_img->m_pos.y += 50.f * D_TIME;
-	m_img2->m_pos.y += 50.f * D_TIME;
+	m_scrool += 100.f * D_TIME;
+	m_img1Pos.y = 50 + (int)m_scrool % m_img->m_info.Height;
+	m_img2Pos.y = m_img1Pos.y - m_img->m_info.Height;
 
 	if (KEYDOWN(DIK_ESCAPE)) {
 		SOUND->Stop("th_02_%s");
@@ -71,6 +71,11 @@ void cStage1Scene::Update()
 	}
 
 	OBJFIND(BULLETS)->Update();
+
+	if (INPUT->KeyDown(DIK_F)) {
+		float& score = ((cPlayer*)OBJFIND(PLAYER))->m_score;
+		score += 500 + rand() % 1000;
+	}
 }
 
 void cStage1Scene::Render()
@@ -78,17 +83,17 @@ void cStage1Scene::Render()
 	auto& pBullet = ((cBulletAdmin*)(OBJFIND(BULLETS)))->GetPlayerBullet();
 	auto& bBullet = ((cBulletAdmin*)(OBJFIND(BULLETS)))->GetBallBullet();
 
-	for (auto iter : pBullet)
-		iter->Render();
-	for (auto iter : bBullet)
-		iter->Render();
-
-	IMAGE->Render(m_img, m_img->m_pos, 1.f);
-	IMAGE->Render(m_img2, m_img2->m_pos, 1.f);
+	IMAGE->Render(m_img, m_img1Pos, 1.f);
+	IMAGE->Render(m_img2, m_img2Pos, 1.f);
 
 	IMAGE->ReBegin(true);
 	IMAGE->Render(m_black, VEC2(50, 50), 1.2f);
 	IMAGE->ReBegin(false);
+
+	for (auto iter : pBullet)
+		iter->Render();
+	for (auto iter : bBullet)
+		iter->Render();
 
 	OBJFIND(PLAYER)->Render();
 	OBJFIND(BALLS)->Render();
@@ -101,6 +106,11 @@ void cStage1Scene::Render()
 		IMAGE->Render(m_life, VEC2(880 + i * 25, 200), 1.f);
 	for(size_t i = 0; i < playerBomb; i++)
 		IMAGE->Render(m_bomb, VEC2(880 + i * 25, 235), 1.f);
+
+	char scoreText[256];
+	float score = ((cPlayer*)OBJFIND(PLAYER))->m_score;
+	sprintf(scoreText, "%09d", (int)score);
+	DRAW_NUM(string(scoreText), VEC2(880, 137));
 
 	DRAW_FRAME(to_string(DXUTGetFPS()), VEC2(1000, 680));
 	IMAGE->ReBegin(false);

@@ -394,6 +394,7 @@
     <ClCompile Include="cCameraManager.cpp" />
     <ClCompile Include="cFileManager.cpp" />
     <ClCompile Include="cHowtoScene.cpp" />
+    <ClCompile Include="cImage.cpp" />
     <ClCompile Include="cImageManager.cpp" />
     <ClCompile Include="cInput.cpp" />
     <ClCompile Include="cInputManager.cpp" />
@@ -428,6 +429,7 @@
     <ClInclude Include="cCameraManager.h" />
     <ClInclude Include="cFileManager.h" />
     <ClInclude Include="cHowtoScene.h" />
+    <ClInclude Include="cImage.h" />
     <ClInclude Include="cImageManager.h" />
     <ClInclude Include="cInput.h" />
     <ClInclude Include="cInputManager.h" />

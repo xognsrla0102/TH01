@@ -127,6 +127,17 @@ void cImageManager::CenterRender(cTexture* text, VEC2 pos, VEC2 center, float si
 	else DEBUG_LOG("텍스쳐가 비었소\n");
 }
 
+void cImageManager::DrawNum(string text, VEC2 pos)
+{
+	cTexture* nowImg;
+	for (size_t i = 0; i < text.size(); i++) {
+		char key[256];
+		sprintf(key, "num_%c", text[i]);
+		nowImg = FindImage(key);
+		Render(nowImg, VEC2(pos.x + (i * 23), pos.y), 1.f);
+	}
+}
+
 void cImageManager::DrawFrame(string text, VEC2 pos)
 {
 	cTexture* nowImg;

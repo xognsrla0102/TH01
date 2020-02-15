@@ -27,8 +27,10 @@ public:
 	void Render(cTexture* text, VEC2 pos, VEC2 size = VEC2(1.f, 1.f), float rot = 0, bool center = false, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
 	void CenterRender(cTexture* text, VEC2 pos, VEC2 center, float size = 1, float rot = 0, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
 
+	void DrawNum(string text, VEC2 pos);
 	void DrawFrame(string text, VEC2 pos);
 };
 
 #define IMAGE cImageManager::GetInst()
+#define DRAW_NUM(i, j) IMAGE->DrawNum(i, j)
 #define DRAW_FRAME(i, j) IMAGE->DrawFrame(i, j)

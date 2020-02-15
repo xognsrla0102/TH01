@@ -28,6 +28,8 @@ void cPlayer::Init()
 	m_level = 1;
 	m_nowRot = 0;
 
+	m_score = 0.f;
+
 	m_hasBall = false;
 	m_isHit = false;
 	m_isShot = false;
