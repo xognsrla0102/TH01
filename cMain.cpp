@@ -12,6 +12,7 @@ cMain::~cMain()
 {
 	INPUT->ReleaseInst();
 	SCENE->ReleaseInst();
+	EFFECT->ReleaseInst();
 	OBJECT->ReleaseInst();
 	SOUND->ReleaseInst();
 	IMAGE->ReleaseInst();

@@ -98,11 +98,13 @@ void Lerp(T& start, T end, float t) {
 #include "cTexture.h"
 #include "cMultiTexture.h"
 #include "cAnimation.h"
+#include "cEffect.h"
 #include "cImageManager.h"
 #include "cSceneManager.h"
 #include "cInputManager.h"
 #include "cObjectManager.h"
 #include "cSoundManager.h"
+#include "cEffectManager.h"
 #include "cFileManager.h"
 #include "cCameraManager.h"
 //STL의 clear 함수는 요소 갯수를 지워주지 포인터가 가르키는 곳까지 해제해주진 않으므로

@@ -50,5 +50,12 @@ public:
 	void Update();
 	void Render();
 	void Release();
+
+	void Fire();
+	void SubFire();
+
+	void Bomb();
+
+	void Move();
 };
 

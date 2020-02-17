@@ -44,10 +44,7 @@ void cStage1Scene::Init()
 
 void cStage1Scene::Update()
 {
-	//맵 스크롤
-	m_scrool += 100.f * D_TIME;
-	m_img1Pos.y = 50 + (int)m_scrool % m_img->m_info.Height;
-	m_img2Pos.y = m_img1Pos.y - m_img->m_info.Height;
+	ScroolMap();
 
 	if (KEYDOWN(DIK_ESCAPE)) {
 		SOUND->Stop("th_02_%s");
@@ -56,11 +53,14 @@ void cStage1Scene::Update()
 		return;
 	}
 
+	EFFECT->Update();
+
 	OBJFIND(PLAYER)->Update();
 	OBJFIND(BALLS)->Update();
 
 	auto& pBullet = ((cBulletAdmin*)(OBJFIND(BULLETS)))->GetPlayerBullet();
 	auto& bBullet = ((cBulletAdmin*)(OBJFIND(BULLETS)))->GetBallBullet();
+
 	for (auto iter : pBullet) {
 		iter->Update();
 		iter->OutMapChk();
@@ -70,6 +70,7 @@ void cStage1Scene::Update()
 		iter->OutMapChk();
 	}
 
+	//생존체크
 	OBJFIND(BULLETS)->Update();
 
 	if (INPUT->KeyDown(DIK_F)) {
@@ -98,6 +99,8 @@ void cStage1Scene::Render()
 	OBJFIND(PLAYER)->Render();
 	OBJFIND(BALLS)->Render();
 
+	EFFECT->Render();
+
 	//UI 출력
 	IMAGE->ReBegin(true);
 	IMAGE->Render(m_ui, VEC2(0, 0), 1.f);
@@ -119,4 +122,12 @@ void cStage1Scene::Render()
 void cStage1Scene::Release()
 {
 	((cBalls*)OBJFIND(BALLS))->Release();
+}
+
+void cStage1Scene::ScroolMap()
+{
+	//맵 스크롤
+	m_scrool += 100.f * D_TIME;
+	m_img1Pos.y = 50 + (int)m_scrool % m_img->m_info.Height;
+	m_img2Pos.y = m_img1Pos.y - m_img->m_info.Height;
 }

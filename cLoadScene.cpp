@@ -114,6 +114,10 @@ void cLoadScene::Init()
 
 	Load("keymoveSND", L"./resource/sound/keymove.wav");
 
+	//이펙트 로딩
+	Load("enemy_dead_EFFECT", "./resource/effect/death.png");
+	Load("createBullet_EFFECT", "./resource/effect/createBullet.png");
+
 	//이미지 로딩
 
 	//인게임 이미지 로딩
