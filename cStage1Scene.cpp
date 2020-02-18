@@ -1,9 +1,17 @@
 #include "DXUT.h"
 #include "cPlayer.h"
+
 #include "cBall.h"
 #include "cBalls.h"
+
+#include "cOne.h"
+
+#include "cBullet.h"
 #include "cBulletAdmin.h"
-#include "cPlayerBullet.h"
+
+#include "cEnemy.h"
+#include "cEnemyAdmin.h"
+
 #include "cStage1Scene.h"
 
 cStage1Scene::cStage1Scene()
@@ -44,6 +52,10 @@ void cStage1Scene::Init()
 
 void cStage1Scene::Update()
 {
+	auto& eOne = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne();
+	auto& pBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetPlayerBullet();
+	auto& bBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetBallBullet();
+
 	ScroolMap();
 
 	if (KEYDOWN(DIK_ESCAPE)) {
@@ -58,8 +70,10 @@ void cStage1Scene::Update()
 	OBJFIND(PLAYER)->Update();
 	OBJFIND(BALLS)->Update();
 
-	auto& pBullet = ((cBulletAdmin*)(OBJFIND(BULLETS)))->GetPlayerBullet();
-	auto& bBullet = ((cBulletAdmin*)(OBJFIND(BULLETS)))->GetBallBullet();
+	for (auto iter : eOne) {
+		iter->Update();
+		iter->OutMapChk();
+	}
 
 	for (auto iter : pBullet) {
 		iter->Update();
@@ -71,18 +85,15 @@ void cStage1Scene::Update()
 	}
 
 	//생존체크
+	OBJFIND(ENEMYS)->Update();
 	OBJFIND(BULLETS)->Update();
-
-	if (INPUT->KeyDown(DIK_F)) {
-		float& score = ((cPlayer*)OBJFIND(PLAYER))->m_score;
-		score += 500 + rand() % 1000;
-	}
 }
 
 void cStage1Scene::Render()
 {
-	auto& pBullet = ((cBulletAdmin*)(OBJFIND(BULLETS)))->GetPlayerBullet();
-	auto& bBullet = ((cBulletAdmin*)(OBJFIND(BULLETS)))->GetBallBullet();
+	auto& eOne = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne();
+	auto& pBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetPlayerBullet();
+	auto& bBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetBallBullet();
 
 	IMAGE->Render(m_img, m_img1Pos, 1.f);
 	IMAGE->Render(m_img2, m_img2Pos, 1.f);
@@ -95,10 +106,13 @@ void cStage1Scene::Render()
 		iter->Render();
 	for (auto iter : bBullet)
 		iter->Render();
+	for (auto iter : eOne)
+		iter->Render();
 
 	OBJFIND(PLAYER)->Render();
 	OBJFIND(BALLS)->Render();
 
+	LevelDesign();
 	EFFECT->Render();
 
 	//UI 출력
@@ -130,4 +144,16 @@ void cStage1Scene::ScroolMap()
 	m_scrool += 100.f * D_TIME;
 	m_img1Pos.y = 50 + (int)m_scrool % m_img->m_info.Height;
 	m_img2Pos.y = m_img1Pos.y - m_img->m_info.Height;
+}
+
+void cStage1Scene::LevelDesign()
+{
+	static time_t test = timeGetTime();
+
+	if (timeGetTime() - test > 500) {
+		((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne().push_back(
+			new cOne(VEC2(rand() % WINSIZEX, 0))
+		);
+		test = timeGetTime();
+	}
 }

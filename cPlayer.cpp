@@ -72,6 +72,9 @@ void cPlayer::Update()
 	if (m_isShot == false && INPUT->KeyPress(DIK_Z))
 		m_isShot = m_isSubShot = true;
 
+	if (INPUT->KeyPress(DIK_F))
+		m_score += 500 + rand() % 1000;
+
 	Fire();
 	SubFire();
 	Bomb();
@@ -469,7 +472,7 @@ void cPlayer::Move()
 			Lerp(ballPos0, VEC2(m_pos.x - 15, m_pos.y - 50), 0.1);
 			Lerp(ballPos1, VEC2(m_pos.x + 10, m_pos.y - 50), 0.1);
 		}
-	}
+	} 
 	else {
 		if (m_speed != 350.f) m_speed = 350.f;
 		if (m_hasBall == true) {

@@ -137,6 +137,18 @@
     <Filter Include="Core\Manager\Effect">
       <UniqueIdentifier>{b2de0a40-6047-41be-93bc-342ded9eedee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Object\Enemy">
+      <UniqueIdentifier>{c11cb208-1a5f-4152-9353-a98531201dee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Enemy\EnemyAdmin">
+      <UniqueIdentifier>{d3a0de65-299c-430f-8ae2-8efaf8ce820d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Enemy\One">
+      <UniqueIdentifier>{b302d3e6-ddec-4832-ba44-5968c83f4068}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Enemy\Path">
+      <UniqueIdentifier>{3b27b6ef-c7a1-4113-ba00-1831184a41e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -318,6 +330,18 @@
     <ClInclude Include="cEffectManager.h">
       <Filter>Core\Manager\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="cEnemy.h">
+      <Filter>Core\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="cEnemyAdmin.h">
+      <Filter>Core\Object\Enemy\EnemyAdmin</Filter>
+    </ClInclude>
+    <ClInclude Include="cOne.h">
+      <Filter>Core\Object\Enemy\One</Filter>
+    </ClInclude>
+    <ClInclude Include="cPath.h">
+      <Filter>Core\Object\Enemy\Path</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -433,6 +457,18 @@
     </ClCompile>
     <ClCompile Include="cEffectManager.cpp">
       <Filter>Core\Manager\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="cEnemy.cpp">
+      <Filter>Core\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="cEnemyAdmin.cpp">
+      <Filter>Core\Object\Enemy\EnemyAdmin</Filter>
+    </ClCompile>
+    <ClCompile Include="cOne.cpp">
+      <Filter>Core\Object\Enemy\One</Filter>
+    </ClCompile>
+    <ClCompile Include="cPath.cpp">
+      <Filter>Core\Object\Enemy\Path</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -24,5 +24,7 @@ public:
 	virtual void Release() override;
 
 	void ScroolMap();
+
+	void LevelDesign();
 };
 

@@ -3,6 +3,7 @@
 #include "cPlayer.h"
 #include "cBalls.h"
 #include "cBulletAdmin.h"
+#include "cEnemyAdmin.h"
 
 #include "cTitleScene.h"
 #include "cStartScene.h"
@@ -155,6 +156,9 @@ void cLoadScene::Init()
 	Load("ingame_bg", "./resource/scene/ingameScene/stage1/bg.png");
 	Load("ingame_black", "./resource/scene/ingameScene/stage1/black.png");
 
+	//적 이미지
+	Load("enemy_one", "./resource/enemy/one/one.png");
+
 	for (size_t i = 0; i < 5; i++) {
 		char key[256], path[256];
 		sprintf(key, "ingame_%d", i);
@@ -283,6 +287,7 @@ void cLoadScene::Update()
 		((cPlayer*)OBJFIND(PLAYER))->Init();
 		OBJECT->AddOBJ(new cBalls, BALLS);
 		OBJECT->AddOBJ(new cBulletAdmin, BULLETS);
+		OBJECT->AddOBJ(new cEnemyAdmin, ENEMYS);
 
 		SCENE->AddScene("titleScene", new cTitleScene);
 		SCENE->AddScene("startScene", new cStartScene);

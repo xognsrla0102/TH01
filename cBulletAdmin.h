@@ -9,7 +9,7 @@ private:
 	vector<cBullet*> m_ballBullet;
 public:
 	cBulletAdmin() {}
-	~cBulletAdmin();
+	virtual ~cBulletAdmin();
 
 	virtual void Update() override;
 	virtual void Render() override;

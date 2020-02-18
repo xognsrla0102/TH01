@@ -394,6 +394,8 @@
     <ClCompile Include="cCameraManager.cpp" />
     <ClCompile Include="cEffect.cpp" />
     <ClCompile Include="cEffectManager.cpp" />
+    <ClCompile Include="cEnemy.cpp" />
+    <ClCompile Include="cEnemyAdmin.cpp" />
     <ClCompile Include="cFileManager.cpp" />
     <ClCompile Include="cHowtoScene.cpp" />
     <ClCompile Include="cImage.cpp" />
@@ -406,7 +408,9 @@
     <ClCompile Include="cMusicScene.cpp" />
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="cObjectManager.cpp" />
+    <ClCompile Include="cOne.cpp" />
     <ClCompile Include="cOptionScene.cpp" />
+    <ClCompile Include="cPath.cpp" />
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cPlayerBullet.cpp" />
     <ClCompile Include="cScene.cpp" />
@@ -431,6 +435,8 @@
     <ClInclude Include="cCameraManager.h" />
     <ClInclude Include="cEffect.h" />
     <ClInclude Include="cEffectManager.h" />
+    <ClInclude Include="cEnemy.h" />
+    <ClInclude Include="cEnemyAdmin.h" />
     <ClInclude Include="cFileManager.h" />
     <ClInclude Include="cHowtoScene.h" />
     <ClInclude Include="cImage.h" />
@@ -443,7 +449,9 @@
     <ClInclude Include="cMusicScene.h" />
     <ClInclude Include="cObject.h" />
     <ClInclude Include="cObjectManager.h" />
+    <ClInclude Include="cOne.h" />
     <ClInclude Include="cOptionScene.h" />
+    <ClInclude Include="cPath.h" />
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cPlayerBullet.h" />
     <ClInclude Include="cScene.h" />
