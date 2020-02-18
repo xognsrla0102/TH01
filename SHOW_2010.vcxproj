@@ -408,6 +408,7 @@
     <ClCompile Include="cMusicScene.cpp" />
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="cObjectManager.cpp" />
+    <ClCompile Include="collision.cpp" />
     <ClCompile Include="cOne.cpp" />
     <ClCompile Include="cOptionScene.cpp" />
     <ClCompile Include="cPath.cpp" />
@@ -433,6 +434,7 @@
     <ClInclude Include="cBulletAdmin.h" />
     <ClInclude Include="cButton.h" />
     <ClInclude Include="cCameraManager.h" />
+    <ClInclude Include="collision.h" />
     <ClInclude Include="cEffect.h" />
     <ClInclude Include="cEffectManager.h" />
     <ClInclude Include="cEnemy.h" />

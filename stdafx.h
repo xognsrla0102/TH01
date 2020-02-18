@@ -95,6 +95,7 @@ void Lerp(T& start, T end, float t) {
 #endif
 
 #include "SDKsound.h"
+#include "collision.h"
 #include "cTexture.h"
 #include "cMultiTexture.h"
 #include "cAnimation.h"

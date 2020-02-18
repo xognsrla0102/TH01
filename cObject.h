@@ -22,6 +22,7 @@ public:
 	virtual void Update() PURE;
 	virtual void Render() PURE;
 
+	cTexture* GetImg() { return m_img; }
 	VEC2 GetPos() { return m_pos; }
 	VEC2 GetSize() { return m_size; }
 	FLOAT GetRot() { return m_rot; }
@@ -29,6 +30,7 @@ public:
 
 	VEC2& GetRefPos() { return m_pos; }
 	VEC2& GetRefSize() { return m_size; }
+	BOOL& GetRefLive() { return m_isLive; }
 
 	void SetImg(cTexture* img) { m_img = img; }
 	void SetPos(VEC2 pos) { m_pos = pos; }

@@ -78,10 +78,12 @@ void cStage1Scene::Update()
 	for (auto iter : pBullet) {
 		iter->Update();
 		iter->OutMapChk();
+		iter->Collision();
 	}
 	for (auto iter : bBullet) {
 		iter->Update();
 		iter->OutMapChk();
+		iter->Collision();
 	}
 
 	//생존체크
@@ -150,7 +152,7 @@ void cStage1Scene::LevelDesign()
 {
 	static time_t test = timeGetTime();
 
-	if (timeGetTime() - test > 500) {
+	if (timeGetTime() - test > 100) {
 		((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne().push_back(
 			new cOne(VEC2(rand() % WINSIZEX, 0))
 		);

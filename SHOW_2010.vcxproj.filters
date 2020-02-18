@@ -149,6 +149,9 @@
     <Filter Include="Core\Object\Enemy\Path">
       <UniqueIdentifier>{3b27b6ef-c7a1-4113-ba00-1831184a41e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Object\Collision">
+      <UniqueIdentifier>{40d478db-65fa-46f5-9e28-6aa4094a7963}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -342,6 +345,9 @@
     <ClInclude Include="cPath.h">
       <Filter>Core\Object\Enemy\Path</Filter>
     </ClInclude>
+    <ClInclude Include="collision.h">
+      <Filter>Core\Object\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -469,6 +475,9 @@
     </ClCompile>
     <ClCompile Include="cPath.cpp">
       <Filter>Core\Object\Enemy\Path</Filter>
+    </ClCompile>
+    <ClCompile Include="collision.cpp">
+      <Filter>Core\Object\Collision</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

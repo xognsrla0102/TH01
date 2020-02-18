@@ -1,4 +1,6 @@
 #include "DXUT.h"
+#include "cEnemy.h"
+#include "cEnemyAdmin.h"
 #include "cBallBullet.h"
 
 cBallBullet::cBallBullet(string key, VEC2 pos, VEC2 dir, VEC2 size, FLOAT rot, bool isHoming)
@@ -41,5 +43,32 @@ void cBallBullet::OutMapChk()
 
 void cBallBullet::Collision()
 {
+	RECT bBulletRect = {
+		m_pos.x - m_img->m_info.Width / 2,
+		m_pos.y - m_img->m_info.Height / 2,
+		m_pos.x + m_img->m_info.Width / 2,
+		m_pos.y + m_img->m_info.Height / 2,
+	};
+
+	auto& eOne = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne();
+
+	size_t size = eOne.size();
+	for (size_t i = 0; i < size; i++) {
+		VEC2 onePos = eOne[i]->GetPos();
+		cTexture* oneImg = eOne[i]->GetImg();
+
+		RECT oneRect = {
+			onePos.x - oneImg->m_info.Width / 2,
+			onePos.y - oneImg->m_info.Height / 2,
+			onePos.x + oneImg->m_info.Width / 2,
+			onePos.y + oneImg->m_info.Height / 2,
+		};
+
+		if (OBB(m_pos, onePos, bBulletRect, oneRect, m_rot, eOne[i]->GetRot()) == true) {
+			m_isLive = false;
+			eOne[i]->GetRefLive() = false;
+			return;
+		}
+	}
 }
 
