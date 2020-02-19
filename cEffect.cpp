@@ -1,7 +1,7 @@
 #include "DXUT.h"
 #include "cEffect.h"
 
-cEffect::cEffect(const string name, int imgCnt, VEC2 pos, VEC2 velSize, VEC2 size, D3DCOLOR color)
+cEffect::cEffect(const string name, int imgCnt, VEC2 pos, VEC2 velSize, VEC2 size, VEC4 rgb)
 {
 	m_imgName = name;
 
@@ -9,7 +9,12 @@ cEffect::cEffect(const string name, int imgCnt, VEC2 pos, VEC2 velSize, VEC2 siz
 	m_velSize = velSize;
 	m_size = size;
 
-	m_color = color;
+	m_a = rgb.x;
+	m_r = rgb.y;
+	m_g = rgb.z;
+	m_b = rgb.w;
+
+	SetColor();
 
 	m_ani = new cAnimation(m_delay, imgCnt);
 }

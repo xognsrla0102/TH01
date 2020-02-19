@@ -22,7 +22,7 @@ public:
 	D3DCOLOR m_color = D3DCOLOR_ARGB((int)m_a, (int)m_r, (int)m_g, (int)m_b);
 
 public:
-	cEffect(const string name, int imgCnt, VEC2 pos, VEC2 velSize = VEC2(1, 1), VEC2 size = VEC2(1, 1), D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
+	cEffect(const string name, int imgCnt, VEC2 pos, VEC2 velSize = VEC2(1, 1), VEC2 size = VEC2(1, 1), VEC4 rgb = VEC4(255, 255, 255, 255));
 	~cEffect();
 
 	void Update();

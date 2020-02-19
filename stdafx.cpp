@@ -1,9 +1,8 @@
 #include "DXUT.h"
 
-
 #ifdef _DEBUG
 void DEBUG_LOG(LPCSTR fmt, ...) {
-	char buf[200];
+	char buf[256];
 	va_list list;
 	va_start(list, fmt);
 	vsprintf(buf, fmt, list);

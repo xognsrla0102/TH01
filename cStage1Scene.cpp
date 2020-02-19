@@ -1,4 +1,7 @@
 #include "DXUT.h"
+
+#include "cTimer.h"
+
 #include "cPlayer.h"
 
 #include "cBall.h"
@@ -32,6 +35,8 @@ cStage1Scene::~cStage1Scene()
 void cStage1Scene::Init()
 {
 	SOUND->Play("th_02_%s", true, true);
+
+	m_startTime = timeGetTime();
 
 	((cBalls*)OBJFIND(BALLS))->Release();
 	((cPlayer*)OBJFIND(PLAYER))->Release();
@@ -150,12 +155,16 @@ void cStage1Scene::ScroolMap()
 
 void cStage1Scene::LevelDesign()
 {
-	static time_t test = timeGetTime();
+	int nowTime = timeGetTime() - m_startTime;
 
-	if (timeGetTime() - test > 100) {
+	if (nowTime > 500 && nowTime < 5000)
 		((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne().push_back(
-			new cOne(VEC2(rand() % WINSIZEX, 0))
+			new cOne(VEC2(rand() % (50 + INGAMEX), 0))
 		);
-		test = timeGetTime();
+	else if (nowTime > 600000) {
+	//10분 타이머가 다되면 게임 자동종료(?)
+		SOUND->Stop("th_02_%s");
+		((cPlayer*)OBJFIND(PLAYER))->m_hasBall = false;
+		SCENE->ChangeScene("titleScene");
 	}
 }

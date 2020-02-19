@@ -6,6 +6,7 @@ class cEnemy abstract : public cObject
 {
 public:
 	cPath* m_path = nullptr;
+	FLOAT m_hp = 0.f;
 public:
 	cEnemy();
 	virtual ~cEnemy();

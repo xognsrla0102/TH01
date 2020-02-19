@@ -6,6 +6,8 @@ cOne::cOne(VEC2 pos, FLOAT rot, VEC2 size)
 {
 	m_path = new cPath;
 
+	m_hp = 300.f;
+
 	m_img = IMAGE->FindImage("enemy_one");
 	m_pos = pos;
 	m_rot = rot;
@@ -19,7 +21,7 @@ cOne::~cOne()
 
 void cOne::Update()
 {
-	m_rot+=10;
+	m_rot += 10;
 	if (m_rot > 360.f) m_rot -= 360.f;
 	m_pos.y += 500.f * D_TIME;
 }

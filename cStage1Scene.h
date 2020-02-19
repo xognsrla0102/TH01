@@ -3,6 +3,8 @@
 class cStage1Scene : public cScene
 {
 public:
+	time_t m_startTime;
+
 	cTexture* m_img2 = nullptr;
 	cTexture* m_black = nullptr;
 	cTexture* m_ui = nullptr;

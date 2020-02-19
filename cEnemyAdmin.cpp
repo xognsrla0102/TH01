@@ -22,7 +22,11 @@ void cEnemyAdmin::Update()
 			//¸Ê¹Û ÀÏ °æ¿ì
 			if (!(50 - 25 > onePos.x || onePos.x > 50 + INGAMEX + 25 ||
 				50 - 25 > onePos.y || onePos.y > 50 + INGAMEY + 25)) {
-				EFFECT->AddEffect(new cEffect("enemy_dead_EFFECT", 1, onePos, VEC2(-0.5f, -0.5f)));
+				EFFECT->AddEffect(
+					new cEffect("enemy_dead_EFFECT", 1, onePos,
+						VEC2(1.f, 1.f), VEC2(1, 1), VEC4(255, rand() % 256, rand() % 256, rand() % 256)
+					)
+				);
 				SOUND->Copy("enemydeadSND");
 			}
 
