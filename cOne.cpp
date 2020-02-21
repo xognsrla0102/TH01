@@ -1,10 +1,9 @@
 #include "DXUT.h"
-#include "cPath.h"
 #include "cOne.h"
 
-cOne::cOne(VEC2 pos, FLOAT rot, VEC2 size)
+cOne::cOne(INT kind, VEC2 pos, FLOAT rot, VEC2 size)
 {
-	m_path = new cPath;
+	m_kind = kind;
 
 	m_hp = 300.f;
 
@@ -16,7 +15,6 @@ cOne::cOne(VEC2 pos, FLOAT rot, VEC2 size)
 
 cOne::~cOne()
 {
-	SAFE_DELETE(m_path);
 }
 
 void cOne::Update()
@@ -24,6 +22,8 @@ void cOne::Update()
 	m_rot += 10;
 	if (m_rot > 360.f) m_rot -= 360.f;
 	m_pos.y += 500.f * D_TIME;
+
+	Pattern(m_kind);
 }
 
 void cOne::Render()
@@ -39,4 +39,10 @@ void cOne::OutMapChk()
 		m_pos.y + m_img->m_info.Height / 2 < 50 - 300
 		) m_isLive = false;
 	else return;
+}
+
+void cOne::Pattern(INT kind)
+{
+	INT timeGetTime() - m_patterntime
+	if(timeGetTime() - m_patternTime > 1000)
 }

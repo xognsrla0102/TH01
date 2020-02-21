@@ -1,11 +1,14 @@
 #pragma once
 #include "cObject.h"
 
-class cPath;
 class cEnemy abstract : public cObject
 {
+protected:
+	time_t m_patternTime = timeGetTime();
+	time_t m_bulletTime  = timeGetTime();
+
+	INT m_kind;
 public:
-	cPath* m_path = nullptr;
 	FLOAT m_hp = 0.f;
 public:
 	cEnemy();
@@ -14,5 +17,6 @@ public:
 	virtual void Update() PURE;
 	virtual void Render() PURE;
 	virtual void OutMapChk() PURE;
+	virtual void Pattern(INT kind) PURE;
 };
 
