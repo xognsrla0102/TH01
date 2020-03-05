@@ -8,6 +8,7 @@
 #include "cBalls.h"
 
 #include "cOne.h"
+#include "cFairy.h"
 
 #include "cBullet.h"
 #include "cBulletAdmin.h"
@@ -30,6 +31,7 @@ cStage1Scene::cStage1Scene()
 
 cStage1Scene::~cStage1Scene()
 {
+	Release();
 }
 
 void cStage1Scene::Init()
@@ -53,19 +55,15 @@ void cStage1Scene::Init()
 	OBJFIND(PLAYER)->SetPos(playerPos);
 
 	m_img1Pos = m_img2Pos = VEC2(50, 0);
+
+	m_mobSpawn.push_back(new cTimer(300));
 }
 
 void cStage1Scene::Update()
 {
-	auto& eOne = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne();
-	auto& pBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetPlayerBullet();
-	auto& bBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetBallBullet();
-
 	ScroolMap();
 
 	if (KEYDOWN(DIK_ESCAPE)) {
-		SOUND->Stop("th_02_%s");
-		((cPlayer*)OBJFIND(PLAYER))->m_hasBall = false;
 		SCENE->ChangeScene("titleScene");
 		return;
 	}
@@ -74,34 +72,12 @@ void cStage1Scene::Update()
 
 	OBJFIND(PLAYER)->Update();
 	OBJFIND(BALLS)->Update();
-
-	for (auto iter : eOne) {
-		iter->Update();
-		iter->OutMapChk();
-	}
-
-	for (auto iter : pBullet) {
-		iter->Update();
-		iter->OutMapChk();
-		iter->Collision();
-	}
-	for (auto iter : bBullet) {
-		iter->Update();
-		iter->OutMapChk();
-		iter->Collision();
-	}
-
-	//생존체크
 	OBJFIND(ENEMYS)->Update();
 	OBJFIND(BULLETS)->Update();
 }
 
 void cStage1Scene::Render()
 {
-	auto& eOne = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne();
-	auto& pBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetPlayerBullet();
-	auto& bBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetBallBullet();
-
 	IMAGE->Render(m_img, m_img1Pos, 1.f);
 	IMAGE->Render(m_img2, m_img2Pos, 1.f);
 
@@ -109,15 +85,11 @@ void cStage1Scene::Render()
 	IMAGE->Render(m_black, VEC2(50, 50), 1.2f);
 	IMAGE->ReBegin(false);
 
-	for (auto iter : pBullet)
-		iter->Render();
-	for (auto iter : bBullet)
-		iter->Render();
-	for (auto iter : eOne)
-		iter->Render();
+	OBJFIND(ENEMYS)->Render();
 
 	OBJFIND(PLAYER)->Render();
 	OBJFIND(BALLS)->Render();
+	OBJFIND(BULLETS)->Render();
 
 	LevelDesign();
 	EFFECT->Render();
@@ -126,12 +98,14 @@ void cStage1Scene::Render()
 	IMAGE->ReBegin(true);
 	IMAGE->Render(m_ui, VEC2(0, 0), 1.f);
 
-	for (size_t i = 0; i < playerLife; i++)
+	for (size_t i = 0; i < ((cPlayer*)OBJFIND(PLAYER))->m_life; i++)
 		IMAGE->Render(m_life, VEC2(880 + i * 25, 200), 1.f);
-	for(size_t i = 0; i < playerBomb; i++)
+	for(size_t i = 0; i < ((cPlayer*)OBJFIND(PLAYER))->m_bomb; i++)
 		IMAGE->Render(m_bomb, VEC2(880 + i * 25, 235), 1.f);
 
 	char scoreText[256];
+	
+	((cPlayer*)OBJFIND(PLAYER))->m_score = timeGetTime() - m_startTime;
 	float score = ((cPlayer*)OBJFIND(PLAYER))->m_score;
 	sprintf(scoreText, "%09d", (int)score);
 	DRAW_NUM(string(scoreText), VEC2(880, 137));
@@ -142,7 +116,16 @@ void cStage1Scene::Render()
 
 void cStage1Scene::Release()
 {
+	SOUND->Stop("th_02_%s");
+	((cPlayer*)OBJFIND(PLAYER))->m_hasBall = false;
+
+	for (auto iter : m_mobSpawn)
+		SAFE_DELETE(iter);
+	m_mobSpawn.clear();
+
 	((cBalls*)OBJFIND(BALLS))->Release();
+	((cEnemyAdmin*)OBJFIND(ENEMYS))->Release();
+	((cBulletAdmin*)OBJFIND(BULLETS))->Release();
 }
 
 void cStage1Scene::ScroolMap()
@@ -157,14 +140,29 @@ void cStage1Scene::LevelDesign()
 {
 	int nowTime = timeGetTime() - m_startTime;
 
-	if (nowTime > 500 && nowTime < 5000)
-		((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne().push_back(
-			new cOne(VEC2(rand() % (50 + INGAMEX), 0))
-		);
+	if (nowTime > 500 && nowTime < 5000) {
+		if (m_mobSpawn[0]->Update()) {
+			((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne().push_back(
+				new cOne(2, 1, VEC2(50, 200))
+			);
+		}
+	}
+	else if (nowTime > 5000 && nowTime < 10000) {
+		if (m_mobSpawn[0]->Update()) {
+			((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne().push_back(
+				new cOne(2, 2, VEC2(50 + INGAMEX, 200))
+			);
+		}
+	}
+	else if (nowTime > 10000 && nowTime < 15000) {
+		if (m_mobSpawn[0]->Update()) {
+			((cEnemyAdmin*)OBJFIND(ENEMYS))->GetFairy().push_back(
+				new cFairy(2, FAIRY_BLUE, 1, VEC2(50 + INGAMEX, 300))
+			);
+		}
+	}
 	else if (nowTime > 600000) {
 	//10분 타이머가 다되면 게임 자동종료(?)
-		SOUND->Stop("th_02_%s");
-		((cPlayer*)OBJFIND(PLAYER))->m_hasBall = false;
 		SCENE->ChangeScene("titleScene");
 	}
 }

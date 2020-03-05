@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -396,6 +396,8 @@
     <ClCompile Include="cEffectManager.cpp" />
     <ClCompile Include="cEnemy.cpp" />
     <ClCompile Include="cEnemyAdmin.cpp" />
+    <ClCompile Include="cEnemyBullet.cpp" />
+    <ClCompile Include="cFairy.cpp" />
     <ClCompile Include="cFileManager.cpp" />
     <ClCompile Include="cHowtoScene.cpp" />
     <ClCompile Include="cImage.cpp" />
@@ -434,6 +436,8 @@
     <ClInclude Include="cBulletAdmin.h" />
     <ClInclude Include="cButton.h" />
     <ClInclude Include="cCameraManager.h" />
+    <ClInclude Include="cEnemyBullet.h" />
+    <ClInclude Include="cFairy.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="cEffect.h" />
     <ClInclude Include="cEffectManager.h" />

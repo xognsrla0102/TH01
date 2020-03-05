@@ -14,24 +14,45 @@ cEnemyAdmin::~cEnemyAdmin()
 void cEnemyAdmin::Update()
 {
 	size_t size = m_ones.size();
-
 	for (size_t i = 0; i < size; i++) {
+		m_ones[i]->Update();
+		m_ones[i]->OutMapChk();
+
 		if (m_ones[i]->GetLive() == false) {
 			VEC2 onePos = m_ones[i]->GetPos();
-
-			//맵밖 일 경우
-			if (!(50 - 25 > onePos.x || onePos.x > 50 + INGAMEX + 25 ||
-				50 - 25 > onePos.y || onePos.y > 50 + INGAMEY + 25)) {
+			//맵안에서 죽었을 경우만 이펙트와 사운드 나게
+			if (!(50 > onePos.x + 25 || onePos.x - 25 > 50 + INGAMEX ||
+				50 > onePos.y + 25 || onePos.y - 25 > 50 + INGAMEY )) {
 				EFFECT->AddEffect(
 					new cEffect("enemy_dead_EFFECT", 1, onePos,
-						VEC2(1.f, 1.f), VEC2(1, 1), VEC4(255, rand() % 256, rand() % 256, rand() % 256)
+						VEC2(0.5f, 0.5f), VEC2(1, 1)
 					)
 				);
 				SOUND->Copy("enemydeadSND");
 			}
-
 			SAFE_DELETE(m_ones[i]);
 			m_ones.erase(m_ones.begin() + i);
+			i--, size--;
+		}
+	}
+
+	size = m_fairys.size();
+	for (size_t i = 0; i < size; i++) {
+		m_fairys[i]->Update();
+		m_fairys[i]->OutMapChk();
+
+		if (m_fairys[i]->GetLive() == false) {
+			VEC2 fairyPos = m_fairys[i]->GetPos();
+			if (!(50 > fairyPos.x + 23 || fairyPos.x - 23 > 50 + INGAMEX ||
+				50 > fairyPos.y + 23 || fairyPos.y - 23 > 50 + INGAMEY)) {
+				EFFECT->AddEffect(
+					new cEffect("enemy_dead_EFFECT", 1, fairyPos,
+						VEC2(0.5f, 0.5f), VEC2(1, 1))
+				);
+				SOUND->Copy("enemydeadSND");
+			}
+			SAFE_DELETE(m_fairys[i]);
+			m_fairys.erase(m_fairys.begin() + i);
 			i--, size--;
 		}
 	}
@@ -39,6 +60,10 @@ void cEnemyAdmin::Update()
 
 void cEnemyAdmin::Render()
 {
+	for (auto iter : m_ones)
+		iter->Render();
+	for (auto iter : m_fairys)
+		iter->Render();
 }
 
 void cEnemyAdmin::Release()
@@ -46,5 +71,9 @@ void cEnemyAdmin::Release()
 	for (auto iter : m_ones)
 		SAFE_DELETE(iter);
 	m_ones.clear();
+
+	for (auto iter : m_fairys)
+		SAFE_DELETE(iter);
+	m_fairys.clear();
 }
 

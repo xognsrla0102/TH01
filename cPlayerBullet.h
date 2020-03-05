@@ -7,8 +7,6 @@ public:
 	virtual ~cPlayerBullet();
 
 	virtual void Update() override;
-	virtual void Render() override;
-
 	virtual void OutMapChk() override;
 	virtual void Collision() override;
 };

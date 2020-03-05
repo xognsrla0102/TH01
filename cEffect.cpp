@@ -1,7 +1,7 @@
 #include "DXUT.h"
 #include "cEffect.h"
 
-cEffect::cEffect(const string name, int imgCnt, VEC2 pos, VEC2 velSize, VEC2 size, VEC4 rgb)
+cEffect::cEffect(const string name, int imgCnt, VEC2 pos, VEC2 velSize, VEC2 size, VEC4 argb)
 {
 	m_imgName = name;
 
@@ -9,10 +9,10 @@ cEffect::cEffect(const string name, int imgCnt, VEC2 pos, VEC2 velSize, VEC2 siz
 	m_velSize = velSize;
 	m_size = size;
 
-	m_a = rgb.x;
-	m_r = rgb.y;
-	m_g = rgb.z;
-	m_b = rgb.w;
+	m_a = argb.x;
+	m_r = argb.y;
+	m_g = argb.z;
+	m_b = argb.w;
 
 	SetColor();
 

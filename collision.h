@@ -63,3 +63,4 @@ inline BOOL CIRCLE(VEC2 objPos1, VEC2 objPos2, FLOAT r1, FLOAT r2) {
 	if (r1 + r2 > length) return true;
 	return false;
 }
+

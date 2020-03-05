@@ -25,7 +25,13 @@ void cPlayer::Init()
 	m_nowBulletCnt = 0;
 	m_bulletCnt = 5;
 	m_nowSubBulletCnt = 0;
+
+	m_life = playerLife;
+	m_bomb = playerBomb;
+
 	m_level = 1;
+	m_power = 0;
+
 	m_nowRot = 0;
 
 	m_score = 0.f;
@@ -64,16 +70,14 @@ void cPlayer::Update()
 
 	m_ani->Update();
 
-	if(m_nowPlayerStatus != pIDLE)
-		m_nowPlayerStatus = pIDLE;
+	m_img = IMAGE->FindImage(m_pStatus[isMarisa][m_nowPlayerStatus], m_ani->m_nowFrame);
+
+	if(m_nowPlayerStatus != pIDLE) m_nowPlayerStatus = pIDLE;
 
 	Move();
 
 	if (m_isShot == false && INPUT->KeyPress(DIK_Z))
 		m_isShot = m_isSubShot = true;
-
-	if (INPUT->KeyPress(DIK_F))
-		m_score += 500 + rand() % 1000;
 
 	Fire();
 	SubFire();
@@ -82,7 +86,6 @@ void cPlayer::Update()
 
 void cPlayer::Render()
 {
-	m_img = IMAGE->FindImage(m_pStatus[isMarisa][m_nowPlayerStatus], m_ani->m_nowFrame);
 	IMAGE->Render(m_img, m_pos, m_size, m_rot, true, m_img->m_color);
 }
 
@@ -456,8 +459,8 @@ void cPlayer::SubFire()
 
 void cPlayer::Bomb()
 {
-	if (playerBomb > 0 && INPUT->KeyDown(DIK_X)) {
-		playerBomb--;
+	if (m_bomb > 0 && INPUT->KeyDown(DIK_X)) {
+		m_bomb--;
 	}
 }
 

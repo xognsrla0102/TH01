@@ -26,7 +26,11 @@ public:
 	int m_bulletCnt = 5;
 	int m_nowSubBulletCnt = 0;
 
+	int m_life = playerLife;
+	int m_bomb = playerBomb;
+
 	int m_level = 1;
+	int m_power = 0;
 
 	int m_bRot[2][3] = {
 		{ -110, -130, -150 },

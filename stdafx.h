@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <functional>
 #include <string>
 #include <direct.h>
 #include <dinput.h>
@@ -28,6 +29,14 @@ enum TAGS {
 	ENEMYS,
 	BULLETS,
 	TAG_END
+};
+
+enum FAIRY_COLOR {
+	FAIRY_RED,
+	FAIRY_ORANGE,
+	FAIRY_GREEN,
+	FAIRY_BLUE,
+	FAIRY_PURPLE
 };
 
 enum INTRO_POS {
@@ -90,6 +99,10 @@ void Lerp(T& start, T end, float t) {
 	start = start + t * (end - start) * D_TIME * 70;
 }
 
+FLOAT DistPoint(VEC2 a, VEC2 b) {
+	return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
+}
+
 #ifdef _DEBUG
 	void DEBUG_LOG(LPCSTR fmt, ...);
 #endif
@@ -100,6 +113,7 @@ void Lerp(T& start, T end, float t) {
 #include "cMultiTexture.h"
 #include "cAnimation.h"
 #include "cEffect.h"
+#include "cPath.h"
 #include "cImageManager.h"
 #include "cSceneManager.h"
 #include "cInputManager.h"

@@ -158,6 +158,10 @@ void cLoadScene::Init()
 
 	//적 이미지
 	Load("enemy_one", "./resource/enemy/one/one.png");
+	Load("enemy_fairy_blue", "./resource/enemy/fairy/blue/%d.png", 8);
+
+	//적 총알 이미지
+	Load("bullet_blueMeal", "./resource/enemy/bullet/blueMeal.png");
 
 	for (size_t i = 0; i < 5; i++) {
 		char key[256], path[256];

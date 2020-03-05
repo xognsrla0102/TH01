@@ -3,7 +3,7 @@
 class cStage1Scene : public cScene
 {
 public:
-	time_t m_startTime;
+	time_t m_startTime = timeGetTime();
 
 	cTexture* m_img2 = nullptr;
 	cTexture* m_black = nullptr;
@@ -15,7 +15,9 @@ public:
 	VEC2 m_img1Pos = VEC2(50, 50);
 	VEC2 m_img2Pos = VEC2(50, 50);
 
-	float m_scrool = 0.f;
+	FLOAT m_scrool = 0.f;
+
+	vector<cTimer*> m_mobSpawn;
 public:
 	cStage1Scene();
 	virtual ~cStage1Scene();

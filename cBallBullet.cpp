@@ -26,11 +26,6 @@ void cBallBullet::Update()
 	m_pos += m_dir * m_speed * D_TIME;
 }
 
-void cBallBullet::Render()
-{
-	IMAGE->Render(m_img, m_pos, m_size, m_rot, true, m_img->m_color);
-}
-
 void cBallBullet::OutMapChk()
 {
 	if (m_pos.x - m_img->m_info.Width / 2 > WINSIZEX ||

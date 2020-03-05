@@ -146,11 +146,17 @@
     <Filter Include="Core\Object\Enemy\One">
       <UniqueIdentifier>{b302d3e6-ddec-4832-ba44-5968c83f4068}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Object\Enemy\Path">
-      <UniqueIdentifier>{3b27b6ef-c7a1-4113-ba00-1831184a41e1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Object\Collision">
       <UniqueIdentifier>{40d478db-65fa-46f5-9e28-6aa4094a7963}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Bullet\EnemyBullet">
+      <UniqueIdentifier>{7f39ee91-3722-40a7-b6d6-c8ea4e19eda0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Enemy\Fairy">
+      <UniqueIdentifier>{fec6db11-30c8-48a5-ba55-1ec6ae083a7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Path">
+      <UniqueIdentifier>{9764161d-b340-4aa8-8427-3e7f73805916}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -342,11 +348,17 @@
     <ClInclude Include="cOne.h">
       <Filter>Core\Object\Enemy\One</Filter>
     </ClInclude>
-    <ClInclude Include="cPath.h">
-      <Filter>Core\Object\Enemy\Path</Filter>
-    </ClInclude>
     <ClInclude Include="collision.h">
       <Filter>Core\Object\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="cEnemyBullet.h">
+      <Filter>Core\Object\Bullet\EnemyBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="cFairy.h">
+      <Filter>Core\Object\Enemy\Fairy</Filter>
+    </ClInclude>
+    <ClInclude Include="cPath.h">
+      <Filter>Core\Object\Path</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -473,11 +485,17 @@
     <ClCompile Include="cOne.cpp">
       <Filter>Core\Object\Enemy\One</Filter>
     </ClCompile>
-    <ClCompile Include="cPath.cpp">
-      <Filter>Core\Object\Enemy\Path</Filter>
-    </ClCompile>
     <ClCompile Include="collision.cpp">
       <Filter>Core\Object\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="cEnemyBullet.cpp">
+      <Filter>Core\Object\Bullet\EnemyBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="cFairy.cpp">
+      <Filter>Core\Object\Enemy\Fairy</Filter>
+    </ClCompile>
+    <ClCompile Include="cPath.cpp">
+      <Filter>Core\Object\Path</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

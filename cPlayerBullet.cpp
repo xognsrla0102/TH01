@@ -8,6 +8,7 @@ cPlayerBullet::cPlayerBullet(string key, VEC2 pos, VEC2 dir, VEC2 size, FLOAT ro
 	m_img = IMAGE->FindImage(key);
 	m_img->m_color = D3DCOLOR_ARGB(150, 255, 255, 255);
 
+	m_atk = 1;
 	m_pos = pos;
 	m_dir = dir;
 	m_size = size;
@@ -24,11 +25,6 @@ void cPlayerBullet::Update()
 	m_pos += m_dir * m_speed * D_TIME;
 	if(isMarisa == false) m_rot -= 8;
 	if (m_rot > 360) m_rot -= 360;
-}
-
-void cPlayerBullet::Render()
-{
-	IMAGE->Render(m_img, m_pos, m_size, m_rot, true, m_img->m_color);
 }
 
 void cPlayerBullet::OutMapChk()
@@ -51,6 +47,7 @@ void cPlayerBullet::Collision()
 	};
 
 	auto& eOne = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne();
+	auto& eFairy = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetFairy();
 
 	size_t size = eOne.size();
 	for (size_t i = 0; i < size; i++) {
@@ -64,10 +61,61 @@ void cPlayerBullet::Collision()
 			onePos.y + oneImg->m_info.Height / 2,
 		};
 
-		if (AABB(pBulletRect, oneRect) == true) {
-			m_isLive = false;
-			eOne[i]->GetRefLive() = false;
-			return;
+		//레이무 기본샷은 회전되면서 날아가기 때문에 OBB로 체크
+		if (isMarisa == false) {
+			if (OBB(m_pos, onePos, pBulletRect, oneRect, m_rot, eOne[i]->GetRot()) == true) {
+				SOUND->Copy("hitSND");
+				m_isLive = false;
+				eOne[i]->m_hp -= m_atk;
+				if(eOne[i]->m_hp <= 0.f)
+					eOne[i]->GetRefLive() = false;
+				return;
+			}
+		}
+		else {
+			if (AABB(pBulletRect, oneRect) == true) {
+				SOUND->Copy("hitSND");
+				m_isLive = false;
+				eOne[i]->m_hp -= m_atk;
+				if (eOne[i]->m_hp <= 0.f)
+					eOne[i]->GetRefLive() = false;
+				return;
+			}
+		}
+	}
+
+	size = eFairy.size();
+	for (size_t i = 0; i < size; i++) {
+		VEC2 fryPos = eFairy[i]->GetPos();
+		cTexture* fryImg = eFairy[i]->GetImg();
+
+		RECT fryRect = {
+			fryPos.x - fryImg->m_info.Width / 2,
+			fryPos.y - fryImg->m_info.Height / 2,
+			fryPos.x + fryImg->m_info.Width / 2,
+			fryPos.y + fryImg->m_info.Height / 2,
+		};
+
+		//레이무 기본샷은 회전되면서 날아가기 때문에 OBB로 체크
+		if (isMarisa == false) {
+			if (OBB(m_pos, fryPos, pBulletRect, fryRect, m_rot, eFairy[i]->GetRot()) == true) {
+				SOUND->Copy("hitSND");
+				m_isLive = false;
+				eFairy[i]->m_hp -= m_atk;
+				if (eFairy[i]->m_hp <= 0.f)
+					eFairy[i]->GetRefLive() = false;
+				return;
+			}
+		}
+		else {
+			if (AABB(pBulletRect, fryRect) == true) {
+				SOUND->Copy("hitSND");
+				m_isLive = false;
+				eFairy[i]->m_hp -= m_atk;
+				if (eFairy[i]->m_hp <= 0.f)
+					eFairy[i]->GetRefLive() = false;
+				return;
+			}
 		}
 	}
 }

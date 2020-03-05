@@ -6,6 +6,7 @@ class cEnemyAdmin : public cObject
 {
 private:
 	vector<cEnemy*> m_ones;
+	vector<cEnemy*> m_fairys;
 public:
 	cEnemyAdmin();
 	~cEnemyAdmin();
@@ -15,5 +16,6 @@ public:
 	void Release();
 
 	vector<cEnemy*>& GetOne() { return m_ones; }
+	vector<cEnemy*>& GetFairy() { return m_fairys; }
 };
 
