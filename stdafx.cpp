@@ -1,5 +1,9 @@
 #include "DXUT.h"
 
+FLOAT DistPoint(VEC2 a, VEC2 b) {
+	return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
+}
+
 #ifdef _DEBUG
 void DEBUG_LOG(LPCSTR fmt, ...) {
 	char buf[256];

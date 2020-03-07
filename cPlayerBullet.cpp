@@ -6,7 +6,7 @@
 cPlayerBullet::cPlayerBullet(string key, VEC2 pos, VEC2 dir, VEC2 size, FLOAT rot)
 {
 	m_img = IMAGE->FindImage(key);
-	m_img->m_color = D3DCOLOR_ARGB(150, 255, 255, 255);
+	m_img->m_color = D3DCOLOR_ARGB(200, 255, 255, 255);
 
 	m_atk = 1;
 	m_pos = pos;
@@ -29,10 +29,10 @@ void cPlayerBullet::Update()
 
 void cPlayerBullet::OutMapChk()
 {
-	if (m_pos.x - m_img->m_info.Width / 2 > WINSIZEX ||
-		m_pos.x + m_img->m_info.Width / 2 < -300 ||
-		m_pos.y - m_img->m_info.Height / 2 > WINSIZEY + 300 ||
-		m_pos.y + m_img->m_info.Height / 2 < -300
+	if (m_pos.x - m_img->m_info.Width / 2 > 50 + INGAMEX ||
+		m_pos.x + m_img->m_info.Width / 2 < 50 ||
+		m_pos.y - m_img->m_info.Height / 2 > 50 + INGAMEY ||
+		m_pos.y + m_img->m_info.Height / 2 < 50
 		) m_isLive = false;
 	else return;
 }

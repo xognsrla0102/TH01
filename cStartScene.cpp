@@ -256,7 +256,11 @@ void cStartScene::Update()
 			isB = m_weaponButton;
 
 			SOUND->Stop("th_01_%s");
-			SCENE->ChangeScene("stage1Scene");
+			
+			if(m_nowButton == mLUNATIC)
+				SCENE->ChangeScene("stage1Scene");
+			//else
+				//SCENE->ChangeScene("extraScene");
 			return;
 		}
 

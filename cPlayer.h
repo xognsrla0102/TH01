@@ -31,6 +31,7 @@ public:
 
 	int m_level = 1;
 	int m_power = 0;
+	int m_graze = 0;
 
 	int m_bRot[2][3] = {
 		{ -110, -130, -150 },

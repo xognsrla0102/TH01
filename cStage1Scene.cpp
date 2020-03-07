@@ -50,17 +50,20 @@ void cStage1Scene::Init()
 
 	//ui내에 있는 게임 플레이 공간은
 	//745 X 620 이고 시작 위치는 50,50에서 795, 670 까지임
-	VEC2 playerPos = VEC2(50 + INGAMEX / 2, 50 + INGAMEY / 2);
-
+	VEC2 playerPos = VEC2(50 + INGAMEX / 2, 50 + INGAMEY - 100);
 	OBJFIND(PLAYER)->SetPos(playerPos);
 
 	m_img1Pos = m_img2Pos = VEC2(50, 0);
 
 	m_mobSpawn.push_back(new cTimer(300));
+	m_mobSpawn.push_back(new cTimer(0));
 }
 
 void cStage1Scene::Update()
 {
+	//if (OBJFIND(PLAYER)->GetLive() == FALSE)
+		//SCENE->ChangeScene("gameoverScene");
+
 	ScroolMap();
 
 	if (KEYDOWN(DIK_ESCAPE)) {
@@ -126,6 +129,7 @@ void cStage1Scene::Release()
 	((cBalls*)OBJFIND(BALLS))->Release();
 	((cEnemyAdmin*)OBJFIND(ENEMYS))->Release();
 	((cBulletAdmin*)OBJFIND(BULLETS))->Release();
+	EFFECT->Reset();
 }
 
 void cStage1Scene::ScroolMap()
@@ -140,29 +144,85 @@ void cStage1Scene::LevelDesign()
 {
 	int nowTime = timeGetTime() - m_startTime;
 
-	if (nowTime > 500 && nowTime < 5000) {
+	if (nowTime > 1000 && nowTime < 5000) {
 		if (m_mobSpawn[0]->Update()) {
-			((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne().push_back(
-				new cOne(2, 1, VEC2(50, 200))
-			);
+			auto& one = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne();
+			one.push_back(new cOne(2, 1, VEC2(50, 200)));
+			INT idx = one.size() - 1;
+			cOne* nowOne = ((cOne*)(one[idx]));
+			nowOne->m_theta = 15;
+			nowOne->m_bulletCnt = 8;
+			nowOne->SetDelay(500 + rand() % 200);
+			nowOne->SetSpeed(100);
 		}
 	}
+
 	else if (nowTime > 5000 && nowTime < 10000) {
 		if (m_mobSpawn[0]->Update()) {
-			((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne().push_back(
-				new cOne(2, 2, VEC2(50 + INGAMEX, 200))
-			);
+			auto& one = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne();
+			one.push_back(new cOne(2, 2, VEC2(50 + INGAMEX, 200)));
+			INT idx = one.size() - 1;
+			cOne* nowOne = ((cOne*)(one[idx]));
+			nowOne->m_theta = 15;
+			nowOne->m_bulletCnt = 8;
+			nowOne->SetDelay(500 + rand() % 200);
+			nowOne->SetSpeed(100);
 		}
 	}
-	else if (nowTime > 10000 && nowTime < 15000) {
-		if (m_mobSpawn[0]->Update()) {
-			((cEnemyAdmin*)OBJFIND(ENEMYS))->GetFairy().push_back(
-				new cFairy(2, FAIRY_BLUE, 1, VEC2(50 + INGAMEX, 300))
-			);
+
+	else if (nowTime > 15000 && nowTime < 15020) {
+		auto& fairy = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetFairy();
+		for (size_t i = 1; i <= 3; i++) {
+			fairy.push_back(new cFairy(10, FAIRY_BLUE, 1, VEC2(50 + INGAMEX / 4 * i, 0)));
+			INT idx = fairy.size() - 1;
+			cFairy* nowFairy = ((cFairy*)(fairy[idx]));
+
+			nowFairy->m_path = new cPath(nowFairy->GetPos());
+			nowFairy->m_path->AddPoint(VEC2(nowFairy->GetPos().x, nowFairy->GetPos().y + 50 + 100), 0.03, 0);
+			nowFairy->m_path->AddPoint(VEC2(nowFairy->GetPos().x, nowFairy->GetPos().y + 50 + 100), 0, 1000);
+			nowFairy->m_path->AddPoint(VEC2(nowFairy->GetPos().x, nowFairy->GetPos().y - 100), 0.02, 0);
+			nowFairy->m_circleCnt = 10;
+			nowFairy->SetDelay(300);
+			nowFairy->SetSpeed(500.f);
 		}
 	}
+
+	else if (nowTime > 20000 && nowTime < 20020) {
+		auto& fairy = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetFairy();
+		fairy.push_back(new cFairy(30, FAIRY_BLUE, 1, VEC2(50 + INGAMEX / 2, 0)));
+		INT idx = fairy.size() - 1;
+		cFairy* nowFairy = ((cFairy*)(fairy[idx]));
+
+		nowFairy->m_path = new cPath(nowFairy->GetPos());
+		nowFairy->m_path->AddPoint(VEC2(nowFairy->GetPos().x, nowFairy->GetPos().y + 50 + 150), 0.03, 0);
+		nowFairy->m_path->AddPoint(VEC2(nowFairy->GetPos().x, nowFairy->GetPos().y + 50 + 150), 0, 1000);
+		nowFairy->m_path->AddPoint(VEC2(nowFairy->GetPos().x, nowFairy->GetPos().y - 100), 0.02, 0);
+		nowFairy->m_circleCnt = 10;
+		nowFairy->SetDelay(200);
+		nowFairy->SetSpeed(300.f);
+		nowFairy->m_isRandShot = TRUE;
+		nowFairy->m_isAccel = TRUE;
+	}
+
+	else if (nowTime > 25000 && nowTime < 25020) {
+		auto& fairy = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetFairy();
+		fairy.push_back(new cFairy(100, FAIRY_BLUE, 2, VEC2(50 + INGAMEX / 2, 0)));
+		INT idx = fairy.size() - 1;
+		cFairy* nowFairy = ((cFairy*)(fairy[idx]));
+
+		nowFairy->m_path = new cPath(nowFairy->GetPos());
+		nowFairy->m_path->AddPoint(VEC2(nowFairy->GetPos().x, nowFairy->GetPos().y + 50 + 150), 0.03, 0);
+		nowFairy->m_path->AddPoint(VEC2(nowFairy->GetPos().x, nowFairy->GetPos().y + 50 + 150), 0, 3000);
+		nowFairy->m_path->AddPoint(VEC2(nowFairy->GetPos().x, nowFairy->GetPos().y - 100), 0.02, 0);
+		nowFairy->SetDelay(50);
+		nowFairy->SetSpeed(200.f);
+		nowFairy->m_isAccel = TRUE;
+	}
+
+	//10분이 되면 게임종료
 	else if (nowTime > 600000) {
-	//10분 타이머가 다되면 게임 자동종료(?)
+		//클리어시엔 엑스트라 개방
+		isExtra = TRUE;
 		SCENE->ChangeScene("titleScene");
 	}
 }

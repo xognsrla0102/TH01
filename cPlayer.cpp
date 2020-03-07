@@ -8,9 +8,7 @@
 #include "cPlayer.h"
 
 cPlayer::cPlayer()
-{
-	m_pos = VEC2(200, WINSIZEY / 2);
-	m_speed = 350.f;
+{	
 }
 
 cPlayer::~cPlayer()
@@ -20,7 +18,8 @@ cPlayer::~cPlayer()
 
 void cPlayer::Init()
 {
-	m_pos = VEC2(200, WINSIZEY / 2);
+	m_speed = 350.f;
+
 	m_nowPlayerStatus = pIDLE;
 	m_nowBulletCnt = 0;
 	m_bulletCnt = 5;
@@ -31,6 +30,7 @@ void cPlayer::Init()
 
 	m_level = 1;
 	m_power = 0;
+	m_graze = 0;
 
 	m_nowRot = 0;
 

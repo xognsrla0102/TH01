@@ -158,9 +158,29 @@ void cLoadScene::Init()
 
 	//적 이미지
 	Load("enemy_one", "./resource/enemy/one/one.png");
+
+	Load("enemy_fairy_red", "./resource/enemy/fairy/red/%d.png", 8);
+	Load("enemy_fairy_orange", "./resource/enemy/fairy/orange/%d.png", 8);
 	Load("enemy_fairy_blue", "./resource/enemy/fairy/blue/%d.png", 8);
+	Load("enemy_fairy_green", "./resource/enemy/fairy/green/%d.png", 4);
+	Load("enemy_fairy_purple", "./resource/enemy/fairy/purple/%d.png", 4);
+
+	Load("enemy_book_red", "./resource/enemy/book/red.png");
+	Load("enemy_book_green", "./resource/enemy/book/green.png");
+	Load("enemy_book_pink", "./resource/enemy/book/pink.png");
+
+	Load("enemy_magiczone", "./resource/enemy/book/magic.png");
+
+	//보스 이미지
+	Load("enemy_devil", "./resource/enemy/boss/devil.png");
+
+	Load("enemy_patchouli_idle", "./resource/enemy/boss/patchouli/idle.png");
+	Load("enemy_patchouli_spell", "./resource/enemy/boss/patchouli/spell.png");
+	Load("enemy_patchouli_move", "./resource/enemy/boss/patchouli/%d.png", 3);
 
 	//적 총알 이미지
+	Load("bullet_blueOne", "./resource/enemy/bullet/blueOne.png");
+
 	Load("bullet_blueMeal", "./resource/enemy/bullet/blueMeal.png");
 
 	for (size_t i = 0; i < 5; i++) {
@@ -281,11 +301,9 @@ void cLoadScene::Update()
 		idx++;
 	}
 
-	//씬 추가 (같이 로딩할 수 없는 문제 때문)
 	if (m_nowLoad[0] == m_sounds.size() &&
 		m_nowLoad[1] == m_imgs.size()
 		) {
-
 		//OBJ생성
 		OBJECT->AddOBJ(new cPlayer, PLAYER);
 		((cPlayer*)OBJFIND(PLAYER))->Init();
@@ -293,6 +311,7 @@ void cLoadScene::Update()
 		OBJECT->AddOBJ(new cBulletAdmin, BULLETS);
 		OBJECT->AddOBJ(new cEnemyAdmin, ENEMYS);
 
+		//씬 추가 (같이 로딩할 수 없는 문제 때문)
 		SCENE->AddScene("titleScene", new cTitleScene);
 		SCENE->AddScene("startScene", new cStartScene);
 		SCENE->AddScene("howtoScene", new cHowtoScene);

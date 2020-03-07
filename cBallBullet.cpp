@@ -6,7 +6,7 @@
 cBallBullet::cBallBullet(string key, VEC2 pos, VEC2 dir, VEC2 size, FLOAT rot, bool isHoming)
 {
 	m_img = IMAGE->FindImage(key);
-	m_img->m_color = D3DCOLOR_ARGB(150, 255, 255, 255);
+	m_img->m_color = D3DCOLOR_ARGB(200, 255, 255, 255);
 
 	m_isHoming = isHoming;
 

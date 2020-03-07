@@ -4,6 +4,7 @@
 
 cMain::cMain()
 {
+	srand(time(NULL));
 	SCENE->AddScene("loadScene", new cLoadScene);
 	SCENE->ChangeScene("loadScene");
 }

@@ -14,6 +14,8 @@ public:
 
 	void Update();
 	void Render();
+
+	void Reset();
 };
 
 #define EFFECT cEffectManager::GetInst()

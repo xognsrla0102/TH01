@@ -7,9 +7,7 @@ cEffectManager::cEffectManager()
 
 cEffectManager::~cEffectManager()
 {
-	for (auto iter : m_efts)
-		SAFE_DELETE(iter);
-	m_efts.clear();
+	Reset();
 }
 
 void cEffectManager::AddEffect(cEffect* eftPtr)
@@ -38,4 +36,11 @@ void cEffectManager::Render()
 {
 	for (auto iter : m_efts)
 		iter->Render();
+}
+
+void cEffectManager::Reset()
+{
+	for (auto iter : m_efts)
+		SAFE_DELETE(iter);
+	m_efts.clear();
 }

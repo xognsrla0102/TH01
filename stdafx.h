@@ -1,10 +1,10 @@
 #pragma once
 
 #include <iostream>
-#include <functional>
 #include <string>
 #include <direct.h>
 #include <dinput.h>
+#include <time.h>
 #include <vector>
 #include <map>
 using namespace std;
@@ -29,6 +29,12 @@ enum TAGS {
 	ENEMYS,
 	BULLETS,
 	TAG_END
+};
+
+enum BOOK_COLOR {
+	BOOK_RED,
+	BOOK_GREEN,
+	BOOK_PINK
 };
 
 enum FAIRY_COLOR {
@@ -96,12 +102,11 @@ extern bool isB;
 
 template <typename T>
 void Lerp(T& start, T end, float t) {
+	//70은 델타타임 조정값
 	start = start + t * (end - start) * D_TIME * 70;
 }
 
-FLOAT DistPoint(VEC2 a, VEC2 b) {
-	return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
-}
+FLOAT DistPoint(VEC2 a, VEC2 b);
 
 #ifdef _DEBUG
 	void DEBUG_LOG(LPCSTR fmt, ...);

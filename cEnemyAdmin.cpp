@@ -41,7 +41,7 @@ void cEnemyAdmin::Update()
 		m_fairys[i]->Update();
 		m_fairys[i]->OutMapChk();
 
-		if (m_fairys[i]->GetLive() == false) {
+		if (m_fairys[i]->GetLive() == FALSE) {
 			VEC2 fairyPos = m_fairys[i]->GetPos();
 			if (!(50 > fairyPos.x + 23 || fairyPos.x - 23 > 50 + INGAMEX ||
 				50 > fairyPos.y + 23 || fairyPos.y - 23 > 50 + INGAMEY)) {
