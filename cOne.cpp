@@ -50,8 +50,10 @@ void cOne::Pattern1()
 	//이동
 	//반시계방향으로 원을 돔
 	m_dirRot--;
-	if (m_dirRot < -200.f)
+	if (m_dirRot < -200.f) {
 		m_pos = VEC2(50 + INGAMEX + 100, 50 + INGAMEY + 100);
+		m_isLive = FALSE;
+	}
 
 	VEC2 dir;
 	dir.x = cos(D3DXToRadian(m_dirRot)) * 600;
@@ -102,8 +104,10 @@ void cOne::Pattern2()
 
 	//시계방향으로 원을 돔
 	m_dirRot--;
-	if (m_dirRot < -360.f)
+	if (m_dirRot < -360.f) {
 		m_pos = VEC2(50 + INGAMEX + 100, 50 + INGAMEY + 100);
+		m_isLive = FALSE;
+	}
 
 	VEC2 dir;
 	dir.x = -cos(D3DXToRadian(m_dirRot)) * 600;

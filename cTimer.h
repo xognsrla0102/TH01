@@ -4,11 +4,11 @@ class cTimer
 private:
 	time_t m_start = timeGetTime();
 public:
-	int m_delay = 0;
+	INT m_delay = 0;
 public:
-	cTimer(int delay);
+	cTimer(INT delay);
 	~cTimer() {}
 
-	bool Update();
+	BOOL Update();
 };
 

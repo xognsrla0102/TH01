@@ -12,6 +12,11 @@ public:
 	cTexture* m_life = nullptr;
 	cTexture* m_bomb = nullptr;
 
+	cTexture* m_name = nullptr;
+	cTexture* m_title = nullptr;
+	cTexture* m_circle = nullptr;
+	cTexture* m_musicName = nullptr;
+
 	VEC2 m_img1Pos = VEC2(50, 50);
 	VEC2 m_img2Pos = VEC2(50, 50);
 

@@ -73,11 +73,15 @@ void cLoadScene::Init()
 
 	//효과음 추가
 	Load("bombSND", L"./resource/sound/bomb.wav");
+	Load("reimouAbombSND", L"./resource/sound/reimouA_bomb.wav");
+	Load("reimouBbombSND", L"./resource/sound/reimouB_bomb.wav");
+	Load("marisaAbombSND", L"./resource/sound/marisaA_bomb.wav");
+	Load("marisaBbombSND", L"./resource/sound/marisaB_bomb.wav");
+
 	Load("bossdeadSND", L"./resource/sound/bossdead.wav");
 	Load("bossspellSND", L"./resource/sound/bossspell.wav");
 
 	Load("cancelSND", L"./resource/sound/cancel.wav");
-	Load("catSND", L"./resource/sound/cat.wav");
 	Load("chargeshotSND", L"./resource/sound/chargeshot.wav");
 
 	Load("deadSND", L"./resource/sound/dead.wav");
@@ -97,14 +101,8 @@ void cLoadScene::Init()
 	Load("lazer0SND", L"./resource/sound/lazer0.wav");
 	Load("lazer1SND", L"./resource/sound/lazer1.wav");
 
-	Load("marisabombSND", L"./resource/sound/marisabomb.wav");
-
-	Load("normalshotSND", L"./resource/sound/normalshot.wav");
-
 	Load("powerSND", L"./resource/sound/power.wav");
 	Load("powerupSND", L"./resource/sound/powerup.wav");
-
-	Load("reimoubombSND", L"./resource/sound/reimoubomb.wav");
 
 	Load("selectSND", L"./resource/sound/select.wav");
 	Load("shotSND", L"./resource/sound/shot.wav");
@@ -112,6 +110,7 @@ void cLoadScene::Init()
 	Load("timeSND", L"./resource/sound/time.wav");
 
 	Load("weakshotSND", L"./resource/sound/weakshot.wav");
+	Load("normalshotSND", L"./resource/sound/normalshot.wav");
 
 	Load("keymoveSND", L"./resource/sound/keymove.wav");
 
@@ -148,13 +147,25 @@ void cLoadScene::Init()
 	Load("player_marisa_spellA", "./resource/scene/ingameScene/player/marisa/spellA.png");
 	Load("player_marisa_spellB", "./resource/scene/ingameScene/player/marisa/spellB.png");
 
+	Load("spell_reimou_face", "./resource/spell/reimouFace.png");
+	Load("spell_reimouA_name", "./resource/spell/reimouA.png");
+	Load("spell_reimouB_name", "./resource/spell/reimouB.png");
+
+	Load("spell_marisa_face", "./resource/spell/marisaFace.png");
+	Load("spell_marisaA_name", "./resource/spell/marisaA.png");
+	Load("spell_marisaB_name", "./resource/spell/marisaB.png");
+
 	Load("ingame_ui", "./resource/scene/ingameScene/ui/gameUI.png");
-	Load("ingame_circle", "./resource/scene/ingameScene/ui/circle.png");
 	Load("ingame_life", "./resource/scene/ingameScene/ui/lifeStar.png");
 	Load("ingame_bomb", "./resource/scene/ingameScene/ui/bombStar.png");
 
 	Load("ingame_bg", "./resource/scene/ingameScene/stage1/bg.png");
 	Load("ingame_black", "./resource/scene/ingameScene/stage1/black.png");
+
+	Load("ingame_name", "./resource/scene/ingameScene/ui/name.png");
+	Load("ingame_music", "./resource/scene/ingameScene/ui/music.png");
+	Load("ingame_title", "./resource/scene/ingameScene/ui/title.png");
+	Load("ingame_circle", "./resource/scene/ingameScene/ui/circle.png");
 
 	//적 이미지
 	Load("enemy_one", "./resource/enemy/one/one.png");

@@ -23,12 +23,12 @@ void cEnemyAdmin::Update()
 			//맵안에서 죽었을 경우만 이펙트와 사운드 나게
 			if (!(50 > onePos.x + 25 || onePos.x - 25 > 50 + INGAMEX ||
 				50 > onePos.y + 25 || onePos.y - 25 > 50 + INGAMEY )) {
+				SOUND->Copy("enemydeadSND");
 				EFFECT->AddEffect(
 					new cEffect("enemy_dead_EFFECT", 1, onePos,
 						VEC2(0.5f, 0.5f), VEC2(1, 1)
 					)
 				);
-				SOUND->Copy("enemydeadSND");
 			}
 			SAFE_DELETE(m_ones[i]);
 			m_ones.erase(m_ones.begin() + i);

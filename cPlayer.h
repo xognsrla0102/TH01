@@ -5,8 +5,14 @@ class cBullet;
 class cPlayer : public cObject
 {
 public:
+	cTexture* m_bombFace = nullptr;
+	cTexture* m_bombName = nullptr;
+
 	cTimer* m_bulletTimer = nullptr;
 	cTimer* m_subBulletTimer = nullptr;
+	
+	time_t m_bombTime = timeGetTime();
+	time_t m_notDeadTime = timeGetTime();
 
 	string m_pStatus[2][3] = {
 		{
@@ -41,12 +47,14 @@ public:
 	int m_nowRot = 0;
 
 	float m_score = 0.f;
+	float m_pAlpha = 255.f;
 
-	bool m_hasBall = false;
-	bool m_isHit = false;
-	bool m_isShot = false;
-	bool m_isSubShot = false;
-
+	bool m_hasBall = FALSE;
+	bool m_isHit = FALSE;
+	bool m_isNotDead = FALSE;
+	bool m_isShot = FALSE;
+	bool m_isSubShot = FALSE;
+	bool m_isBomb = FALSE;
 public:
 	cPlayer();
 	~cPlayer();
@@ -55,6 +63,9 @@ public:
 	void Update();
 	void Render();
 	void Release();
+
+	void Hit();
+	void NotDead();
 
 	void Fire();
 	void SubFire();

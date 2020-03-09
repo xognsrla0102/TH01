@@ -32,7 +32,10 @@ void cEffect::Update()
 	else if (m_size.x < 0.f) m_size = VEC2(0, 0);
 
 	m_a -= 800.f * D_TIME;
-	if (m_a < 0.f) m_isDone = true;
+	if (m_a < 0.f) {
+		m_a = 0.f;
+		m_isDone = true;
+	}
 
 	SetColor();
 }

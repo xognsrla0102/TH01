@@ -27,6 +27,12 @@ cStage1Scene::cStage1Scene()
 	m_img = m_img2 = IMAGE->FindImage("ingame_bg");
 
 	m_black = IMAGE->FindImage("ingame_black");
+
+	m_name = IMAGE->FindImage("ingame_name");
+	m_musicName = IMAGE->FindImage("ingame_music");
+
+	m_title = IMAGE->FindImage("ingame_title");
+	m_circle = IMAGE->FindImage("ingame_circle");
 }
 
 cStage1Scene::~cStage1Scene()
@@ -36,13 +42,14 @@ cStage1Scene::~cStage1Scene()
 
 void cStage1Scene::Init()
 {
-	SOUND->Play("th_02_%s", true, true);
+	SOUND->Play("th_02_%s", TRUE, TRUE);
 
 	m_startTime = timeGetTime();
 
 	((cBalls*)OBJFIND(BALLS))->Release();
 	((cPlayer*)OBJFIND(PLAYER))->Release();
 	((cPlayer*)OBJFIND(PLAYER))->Init();
+
 	((cBulletAdmin*)OBJFIND(BULLETS))->Release();
 
 	playerLife = stoi(FILEMANAGER->ReadFile("./gameInfo/LifeInfo.txt"));
@@ -53,6 +60,19 @@ void cStage1Scene::Init()
 	VEC2 playerPos = VEC2(50 + INGAMEX / 2, 50 + INGAMEY - 100);
 	OBJFIND(PLAYER)->SetPos(playerPos);
 
+	m_name->m_a = 0.f;
+	m_name->SetNowRGB();
+
+	m_musicName->m_a = 0.f;
+	m_musicName->SetNowRGB();
+
+	m_title->m_a = 0.f;
+	m_title->SetNowRGB();
+	
+	m_circle->m_a = 0.f;
+	m_circle->m_rot = -1000.f;
+	m_circle->SetNowRGB();
+
 	m_img1Pos = m_img2Pos = VEC2(50, 0);
 
 	m_mobSpawn.push_back(new cTimer(300));
@@ -61,15 +81,18 @@ void cStage1Scene::Init()
 
 void cStage1Scene::Update()
 {
-	//if (OBJFIND(PLAYER)->GetLive() == FALSE)
+	//if (OBJFIND(PLAYER)->GetLive() == FALSE){
 		//SCENE->ChangeScene("gameoverScene");
-
-	ScroolMap();
+		//return;
+	//}
 
 	if (KEYDOWN(DIK_ESCAPE)) {
 		SCENE->ChangeScene("titleScene");
 		return;
 	}
+
+	ScroolMap();
+	LevelDesign();
 
 	EFFECT->Update();
 
@@ -84,9 +107,9 @@ void cStage1Scene::Render()
 	IMAGE->Render(m_img, m_img1Pos, 1.f);
 	IMAGE->Render(m_img2, m_img2Pos, 1.f);
 
-	IMAGE->ReBegin(true);
+	IMAGE->ReBegin(TRUE);
 	IMAGE->Render(m_black, VEC2(50, 50), 1.2f);
-	IMAGE->ReBegin(false);
+	IMAGE->ReBegin(FALSE);
 
 	OBJFIND(ENEMYS)->Render();
 
@@ -94,12 +117,20 @@ void cStage1Scene::Render()
 	OBJFIND(BALLS)->Render();
 	OBJFIND(BULLETS)->Render();
 
-	LevelDesign();
 	EFFECT->Render();
 
 	//UI Ãâ·Â
-	IMAGE->ReBegin(true);
+	IMAGE->ReBegin(TRUE);
+
+	if (timeGetTime() - m_startTime < 8000) {
+		IMAGE->Render(m_name, VEC2(50 + INGAMEX / 2, 50 + 250), 1.f, 0.f, TRUE, m_name->m_color);
+		IMAGE->Render(m_musicName, VEC2(50 + INGAMEX - 120, 50 + INGAMEY - 20), 1.f, 0.f, TRUE, m_musicName->m_color);
+	}
+
 	IMAGE->Render(m_ui, VEC2(0, 0), 1.f);
+
+	IMAGE->Render(m_circle, VEC2(50 + INGAMEX + 150, 50 + INGAMEY - 130), 1.f, m_circle->m_rot, TRUE, m_circle->m_color);
+	IMAGE->Render(m_title, VEC2(50 + INGAMEX + 150, 50 + INGAMEY - 130), 1.f, 0.f, TRUE, m_title->m_color);
 
 	for (size_t i = 0; i < ((cPlayer*)OBJFIND(PLAYER))->m_life; i++)
 		IMAGE->Render(m_life, VEC2(880 + i * 25, 200), 1.f);
@@ -114,13 +145,13 @@ void cStage1Scene::Render()
 	DRAW_NUM(string(scoreText), VEC2(880, 137));
 
 	DRAW_FRAME(to_string(DXUTGetFPS()), VEC2(1000, 680));
-	IMAGE->ReBegin(false);
+	IMAGE->ReBegin(FALSE);
 }
 
 void cStage1Scene::Release()
 {
 	SOUND->Stop("th_02_%s");
-	((cPlayer*)OBJFIND(PLAYER))->m_hasBall = false;
+	((cPlayer*)OBJFIND(PLAYER))->m_hasBall = FALSE;
 
 	for (auto iter : m_mobSpawn)
 		SAFE_DELETE(iter);
@@ -144,7 +175,26 @@ void cStage1Scene::LevelDesign()
 {
 	int nowTime = timeGetTime() - m_startTime;
 
-	if (nowTime > 1000 && nowTime < 5000) {
+	if (nowTime < 8000) {
+		Lerp(m_title->m_a, 255.f, 0.02);
+		Lerp(m_circle->m_a, 255.f, 0.02);
+		Lerp(m_circle->m_rot, 0.f, 0.01);
+
+		if (nowTime > 1000 && nowTime < 5000) {
+			Lerp(m_name->m_a, 255.f, 0.02);
+			Lerp(m_musicName->m_a, 255.f, 0.02);
+		}
+		else if (nowTime > 5000 && nowTime < 8000) {
+			Lerp(m_name->m_a, 0.f, 0.04);
+			Lerp(m_musicName->m_a, 0.f, 0.04);
+		}
+		m_name->SetNowRGB();
+		m_musicName->SetNowRGB();
+		m_title->SetNowRGB();
+		m_circle->SetNowRGB();
+	}
+
+	if (nowTime > 5000 && nowTime < 12000) {
 		if (m_mobSpawn[0]->Update()) {
 			auto& one = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne();
 			one.push_back(new cOne(2, 1, VEC2(50, 200)));
@@ -152,28 +202,23 @@ void cStage1Scene::LevelDesign()
 			cOne* nowOne = ((cOne*)(one[idx]));
 			nowOne->m_theta = 15;
 			nowOne->m_bulletCnt = 8;
-			nowOne->SetDelay(500 + rand() % 200);
-			nowOne->SetSpeed(100);
-		}
-	}
+			nowOne->SetDelay(500 + rand() % 21 * 10);
+			nowOne->SetSpeed(70);
 
-	else if (nowTime > 5000 && nowTime < 10000) {
-		if (m_mobSpawn[0]->Update()) {
-			auto& one = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne();
 			one.push_back(new cOne(2, 2, VEC2(50 + INGAMEX, 200)));
-			INT idx = one.size() - 1;
-			cOne* nowOne = ((cOne*)(one[idx]));
+			idx = one.size() - 1;
+			nowOne = ((cOne*)(one[idx]));
 			nowOne->m_theta = 15;
 			nowOne->m_bulletCnt = 8;
-			nowOne->SetDelay(500 + rand() % 200);
-			nowOne->SetSpeed(100);
+			nowOne->SetDelay(500 + rand() % 21 * 10);
+			nowOne->SetSpeed(70);
 		}
 	}
 
 	else if (nowTime > 15000 && nowTime < 15020) {
 		auto& fairy = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetFairy();
 		for (size_t i = 1; i <= 3; i++) {
-			fairy.push_back(new cFairy(10, FAIRY_BLUE, 1, VEC2(50 + INGAMEX / 4 * i, 0)));
+			fairy.push_back(new cFairy(10, FAIRY_RED, 1, VEC2(50 + INGAMEX / 4 * i, 0)));
 			INT idx = fairy.size() - 1;
 			cFairy* nowFairy = ((cFairy*)(fairy[idx]));
 
@@ -215,7 +260,7 @@ void cStage1Scene::LevelDesign()
 		nowFairy->m_path->AddPoint(VEC2(nowFairy->GetPos().x, nowFairy->GetPos().y + 50 + 150), 0, 3000);
 		nowFairy->m_path->AddPoint(VEC2(nowFairy->GetPos().x, nowFairy->GetPos().y - 100), 0.02, 0);
 		nowFairy->SetDelay(50);
-		nowFairy->SetSpeed(200.f);
+		nowFairy->SetSpeed(250.f);
 		nowFairy->m_isAccel = TRUE;
 	}
 

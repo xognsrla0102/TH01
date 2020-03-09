@@ -60,14 +60,22 @@ void cEnemyBullet::OutMapChk()
 void cEnemyBullet::Collision()
 {
 	auto player = ((cPlayer*)OBJFIND(PLAYER));
+	if (player->m_isHit == TRUE || player->m_isNotDead == TRUE) return;
+
 	VEC2 pPos = player->GetPos();
 	FLOAT bRad = m_img->m_info.Width / 2 * m_size.x;
 
-	//총알의 반지름은 가로 길이 / 2로 임시대책
+	//총알의 반지름은 이미지의 가로 길이의 절반으로
 	if (CIRCLE(m_pos, pPos, bRad, 1)) {
-		m_isLive = false;
 		if (player->m_life > 0) {
+			SOUND->Copy("deadSND");
+			EFFECT->AddEffect(
+				new cEffect("enemy_dead_EFFECT", 1, player->GetPos(),
+					VEC2(2.5, 2.5), VEC2(5, 5)
+				)
+			);
 			player->m_life--;
+			player->m_nowBulletCnt = player->m_isShot = 0;
 			player->m_isHit = TRUE;
 		}
 		else player->GetRefLive() = FALSE;

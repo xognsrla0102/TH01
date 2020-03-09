@@ -3,13 +3,14 @@
 #include "cEnemyAdmin.h"
 #include "cBallBullet.h"
 
-cBallBullet::cBallBullet(string key, VEC2 pos, VEC2 dir, VEC2 size, FLOAT rot, bool isHoming)
+cBallBullet::cBallBullet(string key, VEC2 pos, VEC2 dir, VEC2 size, FLOAT rot, BOOL isHoming)
 {
 	m_img = IMAGE->FindImage(key);
 	m_img->m_color = D3DCOLOR_ARGB(200, 255, 255, 255);
 
 	m_isHoming = isHoming;
 
+	m_atk = 1;
 	m_pos = pos;
 	m_dir = dir;
 	m_size = size;
@@ -23,15 +24,19 @@ cBallBullet::~cBallBullet()
 
 void cBallBullet::Update()
 {
+	if (m_isHoming == TRUE) Homing();
 	m_pos += m_dir * m_speed * D_TIME;
+
+	if (isMarisa == FALSE && isB == FALSE) m_rot -= 8;
+	if (m_rot < 0) m_rot += 360;
 }
 
 void cBallBullet::OutMapChk()
 {
-	if (m_pos.x - m_img->m_info.Width / 2 > WINSIZEX ||
-		m_pos.x + m_img->m_info.Width / 2 < -300 ||
-		m_pos.y - m_img->m_info.Height / 2 > WINSIZEY + 300 ||
-		m_pos.y + m_img->m_info.Height / 2 < -300
+	if (m_pos.x - m_img->m_info.Width / 2 > 50 + INGAMEX ||
+		m_pos.x + m_img->m_info.Width / 2 < 50 ||
+		m_pos.y - m_img->m_info.Height / 2 > 50 + INGAMEY ||
+		m_pos.y + m_img->m_info.Height / 2 < 50
 		) m_isLive = false;
 	else return;
 }
@@ -46,6 +51,7 @@ void cBallBullet::Collision()
 	};
 
 	auto& eOne = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne();
+	auto& eFairy = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetFairy();
 
 	size_t size = eOne.size();
 	for (size_t i = 0; i < size; i++) {
@@ -59,11 +65,66 @@ void cBallBullet::Collision()
 			onePos.y + oneImg->m_info.Height / 2,
 		};
 
-		if (OBB(m_pos, onePos, bBulletRect, oneRect, m_rot, eOne[i]->GetRot()) == true) {
-			m_isLive = false;
-			eOne[i]->GetRefLive() = false;
+		if (OBB(m_pos, onePos, bBulletRect, oneRect, m_rot, eOne[i]->GetRot()) == TRUE) {
+			m_isLive = FALSE;
+			eOne[i]->m_hp -= m_atk;
+			if (eOne[i]->m_hp <= 0.f)
+				eOne[i]->GetRefLive() = false;
 			return;
 		}
 	}
+
+	size = eFairy.size();
+	for (size_t i = 0; i < size; i++) {
+		VEC2 fryPos = eFairy[i]->GetPos();
+		cTexture* fryImg = eFairy[i]->GetImg();
+
+		RECT fryRect = {
+			fryPos.x - fryImg->m_info.Width / 2,
+			fryPos.y - fryImg->m_info.Height / 2,
+			fryPos.x + fryImg->m_info.Width / 2,
+			fryPos.y + fryImg->m_info.Height / 2,
+		};
+
+		if (OBB(m_pos, fryPos, bBulletRect, fryRect, m_rot, eFairy[i]->GetRot()) == TRUE) {
+			m_isLive = FALSE;
+			eFairy[i]->m_hp -= m_atk;
+			if (eFairy[i]->m_hp <= 0.f)
+				eFairy[i]->GetRefLive() = false;
+			return;
+		}
+	}
+}
+
+void cBallBullet::Homing()
+{
+	//현재 탄환을 기준으로 한 중심점에서 가장 거리가 가까운 적을 찾아야함
+	auto& one = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne();
+	auto& fairy = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetFairy();
+
+	//유도할 거니 위치만 알면 됨
+	VEC2 shortPos(WINSIZEX, WINSIZEY);
+	FLOAT shortDist = DistPoint(VEC2(0, 0), shortPos);
+
+	for (size_t i = 0; i < one.size(); i++) {
+		if (DistPoint(m_pos, one[i]->GetPos()) < shortDist) {
+			shortPos = one[i]->GetPos();
+			shortDist = DistPoint(m_pos, shortPos);
+		}
+	}
+	for (size_t i = 0; i < fairy.size(); i++) {
+		if (DistPoint(m_pos, fairy[i]->GetPos()) < shortDist) {
+			shortPos = fairy[i]->GetPos();
+			shortDist = DistPoint(m_pos, shortPos);
+		}
+	}
+
+	DEBUG_LOG("%.2f %.2f\n", shortPos.x, shortPos.y);
+	if (shortPos == VEC2(WINSIZEX, WINSIZEY))
+		return;
+
+	VEC2 normDir;
+	D3DXVec2Normalize(&normDir, &VEC2(shortPos - m_pos));
+	Lerp(m_dir, normDir, 0.1);
 }
 

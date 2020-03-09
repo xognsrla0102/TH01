@@ -23,8 +23,8 @@ cPlayerBullet::~cPlayerBullet()
 void cPlayerBullet::Update()
 {
 	m_pos += m_dir * m_speed * D_TIME;
-	if(isMarisa == false) m_rot -= 8;
-	if (m_rot > 360) m_rot -= 360;
+	if(isMarisa == FALSE) m_rot -= 8;
+	if (m_rot < 0) m_rot += 360;
 }
 
 void cPlayerBullet::OutMapChk()

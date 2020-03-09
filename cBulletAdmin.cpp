@@ -1,5 +1,7 @@
 #include "DXUT.h"
+#include "cPlayer.h"
 #include "cBullet.h"
+#include "cEnemyBullet.h"
 #include "cBulletAdmin.h"
 
 cBulletAdmin::~cBulletAdmin()
@@ -40,6 +42,14 @@ void cBulletAdmin::Update()
 		m_enemyBullet[i]->Update();
 		m_enemyBullet[i]->OutMapChk();
 		m_enemyBullet[i]->Collision();
+
+		if (((cPlayer*)OBJFIND(PLAYER))->m_isHit == TRUE) {
+			//한 순간이 아니라 플레이어가 m_isHit이 트루일 동안은 계속 지워줘야함
+			for (auto iter : m_enemyBullet)
+				SAFE_DELETE(iter);
+			m_enemyBullet.clear();
+			break;
+		}
 
 		if (m_enemyBullet[i]->GetLive() == false) {
 			SAFE_DELETE(m_enemyBullet[i]);

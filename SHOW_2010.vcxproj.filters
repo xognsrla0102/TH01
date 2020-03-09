@@ -158,6 +158,9 @@
     <Filter Include="Core\Object\Path">
       <UniqueIdentifier>{9764161d-b340-4aa8-8427-3e7f73805916}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Object\Enemy\Book">
+      <UniqueIdentifier>{7c19b03c-6452-4173-8d3e-f203e375af7f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -360,6 +363,9 @@
     <ClInclude Include="cPath.h">
       <Filter>Core\Object\Path</Filter>
     </ClInclude>
+    <ClInclude Include="cBook.h">
+      <Filter>Core\Object\Enemy\Book</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -496,6 +502,9 @@
     </ClCompile>
     <ClCompile Include="cPath.cpp">
       <Filter>Core\Object\Path</Filter>
+    </ClCompile>
+    <ClCompile Include="cBook.cpp">
+      <Filter>Core\Object\Enemy\Book</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
