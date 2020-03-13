@@ -4,6 +4,7 @@
 #include "cBalls.h"
 #include "cBulletAdmin.h"
 #include "cEnemyAdmin.h"
+#include "cItemAdmin.h"
 
 #include "cTitleScene.h"
 #include "cStartScene.h"
@@ -117,10 +118,18 @@ void cLoadScene::Init()
 	//이펙트 로딩
 	Load("enemy_dead_EFFECT", "./resource/effect/death.png");
 	Load("createBullet_EFFECT", "./resource/effect/createBullet.png");
+	Load("powerUp_EFFECT", "./resource/effect/powerUp.png");
 
 	//이미지 로딩
 
 	//인게임 이미지 로딩
+	Load("item_fullPower", "./resource/item/fullPower.png");
+	Load("item_bigPower", "./resource/item/bigPower.png");
+	Load("item_smallPower", "./resource/item/smallPower.png");
+	Load("item_bonus", "./resource/item/bonus.png");
+	Load("item_extend", "./resource/item/extend.png");
+	Load("item_boom", "./resource/item/boom.png");
+	Load("item_jum", "./resource/item/jum.png");
 
 	//4장의 이미지가 한쌍이 되서 로딩(애니메이션)
 	Load("player_reimou_idle", "./resource/scene/ingameScene/player/reimou/idle%d.png", 4);
@@ -154,6 +163,8 @@ void cLoadScene::Init()
 	Load("spell_marisa_face", "./resource/spell/marisaFace.png");
 	Load("spell_marisaA_name", "./resource/spell/marisaA.png");
 	Load("spell_marisaB_name", "./resource/spell/marisaB.png");
+
+	Load("spell_black", "./resource/spell/spellBlack.png");
 
 	Load("ingame_ui", "./resource/scene/ingameScene/ui/gameUI.png");
 	Load("ingame_life", "./resource/scene/ingameScene/ui/lifeStar.png");
@@ -321,6 +332,7 @@ void cLoadScene::Update()
 		OBJECT->AddOBJ(new cBalls, BALLS);
 		OBJECT->AddOBJ(new cBulletAdmin, BULLETS);
 		OBJECT->AddOBJ(new cEnemyAdmin, ENEMYS);
+		OBJECT->AddOBJ(new cItemAdmin, ITEMS);
 
 		//씬 추가 (같이 로딩할 수 없는 문제 때문)
 		SCENE->AddScene("titleScene", new cTitleScene);

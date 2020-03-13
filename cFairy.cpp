@@ -68,14 +68,14 @@ void cFairy::Pattern1(INT cnt)
 	INT nowTime = timeGetTime() - m_bulletTime;
 
 	if (nowTime > m_bulletDelay) {
-		SOUND->Copy("normalshotSND");
+		SOUND->Play("normalshotSND");
 		for (size_t i = 0, rot = 0; i < cnt; i++) {
 			VEC2 dir = VEC2(cos(D3DXToRadian(rot)), sin(D3DXToRadian(rot)));
 			D3DXVec2Normalize(&dir, &dir);
 
 			auto& eBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetEnemyBullet();
 
-			EFFECT->AddEffect(new cEffect("createBullet_EFFECT", 1, m_pos, VEC2(-0.3f, -0.3f), VEC2(1.5f, 1.5f), VEC4(150, 128, 128, 255)));
+			EFFECT->AddEffect(new cEffect("createBullet_EFFECT", 1, m_pos, VEC2(-0.3f, -0.3f), VEC2(1.5f, 1.5f), 800.f, VEC4(150, 128, 128, 255)));
 			eBullet.push_back(new cEnemyBullet("bullet_blueOne", m_pos, 1, m_bulletSpeed, dir, m_isAccel));
 
 			if (m_isRandShot == TRUE) rot += 10 + rand() % 20;
@@ -91,7 +91,7 @@ void cFairy::Pattern2()
 	INT nowTime = timeGetTime() - m_bulletTime;
 
 	if (nowTime > m_bulletDelay) {
-		SOUND->Copy("normalshotSND");
+		SOUND->Play("normalshotSND");
 		for (size_t i = 1; i <= 10; i++) {
 			FLOAT rot = 36 * i + rand() % 36;
 			VEC2 dir = VEC2(cos(D3DXToRadian(rot)), sin(D3DXToRadian(rot)));
@@ -99,7 +99,7 @@ void cFairy::Pattern2()
 
 			auto& eBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetEnemyBullet();
 
-			EFFECT->AddEffect(new cEffect("createBullet_EFFECT", 1, m_pos, VEC2(-0.3f, -0.3f), VEC2(1.5f, 1.5f), VEC4(150, 128, 128, 255)));
+			EFFECT->AddEffect(new cEffect("createBullet_EFFECT", 1, m_pos, VEC2(-0.3f, -0.3f), VEC2(1.5f, 1.5f), 800.f, VEC4(150, 128, 128, 255)));
 			eBullet.push_back(new cEnemyBullet("bullet_blueOne", m_pos, 1, m_bulletSpeed, dir, m_isAccel));
 		}
 		m_bulletTime = timeGetTime();

@@ -16,6 +16,7 @@ public:
 	cTexture* m_title = nullptr;
 	cTexture* m_circle = nullptr;
 	cTexture* m_musicName = nullptr;
+	cTexture* m_spellBlack = nullptr;
 
 	VEC2 m_img1Pos = VEC2(50, 50);
 	VEC2 m_img2Pos = VEC2(50, 50);

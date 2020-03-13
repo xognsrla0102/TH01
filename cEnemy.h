@@ -4,10 +4,11 @@
 class cEnemy abstract : public cObject
 {
 protected:
+	vector<string> m_itemNames;
+
 	time_t m_bulletTime = timeGetTime();
 
 	INT m_kind;
-
 	INT m_bulletDelay;
 
 	FLOAT m_bulletSpeed;
@@ -28,5 +29,7 @@ public:
 
 	void SetDelay(INT delay) { m_bulletDelay = delay; }
 	void SetSpeed(INT speed) { m_bulletSpeed = speed; }
+
+	vector<string>& GetItemNames() { return m_itemNames; }
 };
 

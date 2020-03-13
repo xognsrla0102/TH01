@@ -1,12 +1,31 @@
 #include "DXUT.h"
 #include "cEffect.h"
 
-cEffect::cEffect(const string name, int imgCnt, VEC2 pos, VEC2 velSize, VEC2 size, VEC4 argb)
+cEffect::cEffect(const string name, int imgCnt, VEC2 pos, VEC2 velSize, VEC2 size, FLOAT alphaSpeed, VEC4 argb)
 {
 	m_imgName = name;
 
 	m_pos = pos;
 	m_velSize = velSize;
+	m_size = size;
+
+	m_alphaSpeed = alphaSpeed;
+
+	m_a = argb.x;
+	m_r = argb.y;
+	m_g = argb.z;
+	m_b = argb.w;
+
+	SetColor();
+
+	m_ani = new cAnimation(m_delay, imgCnt);
+}
+
+cEffect::cEffect(const string name, int imgCnt, VEC2 pos, BOOL isMove, VEC2 dir, VEC2 size, FLOAT alphaSpeed, VEC4 argb) {
+	m_imgName = name;
+
+	m_pos = pos;
+	m_dir = dir;
 	m_size = size;
 
 	m_a = argb.x;
@@ -15,6 +34,8 @@ cEffect::cEffect(const string name, int imgCnt, VEC2 pos, VEC2 velSize, VEC2 siz
 	m_b = argb.w;
 
 	SetColor();
+
+	m_isMove = TRUE;
 
 	m_ani = new cAnimation(m_delay, imgCnt);
 }
@@ -28,20 +49,24 @@ void cEffect::Update()
 {
 	m_ani->Update();
 
-	if (m_size.x > 0.f) m_size += m_velSize * 10 * D_TIME;
-	else if (m_size.x < 0.f) m_size = VEC2(0, 0);
-
-	m_a -= 800.f * D_TIME;
-	if (m_a < 0.f) {
-		m_a = 0.f;
-		m_isDone = true;
+	if (m_isMove == TRUE) {
+		m_pos += m_dir * 300.f * D_TIME;
+	}
+	else {
+		if (m_size.x > 0.f) m_size += m_velSize * 10 * D_TIME;
+		else if (m_size.x < 0.f) m_size = VEC2(0, 0);
 	}
 
+	m_a -= m_alphaSpeed * D_TIME;
+	if (m_a < 0.f) {
+		m_a = 0.f;
+		m_isDone = TRUE;
+	}
 	SetColor();
 }
 
 void cEffect::Render()
 {
 	cTexture* nowImg = IMAGE->FindImage(m_imgName, m_ani->m_nowFrame);
-	IMAGE->Render(nowImg, m_pos, m_size, 0.f, true, m_color);
+	IMAGE->Render(nowImg, m_pos, m_size, 0.f, TRUE, m_color);
 }

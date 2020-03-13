@@ -161,6 +161,12 @@
     <Filter Include="Core\Object\Enemy\Book">
       <UniqueIdentifier>{7c19b03c-6452-4173-8d3e-f203e375af7f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Object\Item">
+      <UniqueIdentifier>{1b4f7c2d-363e-4bc7-a830-35c2bb2046a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Item\ItemAdmin">
+      <UniqueIdentifier>{98d9fcd6-cf52-4467-a03c-1b62b631006e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -366,6 +372,12 @@
     <ClInclude Include="cBook.h">
       <Filter>Core\Object\Enemy\Book</Filter>
     </ClInclude>
+    <ClInclude Include="cItemAdmin.h">
+      <Filter>Core\Object\Item\ItemAdmin</Filter>
+    </ClInclude>
+    <ClInclude Include="cItem.h">
+      <Filter>Core\Object\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -505,6 +517,12 @@
     </ClCompile>
     <ClCompile Include="cBook.cpp">
       <Filter>Core\Object\Enemy\Book</Filter>
+    </ClCompile>
+    <ClCompile Include="cItemAdmin.cpp">
+      <Filter>Core\Object\Item\ItemAdmin</Filter>
+    </ClCompile>
+    <ClCompile Include="cItem.cpp">
+      <Filter>Core\Object\Item</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

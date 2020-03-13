@@ -64,7 +64,7 @@ void cOne::Pattern1()
 
 	//공격
 	if (CanFire() == true && nowTime > m_bulletDelay) {
-		SOUND->Copy("normalshotSND");
+		SOUND->Play("normalshotSND");
 		//플레이어 바라보는 방향으로 좌우에 4개씩 방사형 총알
 		auto& eBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetEnemyBullet();
 		VEC2 pPos = ((cPlayer*)OBJFIND(PLAYER))->GetPos();
@@ -118,7 +118,7 @@ void cOne::Pattern2()
 
 	//공격
 	if (CanFire() == true && nowTime > m_bulletDelay) {
-		SOUND->Copy("normalshotSND");
+		SOUND->Play("normalshotSND");
 
 		//플레이어 바라보는 방향으로 좌우에 4개씩 방사형 총알
 		auto& eBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetEnemyBullet();

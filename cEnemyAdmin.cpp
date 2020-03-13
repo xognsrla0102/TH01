@@ -1,4 +1,6 @@
 #include "DXUT.h"
+#include "cItem.h"
+#include "cItemAdmin.h"
 #include "cEnemy.h"
 #include "cEnemyAdmin.h"
 
@@ -18,9 +20,9 @@ void cEnemyAdmin::Update()
 		m_ones[i]->Update();
 		m_ones[i]->OutMapChk();
 
-		if (m_ones[i]->GetLive() == false) {
+		if (m_ones[i]->GetLive() == FALSE) {
 			VEC2 onePos = m_ones[i]->GetPos();
-			//맵안에서 죽었을 경우만 이펙트와 사운드 나게
+			//맵 안에서 죽었을 경우만 이펙트와 사운드 나게
 			if (!(50 > onePos.x + 25 || onePos.x - 25 > 50 + INGAMEX ||
 				50 > onePos.y + 25 || onePos.y - 25 > 50 + INGAMEY )) {
 				SOUND->Copy("enemydeadSND");
@@ -29,6 +31,13 @@ void cEnemyAdmin::Update()
 						VEC2(0.5f, 0.5f), VEC2(1, 1)
 					)
 				);
+				//죽으면 아이템 떨굼
+				for (size_t j = 0; j < m_ones[i]->GetItemNames().size(); j++) {
+					string nowItemName = m_ones[i]->GetItemNames()[j];
+					((cItemAdmin*)OBJFIND(ITEMS))->m_items.push_back(
+						new cItem(nowItemName, onePos, VEC2(onePos.x, onePos.y - (40 + rand() % 30)))
+					);
+				}
 			}
 			SAFE_DELETE(m_ones[i]);
 			m_ones.erase(m_ones.begin() + i);
@@ -45,11 +54,11 @@ void cEnemyAdmin::Update()
 			VEC2 fairyPos = m_fairys[i]->GetPos();
 			if (!(50 > fairyPos.x + 23 || fairyPos.x - 23 > 50 + INGAMEX ||
 				50 > fairyPos.y + 23 || fairyPos.y - 23 > 50 + INGAMEY)) {
+				SOUND->Copy("enemydeadSND");
 				EFFECT->AddEffect(
 					new cEffect("enemy_dead_EFFECT", 1, fairyPos,
 						VEC2(0.5f, 0.5f), VEC2(1, 1))
 				);
-				SOUND->Copy("enemydeadSND");
 			}
 			SAFE_DELETE(m_fairys[i]);
 			m_fairys.erase(m_fairys.begin() + i);

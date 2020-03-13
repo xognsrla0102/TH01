@@ -4,6 +4,8 @@
 #include "cPlayerBullet.h"
 #include "cBallBullet.h"
 #include "cBulletAdmin.h"
+#include "cItem.h"
+#include "cItemAdmin.h"
 #include "cTimer.h"
 #include "cPlayer.h"
 
@@ -32,7 +34,7 @@ void cPlayer::Init()
 		else
 			m_bombName = IMAGE->FindImage("spell_marisaB_name");
 	}
-	m_bombFace->m_a = 255.f;
+	m_bombFace->m_a = 200.f;
 	m_bombFace->m_size = VEC2(1, 1);
 	m_bombFace->SetNowRGB();
 
@@ -40,7 +42,7 @@ void cPlayer::Init()
 	m_bombName->SetNowRGB();
 
 	m_bombFace->m_pos = VEC2(-200, 50 + INGAMEY - 300);
-	m_bombName->m_pos = VEC2(50 + 100, 50 + INGAMEY - 200);
+	m_bombName->m_pos = VEC2(50 + 150, 50 + INGAMEY - 200);
 
 	m_speed = 350.f;
 	m_size = VEC2(1.f, 1.f);
@@ -56,6 +58,7 @@ void cPlayer::Init()
 	m_level = 1;
 	m_power = 0;
 	m_graze = 0;
+	m_jum = 0;
 
 	m_nowRot = 0;
 
@@ -68,6 +71,7 @@ void cPlayer::Init()
 	m_isShot = FALSE;
 	m_isSubShot = FALSE;
 	m_isBomb = FALSE;
+	m_isLevelUp = FALSE;
 
 	m_bulletTimer = new cTimer(80);
 	m_subBulletTimer = new cTimer(100);
@@ -86,9 +90,52 @@ void cPlayer::Init()
 
 void cPlayer::Update()
 {
-	//플레이어 레벨 올리는 치트
-	if (INPUT->KeyDown(DIK_A))
-		if (m_level < 9) m_level++;
+	INT wasLevel = m_level;
+
+	//플레이어 파워 올리는 치트
+	if (INPUT->KeyDown(DIK_A)) {
+		if (m_power < 128) m_power += 8;
+		else if (m_power > 128) m_power = 128;
+	}
+
+	if (m_power >= 128) {
+		if (m_level != 9) m_level = 9;
+	}
+	else if (m_power >= 96)	{
+		if(m_level != 8) m_level = 8;
+	}
+	else if (m_power >= 80)	{
+		if(m_level != 7) m_level = 7;
+	}
+	else if (m_power >= 64)	{
+		if(m_level != 6) m_level = 6;
+	}
+	else if (m_power >= 48)	{
+		if(m_level != 5) m_level = 5;
+	}
+	else if (m_power >= 32)	{
+		if(m_level != 4) m_level = 4;
+	}
+	else if (m_power >= 16)	{
+		if(m_level != 3) m_level = 3;
+	}
+	else if (m_power >= 8) {
+		if (m_level != 2) m_level = 2;
+	}
+	else {
+		if (m_level != 1) m_level = 1;
+	}
+
+	if (wasLevel != m_level && wasLevel < m_level)
+		m_isLevelUp = TRUE;
+
+	if (m_isLevelUp == TRUE) {
+		SOUND->Copy("powerupSND");
+		EFFECT->AddEffect(
+			new cEffect("powerUp_EFFECT", 1, VEC2(m_pos.x, m_pos.y - 10), TRUE, VEC2(0, -1))
+		);
+		m_isLevelUp = FALSE;
+	}
 
 	if (m_hasBall == FALSE && m_level > 1) {
 		for (size_t i = 0; i < 2; i++) {
@@ -131,11 +178,6 @@ void cPlayer::Update()
 void cPlayer::Render()
 {
 	IMAGE->Render(m_img, m_pos, m_size, m_rot, TRUE, D3DCOLOR_ARGB((int)m_pAlpha, 255, 255, 255));
-
-	if (m_isBomb == TRUE) {
-		IMAGE->Render(m_bombFace, m_bombFace->m_pos, m_bombFace->m_size, 0.f, TRUE, m_bombFace->m_color);
-		IMAGE->Render(m_bombName, m_bombName->m_pos, 1.f, 0.f, TRUE, m_bombName->m_color);
-	}
 }
 
 void cPlayer::Release()
@@ -150,6 +192,17 @@ void cPlayer::Hit()
 	Lerp(m_pAlpha, 0.f, 0.1);
 	Lerp(m_size, VEC2(0.5f, 2.f), 0.1);
 
+	//m_isHit이 트루일 동안은 계속 지워줘야함
+	auto& eBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetEnemyBullet();
+	for (auto iter : eBullet) {
+		EFFECT->AddEffect(
+			new cEffect("enemy_dead_EFFECT", 1, iter->GetPos(),
+				VEC2(0.5f, 0.5f), VEC2(0.3f, 0.3f)
+			)
+		);
+		iter->GetRefLive() = FALSE;
+	}
+
 	if ((int)m_pAlpha == 0) {
 		m_ani->m_nowFrame = 0;
 		m_nowPlayerStatus = pIDLE;
@@ -158,6 +211,27 @@ void cPlayer::Hit()
 		m_isNotDead = TRUE;
 		m_notDeadTime = timeGetTime();
 		m_size = VEC2(1.f, 1.f);
+		m_power -= 13;
+		if (m_power < 0) m_power = 0;
+
+		INT randNum, resultX;
+		string key = "item_smallPower";
+
+		for (size_t i = 0; i < 6; i++) {
+			if (i == 5) key = "item_bigPower";
+
+			randNum = 50 + rand() % 50;
+			randNum *= rand() % 2 ? 1 : -1;
+			resultX = m_pos.x + randNum;
+
+			if (resultX < 50) resultX = 50 + 10;
+			else if (resultX > 50 + INGAMEX) resultX = 50 + INGAMEX - 10;
+
+			((cItemAdmin*)OBJFIND(ITEMS))->m_items.push_back(
+				new cItem(key, m_pos, VEC2(resultX, m_pos.y - (200 + rand() % 200)))
+			);
+		}
+
 		m_pos = VEC2(50 + INGAMEX / 2, 50 + INGAMEY - 100);
 	}
 }
@@ -165,8 +239,6 @@ void cPlayer::Hit()
 void cPlayer::NotDead()
 {
 	INT nowTime = timeGetTime() - m_notDeadTime;
-
-	DEBUG_LOG("%d\n", nowTime);
 
 	if (nowTime % 100 == 0) m_pAlpha = 0.f;
 	else m_pAlpha = 200.f;
@@ -541,6 +613,8 @@ void cPlayer::SubFire()
 void cPlayer::Bomb()
 {
 	if (m_isBomb == FALSE && m_bomb > 0 && INPUT->KeyDown(DIK_X)) {
+		//붐 사운드 너무 작게 들려서 2개 걸음
+		SOUND->Copy("bombSND");
 		SOUND->Copy("bombSND");
 		if (isMarisa == FALSE) {
 			if (isB == FALSE) {
@@ -549,6 +623,24 @@ void cPlayer::Bomb()
 						VEC2(4, 4), VEC2(5, 5)
 					)
 				);
+
+				auto& eBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetEnemyBullet();
+				for (auto iter : eBullet) {
+					//플레이어 주위에 있는 총알을 모두 없앤다.
+					if (CIRCLE(
+							iter->GetPos(),
+							m_pos,
+							iter->GetImg()->m_info.Width * iter->GetSize().x,
+							230
+					)) {
+						EFFECT->AddEffect(
+							new cEffect("enemy_dead_EFFECT", 1, iter->GetPos(),
+								VEC2(0.5f, 0.5f), VEC2(0.3f, 0.3f)
+							)
+						);
+						iter->GetRefLive() = FALSE;
+					}
+				}
 			}
 			else SOUND->Copy("reimouBbombSND");
 		}
@@ -568,13 +660,13 @@ void cPlayer::Bomb()
 		INT nowTime = timeGetTime() - m_bombTime;
 
 		if (nowTime < 1000) {
-			Lerp(m_bombFace->m_pos.x, 50.f + 130, 0.05);
+			Lerp(m_bombFace->m_pos.x, 50.f + 200, 0.05);
 			Lerp(m_bombName->m_a, 255.f, 0.05);
 			m_bombName->SetNowRGB();
 		}
 
-		else if (nowTime > 1000) {
-			Lerp(m_bombFace->m_size, VEC2(2, 2), 0.02);
+		else if (nowTime > 1500) {
+			Lerp(m_bombFace->m_size, VEC2(2, 2), 0.03);
 			Lerp(m_bombFace->m_a, 0.f, 0.05);
 			m_bombFace->SetNowRGB();
 			Lerp(m_bombName->m_a, 0.f, 0.05);
@@ -584,7 +676,7 @@ void cPlayer::Bomb()
 		if ((int)m_bombFace->m_a == 0 && (int)m_bombName->m_a == 0) {
 			m_bombFace->m_pos = VEC2(-200, 50 + INGAMEY - 300);
 			m_bombFace->m_size = VEC2(1, 1);
-			m_bombFace->m_a = 255.f;
+			m_bombFace->m_a = 200.f;
 			m_bombFace->SetNowRGB();
 
 			m_isBomb = FALSE;

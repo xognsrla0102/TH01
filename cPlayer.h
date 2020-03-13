@@ -38,6 +38,7 @@ public:
 	int m_level = 1;
 	int m_power = 0;
 	int m_graze = 0;
+	int m_jum = 0;
 
 	int m_bRot[2][3] = {
 		{ -110, -130, -150 },
@@ -55,6 +56,7 @@ public:
 	bool m_isShot = FALSE;
 	bool m_isSubShot = FALSE;
 	bool m_isBomb = FALSE;
+	bool m_isLevelUp = FALSE;
 public:
 	cPlayer();
 	~cPlayer();

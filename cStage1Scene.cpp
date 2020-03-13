@@ -16,6 +16,8 @@
 #include "cEnemy.h"
 #include "cEnemyAdmin.h"
 
+#include "cItemAdmin.h"
+
 #include "cStage1Scene.h"
 
 cStage1Scene::cStage1Scene()
@@ -33,6 +35,8 @@ cStage1Scene::cStage1Scene()
 
 	m_title = IMAGE->FindImage("ingame_title");
 	m_circle = IMAGE->FindImage("ingame_circle");
+
+	m_spellBlack = IMAGE->FindImage("spell_black");
 }
 
 cStage1Scene::~cStage1Scene()
@@ -73,6 +77,9 @@ void cStage1Scene::Init()
 	m_circle->m_rot = -1000.f;
 	m_circle->SetNowRGB();
 
+	m_spellBlack->m_a = 0.f;
+	m_spellBlack->SetNowRGB();
+
 	m_img1Pos = m_img2Pos = VEC2(50, 0);
 
 	m_mobSpawn.push_back(new cTimer(300));
@@ -99,7 +106,17 @@ void cStage1Scene::Update()
 	OBJFIND(PLAYER)->Update();
 	OBJFIND(BALLS)->Update();
 	OBJFIND(ENEMYS)->Update();
+	OBJFIND(ITEMS)->Update();
 	OBJFIND(BULLETS)->Update();
+
+	if (((cPlayer*)OBJFIND(PLAYER))->m_isBomb == TRUE) {
+		Lerp(m_spellBlack->m_a, 150.f, 0.05);
+		m_spellBlack->SetNowRGB();
+	}
+	else if ((int)m_spellBlack->m_a != 0) {
+		Lerp(m_spellBlack->m_a, 0.f, 0.02);
+		m_spellBlack->SetNowRGB();
+	}
 }
 
 void cStage1Scene::Render()
@@ -107,15 +124,16 @@ void cStage1Scene::Render()
 	IMAGE->Render(m_img, m_img1Pos, 1.f);
 	IMAGE->Render(m_img2, m_img2Pos, 1.f);
 
-	IMAGE->ReBegin(TRUE);
 	IMAGE->Render(m_black, VEC2(50, 50), 1.2f);
-	IMAGE->ReBegin(FALSE);
+
+	IMAGE->Render(m_spellBlack, VEC2(50, 50), 1.f, 0.f, FALSE, m_spellBlack->m_color);
 
 	OBJFIND(ENEMYS)->Render();
 
 	OBJFIND(PLAYER)->Render();
 	OBJFIND(BALLS)->Render();
 	OBJFIND(BULLETS)->Render();
+	OBJFIND(ITEMS)->Render();
 
 	EFFECT->Render();
 
@@ -127,22 +145,41 @@ void cStage1Scene::Render()
 		IMAGE->Render(m_musicName, VEC2(50 + INGAMEX - 120, 50 + INGAMEY - 20), 1.f, 0.f, TRUE, m_musicName->m_color);
 	}
 
+	cPlayer* player = ((cPlayer*)OBJFIND(PLAYER));
+	if (player->m_isBomb == TRUE) {
+		IMAGE->Render(player->m_bombFace, player->m_bombFace->m_pos, player->m_bombFace->m_size, 0.f, TRUE, player->m_bombFace->m_color);
+		IMAGE->Render(player->m_bombName, player->m_bombName->m_pos, 1.f, 0.f, TRUE, player->m_bombName->m_color);
+	}
+
 	IMAGE->Render(m_ui, VEC2(0, 0), 1.f);
 
-	IMAGE->Render(m_circle, VEC2(50 + INGAMEX + 150, 50 + INGAMEY - 130), 1.f, m_circle->m_rot, TRUE, m_circle->m_color);
-	IMAGE->Render(m_title, VEC2(50 + INGAMEX + 150, 50 + INGAMEY - 130), 1.f, 0.f, TRUE, m_title->m_color);
+	IMAGE->Render(m_circle, VEC2(50 + INGAMEX + 180, 50 + INGAMEY - 130), 1.f, m_circle->m_rot, TRUE, m_circle->m_color);
+	IMAGE->Render(m_title, VEC2(50 + INGAMEX + 180, 50 + INGAMEY - 130), 1.f, 0.f, TRUE, m_title->m_color);
 
 	for (size_t i = 0; i < ((cPlayer*)OBJFIND(PLAYER))->m_life; i++)
 		IMAGE->Render(m_life, VEC2(880 + i * 25, 200), 1.f);
 	for(size_t i = 0; i < ((cPlayer*)OBJFIND(PLAYER))->m_bomb; i++)
 		IMAGE->Render(m_bomb, VEC2(880 + i * 25, 235), 1.f);
 
-	char scoreText[256];
+	CHAR numText[256];
 	
 	((cPlayer*)OBJFIND(PLAYER))->m_score = timeGetTime() - m_startTime;
-	float score = ((cPlayer*)OBJFIND(PLAYER))->m_score;
-	sprintf(scoreText, "%09d", (int)score);
-	DRAW_NUM(string(scoreText), VEC2(880, 137));
+	FLOAT score = ((cPlayer*)OBJFIND(PLAYER))->m_score;
+	sprintf(numText, "%09d", (INT)score);
+	DRAW_NUM(string(numText), VEC2(880, 137));
+
+	INT power = ((cPlayer*)OBJFIND(PLAYER))->m_power;
+	INT graze = ((cPlayer*)OBJFIND(PLAYER))->m_graze;
+	INT jum = ((cPlayer*)OBJFIND(PLAYER))->m_jum;
+
+	sprintf(numText, "%d", (INT)power);
+	DRAW_NUM(string(numText), VEC2(890, 300));
+
+	sprintf(numText, "%d", (INT)graze);
+	DRAW_NUM(string(numText), VEC2(890, 340));
+
+	sprintf(numText, "%d", (INT)jum);
+	DRAW_NUM(string(numText), VEC2(890, 380));
 
 	DRAW_FRAME(to_string(DXUTGetFPS()), VEC2(1000, 680));
 	IMAGE->ReBegin(FALSE);
@@ -160,6 +197,7 @@ void cStage1Scene::Release()
 	((cBalls*)OBJFIND(BALLS))->Release();
 	((cEnemyAdmin*)OBJFIND(ENEMYS))->Release();
 	((cBulletAdmin*)OBJFIND(BULLETS))->Release();
+	((cItemAdmin*)OBJFIND(ITEMS))->Release();
 	EFFECT->Reset();
 }
 
@@ -212,6 +250,7 @@ void cStage1Scene::LevelDesign()
 			nowOne->m_bulletCnt = 8;
 			nowOne->SetDelay(500 + rand() % 21 * 10);
 			nowOne->SetSpeed(70);
+			nowOne->GetItemNames().push_back("item_bigPower");
 		}
 	}
 

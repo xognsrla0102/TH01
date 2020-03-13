@@ -66,6 +66,7 @@ void cBallBullet::Collision()
 		};
 
 		if (OBB(m_pos, onePos, bBulletRect, oneRect, m_rot, eOne[i]->GetRot()) == TRUE) {
+			SOUND->Copy("hitSND");
 			m_isLive = FALSE;
 			eOne[i]->m_hp -= m_atk;
 			if (eOne[i]->m_hp <= 0.f)
@@ -87,6 +88,7 @@ void cBallBullet::Collision()
 		};
 
 		if (OBB(m_pos, fryPos, bBulletRect, fryRect, m_rot, eFairy[i]->GetRot()) == TRUE) {
+			SOUND->Copy("hitSND");
 			m_isLive = FALSE;
 			eFairy[i]->m_hp -= m_atk;
 			if (eFairy[i]->m_hp <= 0.f)
@@ -119,7 +121,6 @@ void cBallBullet::Homing()
 		}
 	}
 
-	DEBUG_LOG("%.2f %.2f\n", shortPos.x, shortPos.y);
 	if (shortPos == VEC2(WINSIZEX, WINSIZEY))
 		return;
 
