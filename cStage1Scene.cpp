@@ -16,6 +16,8 @@
 #include "cEnemy.h"
 #include "cEnemyAdmin.h"
 
+#include "cButton.h"
+
 #include "cItemAdmin.h"
 
 #include "cStage1Scene.h"
@@ -37,11 +39,34 @@ cStage1Scene::cStage1Scene()
 	m_circle = IMAGE->FindImage("ingame_circle");
 
 	m_spellBlack = IMAGE->FindImage("spell_black");
+
+	m_fullPower = IMAGE->FindImage("fullPowerMode");
+
+	m_pause.push_back(new cButton("pause_pauseBT", VEC2(0.7, 0.7)));
+	m_pause.push_back(new cButton("pause_cancelBT", VEC2(1, 1), 0.2f));
+	m_pause.push_back(new cButton("pause_exitBT", VEC2(1, 1), 0.2f));
+
+	for (size_t i = 0; i < m_pause.size(); i++)
+		m_pause[i]->SetPos(VEC2(50 + INGAMEX / 2, 50 + INGAMEY / 2 - 150 + i * 100));
+
+	m_exit.push_back(new cButton("exit_sureBT", VEC2(0.7, 0.7)));
+	m_exit.push_back(new cButton("exit_noBT", VEC2(1, 1), 0.2f));
+	m_exit.push_back(new cButton("exit_yesBT", VEC2(1, 1), 0.2f));
+
+	for (size_t i = 0; i < m_exit.size(); i++)
+		m_exit[i]->SetPos(VEC2(50 + INGAMEX / 2, 50 + INGAMEY / 2 - 150 + i * 100));
 }
 
 cStage1Scene::~cStage1Scene()
 {
 	Release();
+
+	for (auto iter : m_pause)
+		SAFE_DELETE(iter);
+	m_pause.clear();
+	for (auto iter : m_exit)
+		SAFE_DELETE(iter);
+	m_exit.clear();
 }
 
 void cStage1Scene::Init()
@@ -49,6 +74,18 @@ void cStage1Scene::Init()
 	SOUND->Play("th_02_%s", TRUE, TRUE);
 
 	m_startTime = timeGetTime();
+	m_pauseTime = 0;
+
+	m_nowButton = 1;
+
+	m_pause[0]->m_isOn = TRUE;
+	m_pause[1]->m_isOn = TRUE;
+
+	m_exit[0]->m_isOn = TRUE;
+	m_exit[1]->m_isOn = TRUE;
+
+	m_isPause = FALSE;
+	m_isExit = FALSE;
 
 	((cBalls*)OBJFIND(BALLS))->Release();
 	((cPlayer*)OBJFIND(PLAYER))->Release();
@@ -80,6 +117,10 @@ void cStage1Scene::Init()
 	m_spellBlack->m_a = 0.f;
 	m_spellBlack->SetNowRGB();
 
+	m_fullPower->m_a = 0.f;
+	m_fullPower->SetNowRGB();
+	m_fullPower->m_pos = VEC2(50 + INGAMEX / 2, 50 + INGAMEY / 2);
+
 	m_img1Pos = m_img2Pos = VEC2(50, 0);
 
 	m_mobSpawn.push_back(new cTimer(300));
@@ -88,13 +129,50 @@ void cStage1Scene::Init()
 
 void cStage1Scene::Update()
 {
-	//if (OBJFIND(PLAYER)->GetLive() == FALSE){
-		//SCENE->ChangeScene("gameoverScene");
-		//return;
-	//}
+	cPlayer* player = ((cPlayer*)OBJFIND(PLAYER));
 
 	if (KEYDOWN(DIK_ESCAPE)) {
-		SCENE->ChangeScene("titleScene");
+		if (m_isExit == TRUE) {
+			m_isExit = m_isPause = FALSE;
+			m_startTime += timeGetTime() - m_pauseTime;
+
+			m_exit[m_nowButton]->m_isOn = FALSE;
+			m_nowButton = 1;
+			m_exit[m_nowButton]->m_isOn = TRUE;
+		}
+		else {
+			m_isPause = !m_isPause;
+			//일시정지가 시작되는 순간 일시정지 되는 만큼의 시간을 계산
+			if (m_isPause == TRUE) m_pauseTime = timeGetTime();
+
+			//일시정지가 풀리는 순간
+			//게임시작한 시간을 일시정지한 시간만큼 빼서 격차를 줄여줌
+			//게임 시작한 시간은 timeGetTime() - m_startTime 이기 때문에 m_startTime이 커질 수록 게임 시간이 줄어듬
+			//하지만 이건 1스테이지의 레벨 디자인관련 타이머만 일시정지될 뿐이지
+			//다른 객체의 타이머는 여전히 돌아가므로 완벽한 일시정지가 아님. 구조상 수정할 수 없으므로 임시방편...
+			//기다리다 보면 초반에 스테이지 이름이 보이지 않는 등 여러 버그들이 보임
+			//다음부터는 델타타임을 쓸 예정
+			else {
+				m_startTime += timeGetTime() - m_pauseTime;
+
+				m_pause[m_nowButton]->m_isOn = FALSE;
+				m_nowButton = 1;
+				m_pause[m_nowButton]->m_isOn = TRUE;
+			}
+		}
+	}
+	
+	if (player->m_isBomb == TRUE || m_isPause == TRUE || m_isExit == TRUE) {
+		Lerp(m_spellBlack->m_a, 150.f, 0.05);
+		m_spellBlack->SetNowRGB();
+	}
+	else if ((INT)m_spellBlack->m_a != 0) {
+		Lerp(m_spellBlack->m_a, 0.f, 0.02);
+		m_spellBlack->SetNowRGB();
+	}
+
+	if (m_isPause == TRUE || m_isExit == TRUE) {
+		PauseOrExit();
 		return;
 	}
 
@@ -103,19 +181,27 @@ void cStage1Scene::Update()
 
 	EFFECT->Update();
 
+	player->m_wasPower = player->m_power;
+	OBJFIND(ITEMS)->Update();
 	OBJFIND(PLAYER)->Update();
 	OBJFIND(BALLS)->Update();
 	OBJFIND(ENEMYS)->Update();
-	OBJFIND(ITEMS)->Update();
 	OBJFIND(BULLETS)->Update();
 
-	if (((cPlayer*)OBJFIND(PLAYER))->m_isBomb == TRUE) {
-		Lerp(m_spellBlack->m_a, 150.f, 0.05);
-		m_spellBlack->SetNowRGB();
-	}
-	else if ((int)m_spellBlack->m_a != 0) {
-		Lerp(m_spellBlack->m_a, 0.f, 0.02);
-		m_spellBlack->SetNowRGB();
+	//if (player->GetLive() == FALSE){
+		//continue();
+		//return;
+	//}
+
+	if (player->m_isFullPower == TRUE) {
+		Lerp(m_fullPower->m_a, 256.f, 0.03);
+		m_fullPower->SetNowRGB();
+
+		if ((INT)m_fullPower->m_a == 255) {
+			player->m_isFullPower = FALSE;
+			m_fullPower->m_a = 0.f;
+			m_fullPower->SetNowRGB();
+		}
 	}
 }
 
@@ -125,7 +211,6 @@ void cStage1Scene::Render()
 	IMAGE->Render(m_img2, m_img2Pos, 1.f);
 
 	IMAGE->Render(m_black, VEC2(50, 50), 1.2f);
-
 	IMAGE->Render(m_spellBlack, VEC2(50, 50), 1.f, 0.f, FALSE, m_spellBlack->m_color);
 
 	OBJFIND(ENEMYS)->Render();
@@ -151,6 +236,8 @@ void cStage1Scene::Render()
 		IMAGE->Render(player->m_bombName, player->m_bombName->m_pos, 1.f, 0.f, TRUE, player->m_bombName->m_color);
 	}
 
+	IMAGE->Render(m_fullPower, m_fullPower->m_pos, VEC2(1, 1), 0.f, TRUE, m_fullPower->m_color);
+
 	IMAGE->Render(m_ui, VEC2(0, 0), 1.f);
 
 	IMAGE->Render(m_circle, VEC2(50 + INGAMEX + 180, 50 + INGAMEY - 130), 1.f, m_circle->m_rot, TRUE, m_circle->m_color);
@@ -163,7 +250,7 @@ void cStage1Scene::Render()
 
 	CHAR numText[256];
 	
-	((cPlayer*)OBJFIND(PLAYER))->m_score = timeGetTime() - m_startTime;
+	((cPlayer*)OBJFIND(PLAYER))->m_score;
 	FLOAT score = ((cPlayer*)OBJFIND(PLAYER))->m_score;
 	sprintf(numText, "%09d", (INT)score);
 	DRAW_NUM(string(numText), VEC2(880, 137));
@@ -182,6 +269,19 @@ void cStage1Scene::Render()
 	DRAW_NUM(string(numText), VEC2(890, 380));
 
 	DRAW_FRAME(to_string(DXUTGetFPS()), VEC2(1000, 680));
+
+	if (m_isPause == TRUE || m_isExit == TRUE) {
+		IMAGE->Render(m_spellBlack, VEC2(50, 50), 1.f, 0.f, FALSE, m_spellBlack->m_color);
+
+		if (m_isPause == TRUE) {
+			for (auto iter : m_pause)
+				iter->Render();
+		}
+		else {
+			for (auto iter : m_exit)
+				iter->Render();
+		}
+	}
 	IMAGE->ReBegin(FALSE);
 }
 
@@ -201,17 +301,84 @@ void cStage1Scene::Release()
 	EFFECT->Reset();
 }
 
+void cStage1Scene::PauseOrExit()
+{
+	if (INPUT->KeyDown(DIK_UP) || INPUT->KeyDown(DIK_DOWN)) {
+		SOUND->Play("keymoveSND");
+		if (m_isPause == TRUE) m_pause[m_nowButton]->m_isOn = FALSE;
+		else m_exit[m_nowButton]->m_isOn = FALSE;
+		m_nowButton = (m_nowButton != 1) ? 1 : 2;
+		if (m_isPause == TRUE) m_pause[m_nowButton]->m_isOn = TRUE;
+		else m_exit[m_nowButton]->m_isOn = TRUE;
+	}
+	else if (INPUT->KeyDown(DIK_RETURN) || INPUT->KeyDown(DIK_Z)) {
+		SOUND->Play("selectSND");
+		if (m_isPause == TRUE) {
+			switch (m_nowButton) {
+			case 1:
+				m_startTime += timeGetTime() - m_pauseTime;
+				break;
+			case 2:
+				m_isExit = TRUE;
+				break;
+			}
+			m_isPause = FALSE;
+			m_pause[1]->m_isOn = TRUE;
+			m_pause[2]->m_isOn = FALSE;
+		}
+		else {
+			switch (m_nowButton) {
+			case 1:
+				m_isPause = TRUE;
+				break;
+			case 2:
+				m_isPause = FALSE;
+				SCENE->ChangeScene("titleScene");
+				break;
+			}
+			m_isExit = FALSE;
+			m_exit[1]->m_isOn = TRUE;
+			m_exit[2]->m_isOn = FALSE;
+		}
+		m_nowButton = 1;
+	}
+	else if (INPUT->KeyDown(DIK_X)) {
+		SOUND->Play("cancelSND");
+		if (m_isPause == TRUE) {
+			m_isPause = FALSE;
+			m_pause[1]->m_isOn = TRUE;
+			m_pause[2]->m_isOn = FALSE;
+		}
+		else {
+			m_isExit = FALSE;
+			m_exit[1]->m_isOn = TRUE;
+			m_exit[2]->m_isOn = FALSE;
+			m_isPause = TRUE;
+		}
+		m_nowButton = 1;
+	}
+
+	if (m_isPause == TRUE) {
+		for (auto iter : m_pause)
+			iter->Update();
+	}
+	else {
+		for (auto iter : m_exit)
+			iter->Update();
+	}
+}
+
 void cStage1Scene::ScroolMap()
 {
 	//맵 스크롤
 	m_scrool += 100.f * D_TIME;
-	m_img1Pos.y = 50 + (int)m_scrool % m_img->m_info.Height;
+	m_img1Pos.y = 50 + (INT)m_scrool % m_img->m_info.Height;
 	m_img2Pos.y = m_img1Pos.y - m_img->m_info.Height;
 }
 
 void cStage1Scene::LevelDesign()
 {
-	int nowTime = timeGetTime() - m_startTime;
+	INT nowTime = timeGetTime() - m_startTime;
 
 	if (nowTime < 8000) {
 		Lerp(m_title->m_a, 255.f, 0.02);
@@ -240,17 +407,18 @@ void cStage1Scene::LevelDesign()
 			cOne* nowOne = ((cOne*)(one[idx]));
 			nowOne->m_theta = 15;
 			nowOne->m_bulletCnt = 8;
-			nowOne->SetDelay(500 + rand() % 21 * 10);
+			nowOne->SetDelay(300 + rand() % 21 * 50);
 			nowOne->SetSpeed(70);
+			nowOne->GetItemNames().push_back("item_smallPower");
 
 			one.push_back(new cOne(2, 2, VEC2(50 + INGAMEX, 200)));
 			idx = one.size() - 1;
 			nowOne = ((cOne*)(one[idx]));
 			nowOne->m_theta = 15;
 			nowOne->m_bulletCnt = 8;
-			nowOne->SetDelay(500 + rand() % 21 * 10);
+			nowOne->SetDelay(300 + rand() % 21 * 50);
 			nowOne->SetSpeed(70);
-			nowOne->GetItemNames().push_back("item_bigPower");
+			nowOne->GetItemNames().push_back("item_smallPower");
 		}
 	}
 

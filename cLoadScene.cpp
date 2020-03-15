@@ -131,6 +131,8 @@ void cLoadScene::Init()
 	Load("item_boom", "./resource/item/boom.png");
 	Load("item_jum", "./resource/item/jum.png");
 
+	Load("fullPowerMode", "./resource/scene/ingameScene/fullPower.png");
+
 	//4장의 이미지가 한쌍이 되서 로딩(애니메이션)
 	Load("player_reimou_idle", "./resource/scene/ingameScene/player/reimou/idle%d.png", 4);
 	Load("player_reimou_left", "./resource/scene/ingameScene/player/reimou/left%d.png", 7);
@@ -305,6 +307,15 @@ void cLoadScene::Init()
 	Load("restoreBT", "./resource/button/restore.png");
 	Load("onBT", "./resource/button/on.png");
 	Load("offBT", "./resource/button/off.png");
+
+	//인게임 씬 버튼
+	Load("pause_pauseBT", "./resource/scene/ingameScene/ui/pause/pause.png");
+	Load("pause_cancelBT", "./resource/scene/ingameScene/ui/pause/cancel.png");
+	Load("pause_exitBT", "./resource/scene/ingameScene/ui/pause/exit.png");
+
+	Load("exit_sureBT", "./resource/scene/ingameScene/ui/exit/sure.png");
+	Load("exit_yesBT", "./resource/scene/ingameScene/ui/exit/yes.png");
+	Load("exit_noBT", "./resource/scene/ingameScene/ui/exit/no.png");
 }
 
 void cLoadScene::Update()

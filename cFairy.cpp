@@ -68,7 +68,7 @@ void cFairy::Pattern1(INT cnt)
 	INT nowTime = timeGetTime() - m_bulletTime;
 
 	if (nowTime > m_bulletDelay) {
-		SOUND->Play("normalshotSND");
+		SOUND->Copy("normalshotSND");
 		for (size_t i = 0, rot = 0; i < cnt; i++) {
 			VEC2 dir = VEC2(cos(D3DXToRadian(rot)), sin(D3DXToRadian(rot)));
 			D3DXVec2Normalize(&dir, &dir);
@@ -91,7 +91,7 @@ void cFairy::Pattern2()
 	INT nowTime = timeGetTime() - m_bulletTime;
 
 	if (nowTime > m_bulletDelay) {
-		SOUND->Play("normalshotSND");
+		SOUND->Copy("normalshotSND");
 		for (size_t i = 1; i <= 10; i++) {
 			FLOAT rot = 36 * i + rand() % 36;
 			VEC2 dir = VEC2(cos(D3DXToRadian(rot)), sin(D3DXToRadian(rot)));

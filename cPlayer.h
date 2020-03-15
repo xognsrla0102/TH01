@@ -36,6 +36,7 @@ public:
 	int m_bomb = playerBomb;
 
 	int m_level = 1;
+	int m_wasPower = 0;
 	int m_power = 0;
 	int m_graze = 0;
 	int m_jum = 0;
@@ -57,6 +58,7 @@ public:
 	bool m_isSubShot = FALSE;
 	bool m_isBomb = FALSE;
 	bool m_isLevelUp = FALSE;
+	bool m_isFullPower = FALSE;
 public:
 	cPlayer();
 	~cPlayer();

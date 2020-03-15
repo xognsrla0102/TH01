@@ -56,6 +56,7 @@ void cPlayer::Init()
 	m_bomb = playerBomb;
 
 	m_level = 1;
+	m_wasPower = 0;
 	m_power = 0;
 	m_graze = 0;
 	m_jum = 0;
@@ -72,6 +73,7 @@ void cPlayer::Init()
 	m_isSubShot = FALSE;
 	m_isBomb = FALSE;
 	m_isLevelUp = FALSE;
+	m_isFullPower = FALSE;
 
 	m_bulletTimer = new cTimer(80);
 	m_subBulletTimer = new cTimer(100);
@@ -95,8 +97,11 @@ void cPlayer::Update()
 	//플레이어 파워 올리는 치트
 	if (INPUT->KeyDown(DIK_A)) {
 		if (m_power < 128) m_power += 8;
-		else if (m_power > 128) m_power = 128;
+		if (m_power > 128) m_power = 128;
 	}
+
+	if (m_power == 128 && m_wasPower != 128)
+		m_isFullPower = TRUE;
 
 	if (m_power >= 128) {
 		if (m_level != 9) m_level = 9;
@@ -132,7 +137,7 @@ void cPlayer::Update()
 	if (m_isLevelUp == TRUE) {
 		SOUND->Copy("powerupSND");
 		EFFECT->AddEffect(
-			new cEffect("powerUp_EFFECT", 1, VEC2(m_pos.x, m_pos.y - 10), TRUE, VEC2(0, -1))
+			new cEffect("powerUp_EFFECT", 1, VEC2(m_pos.x, m_pos.y - 20), TRUE, VEC2(0, -1))
 		);
 		m_isLevelUp = FALSE;
 	}
@@ -203,7 +208,7 @@ void cPlayer::Hit()
 		iter->GetRefLive() = FALSE;
 	}
 
-	if ((int)m_pAlpha == 0) {
+	if ((INT)m_pAlpha == 0) {
 		m_ani->m_nowFrame = 0;
 		m_nowPlayerStatus = pIDLE;
 		m_bomb = playerBomb;
@@ -211,7 +216,12 @@ void cPlayer::Hit()
 		m_isNotDead = TRUE;
 		m_notDeadTime = timeGetTime();
 		m_size = VEC2(1.f, 1.f);
-		m_power -= 13;
+		if (m_power == 128) m_score -= 51200 + 150;
+		else m_score -= 160;
+
+		if (m_score < 0) m_score = 0;
+
+		m_power -= 16;
 		if (m_power < 0) m_power = 0;
 
 		INT randNum, resultX;
@@ -228,7 +238,7 @@ void cPlayer::Hit()
 			else if (resultX > 50 + INGAMEX) resultX = 50 + INGAMEX - 10;
 
 			((cItemAdmin*)OBJFIND(ITEMS))->m_items.push_back(
-				new cItem(key, m_pos, VEC2(resultX, m_pos.y - (200 + rand() % 200)))
+				new cItem(key, VEC2(m_pos.x, m_pos.y - 10), VEC2(resultX, m_pos.y - (200 + rand() % 200)))
 			);
 		}
 

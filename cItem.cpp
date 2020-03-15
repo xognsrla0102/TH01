@@ -12,15 +12,24 @@ cItem::cItem(string key, VEC2 pos, VEC2 endPos)
 
 void cItem::Update()
 {
-	if (m_isEndPos == FALSE) {
-		if (DistPoint(m_pos, m_endPos) < 5.f) m_isEndPos = TRUE;
-		else Lerp(m_pos, m_endPos, 0.03);
+	if (m_followPlayer == TRUE) {
+		VEC2 dir;
+		D3DXVec2Normalize(&dir, &(((cPlayer*)OBJFIND(PLAYER))->GetPos() - m_pos));
+		m_pos += dir * 800.f * D_TIME;
 	}
+	else if (((cPlayer*)OBJFIND(PLAYER))->m_isBomb == TRUE)
+		m_followPlayer = TRUE;
 	else {
-		//0.5초만에 원래 속도 도달
-		if (m_accel < 1.f) m_accel += D_TIME * 2;
-		else m_accel = 1.f;
-		m_pos.y += 200.f * D_TIME * m_accel;
+		if (m_isEndPos == FALSE) {
+			if (DistPoint(m_pos, m_endPos) < 5.f) m_isEndPos = TRUE;
+			else Lerp(m_pos, m_endPos, 0.03);
+		}
+		else {
+			//0.5초만에 원래 속도 도달
+			if (m_accel < 1.f) m_accel += D_TIME * 2;
+			else m_accel = 1.f;
+			m_pos.y += 200.f * D_TIME * m_accel;
+		}
 	}
 }
 
@@ -64,10 +73,19 @@ void cItem::Collision()
 		SOUND->Copy("getitemSND");
 
 		if(m_key == "item_smallPower"){
-			player->m_power++;
+			if (player->m_power == 128);
+			else if (player->m_power < 128) player->m_power++;
+			else player->m_power = 128;
+			player->m_score += 10;
+			if (player->m_power == 128) player->m_score += 51200;
 		}
 		else if (m_key == "item_bigPower") {
-			player->m_power += 8;
+			if (player->m_power == 128);
+			else if (player->m_power < 128) player->m_power += 8;
+			else player->m_power = 128;
+
+			player->m_score += 10 * 8;
+			if (player->m_power == 128) player->m_score += 51200;
 		}
 		else if (m_key == "item_bonus") {
 

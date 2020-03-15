@@ -64,7 +64,7 @@ void cOne::Pattern1()
 
 	//공격
 	if (CanFire() == true && nowTime > m_bulletDelay) {
-		SOUND->Play("normalshotSND");
+		SOUND->Copy("normalshotSND");
 		//플레이어 바라보는 방향으로 좌우에 4개씩 방사형 총알
 		auto& eBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetEnemyBullet();
 		VEC2 pPos = ((cPlayer*)OBJFIND(PLAYER))->GetPos();
@@ -73,26 +73,18 @@ void cOne::Pattern1()
 		VEC2 m_bDir = pPos - m_pos;
 		FLOAT rot = D3DXToDegree(atan2(m_bDir.y, m_bDir.x));
 
-		FLOAT newRot = rot + m_theta * m_bulletCnt / 2;
-		for (size_t i = 0; i < m_bulletCnt; i++) {
-			m_bDir.x = cos(D3DXToRadian(newRot));
-			m_bDir.y = sin(D3DXToRadian(newRot));
-			D3DXVec2Normalize(&m_bDir, &m_bDir);
+		FLOAT newRot;
+		for (size_t j = 0; j < 2; j++) {
+			newRot = rot + m_theta * m_bulletCnt / 2;
+			for (size_t i = 0; i < m_bulletCnt; i++) {
+				m_bDir.x = cos(D3DXToRadian(newRot));
+				m_bDir.y = sin(D3DXToRadian(newRot));
+				D3DXVec2Normalize(&m_bDir, &m_bDir);
 
-			EFFECT->AddEffect(new cEffect("createBullet_EFFECT", 1, m_pos, VEC2(-0.3f, -0.3f), VEC2(2.f, 2.f)));
-			eBullet.push_back(new cEnemyBullet("bullet_blueMeal", m_pos, 1, m_bulletSpeed, m_bDir, m_isAccel, VEC2(1, 1), newRot + 90));
-			newRot -= m_theta;
-		}
-
-		newRot = rot + m_theta * m_bulletCnt / 2;
-		for (size_t i = 0; i < m_bulletCnt; i++) {
-			m_bDir.x = cos(D3DXToRadian(newRot));
-			m_bDir.y = sin(D3DXToRadian(newRot));
-			D3DXVec2Normalize(&m_bDir, &m_bDir);
-
-			EFFECT->AddEffect(new cEffect("createBullet_EFFECT", 1, m_pos, VEC2(-0.3f, -0.3f), VEC2(2.f, 2.f)));
-			eBullet.push_back(new cEnemyBullet("bullet_blueMeal", m_pos, 1, m_bulletSpeed + 30.f, m_bDir, m_isAccel, VEC2(1.f, 1.f), newRot + 90));
-			newRot -= m_theta;
+				EFFECT->AddEffect(new cEffect("createBullet_EFFECT", 1, m_pos, VEC2(-0.3f, -0.3f), VEC2(2.f, 2.f)));
+				eBullet.push_back(new cEnemyBullet("bullet_blueMeal", m_pos, 1, m_bulletSpeed + j * 30, m_bDir, m_isAccel, VEC2(1, 1), newRot + 90));
+				newRot -= m_theta;
+			}
 		}
 		m_bulletTime = timeGetTime();
 	}
@@ -118,7 +110,7 @@ void cOne::Pattern2()
 
 	//공격
 	if (CanFire() == true && nowTime > m_bulletDelay) {
-		SOUND->Play("normalshotSND");
+		SOUND->Copy("normalshotSND");
 
 		//플레이어 바라보는 방향으로 좌우에 4개씩 방사형 총알
 		auto& eBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetEnemyBullet();
@@ -128,26 +120,18 @@ void cOne::Pattern2()
 		VEC2 m_bDir = pPos - m_pos;
 		FLOAT rot = D3DXToDegree(atan2(m_bDir.y, m_bDir.x));
 
-		FLOAT newRot = rot + m_theta * m_bulletCnt / 2;
-		for (size_t i = 0; i < m_bulletCnt; i++) {
-			m_bDir.x = cos(D3DXToRadian(newRot));
-			m_bDir.y = sin(D3DXToRadian(newRot));
-			D3DXVec2Normalize(&m_bDir, &m_bDir);
+		FLOAT newRot;
+		for (size_t j = 0; j < 2; j++) {
+			newRot = rot + m_theta * m_bulletCnt / 2;
+			for (size_t i = 0; i < m_bulletCnt; i++) {
+				m_bDir.x = cos(D3DXToRadian(newRot));
+				m_bDir.y = sin(D3DXToRadian(newRot));
+				D3DXVec2Normalize(&m_bDir, &m_bDir);
 
-			EFFECT->AddEffect(new cEffect("createBullet_EFFECT", 1, m_pos, VEC2(-0.3f, -0.3f), VEC2(2.5f, 2.5f)));
-			eBullet.push_back(new cEnemyBullet("bullet_blueMeal", m_pos, 1, m_bulletSpeed, m_bDir, m_isAccel, VEC2(1, 1), newRot + 90));
-			newRot -= m_theta;
-		}
-
-		newRot = rot + m_theta * m_bulletCnt / 2;
-		for (size_t i = 0; i < m_bulletCnt; i++) {
-			m_bDir.x = cos(D3DXToRadian(newRot));
-			m_bDir.y = sin(D3DXToRadian(newRot));
-			D3DXVec2Normalize(&m_bDir, &m_bDir);
-
-			EFFECT->AddEffect(new cEffect("createBullet_EFFECT", 1, m_pos, VEC2(-0.3f, -0.3f), VEC2(2.5f, 2.5f)));
-			eBullet.push_back(new cEnemyBullet("bullet_blueMeal", m_pos, 1, m_bulletSpeed + 30.f, m_bDir, m_isAccel, VEC2(1.f, 1.f), newRot + 90));
-			newRot -= m_theta;
+				EFFECT->AddEffect(new cEffect("createBullet_EFFECT", 1, m_pos, VEC2(-0.3f, -0.3f), VEC2(2.5f, 2.5f)));
+				eBullet.push_back(new cEnemyBullet("bullet_blueMeal", m_pos, 1, m_bulletSpeed + j * 30, m_bDir, m_isAccel, VEC2(1, 1), newRot + 90));
+				newRot -= m_theta;
+			}
 		}
 		m_bulletTime = timeGetTime();
 	}
