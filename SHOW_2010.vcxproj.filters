@@ -77,9 +77,6 @@
     <Filter Include="Core\Object\Scenes\StartScene">
       <UniqueIdentifier>{5f0f004e-4416-41ee-a368-91bf1185e909}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Object\Scenes\ReplayScene">
-      <UniqueIdentifier>{efaac199-ec62-4950-94a8-ee5ad401f348}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Object\Scenes\ScoreScene">
       <UniqueIdentifier>{15784650-a0cc-482b-9f7b-d87c57b08c9e}</UniqueIdentifier>
     </Filter>
@@ -166,6 +163,18 @@
     </Filter>
     <Filter Include="Core\Object\Item\ItemAdmin">
       <UniqueIdentifier>{98d9fcd6-cf52-4467-a03c-1b62b631006e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\Font">
+      <UniqueIdentifier>{d53704f9-ad19-403c-b99f-68dfee7525b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Bullet\SpellBullet">
+      <UniqueIdentifier>{7c6fb7a2-3efa-4eb3-99d5-b270a1e54c10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Bullet\SpellBullet\ReimouA">
+      <UniqueIdentifier>{07b5c159-6df0-4edc-b25a-b6bb280baee4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Bullet\SpellBullet\MarisaA">
+      <UniqueIdentifier>{c2263139-933c-446a-bcff-5d3c01aeaa40}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -378,6 +387,12 @@
     <ClInclude Include="cItem.h">
       <Filter>Core\Object\Item</Filter>
     </ClInclude>
+    <ClInclude Include="cFontManager.h">
+      <Filter>Core\Manager\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="cReimouA_Bullet.h">
+      <Filter>Core\Object\Bullet\SpellBullet\ReimouA</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -523,6 +538,12 @@
     </ClCompile>
     <ClCompile Include="cItem.cpp">
       <Filter>Core\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="cFontManager.cpp">
+      <Filter>Core\Manager\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="cReimouA_Bullet.cpp">
+      <Filter>Core\Object\Bullet\SpellBullet\ReimouA</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

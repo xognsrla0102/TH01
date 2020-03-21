@@ -400,6 +400,7 @@
     <ClCompile Include="cEnemyBullet.cpp" />
     <ClCompile Include="cFairy.cpp" />
     <ClCompile Include="cFileManager.cpp" />
+    <ClCompile Include="cFontManager.cpp" />
     <ClCompile Include="cHowtoScene.cpp" />
     <ClCompile Include="cImage.cpp" />
     <ClCompile Include="cImageManager.cpp" />
@@ -419,6 +420,7 @@
     <ClCompile Include="cPath.cpp" />
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cPlayerBullet.cpp" />
+    <ClCompile Include="cReimouA_Bullet.cpp" />
     <ClCompile Include="cScene.cpp" />
     <ClCompile Include="cSceneManager.cpp" />
     <ClCompile Include="cSoundManager.cpp" />
@@ -442,6 +444,7 @@
     <ClInclude Include="cCameraManager.h" />
     <ClInclude Include="cEnemyBullet.h" />
     <ClInclude Include="cFairy.h" />
+    <ClInclude Include="cFontManager.h" />
     <ClInclude Include="cItem.h" />
     <ClInclude Include="cItemAdmin.h" />
     <ClInclude Include="collision.h" />
@@ -466,6 +469,7 @@
     <ClInclude Include="cPath.h" />
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cPlayerBullet.h" />
+    <ClInclude Include="cReimouA_Bullet.h" />
     <ClInclude Include="cScene.h" />
     <ClInclude Include="cSceneManager.h" />
     <ClInclude Include="cSingleton.hpp" />

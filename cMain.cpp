@@ -5,6 +5,7 @@
 cMain::cMain()
 {
 	srand(time(NULL));
+
 	SCENE->AddScene("loadScene", new cLoadScene);
 	SCENE->ChangeScene("loadScene");
 }
@@ -18,6 +19,7 @@ cMain::~cMain()
 	SOUND->ReleaseInst();
 	IMAGE->ReleaseInst();
 	CAMERA->ReleaseInst();
+	FONT->ReleaseInst();
 	FILEMANAGER->ReleaseInst();
 }
 
@@ -26,6 +28,7 @@ void cMain::Update()
 	CAMERA->Update();
 	INPUT->Update();
 	SCENE->Update();
+	FONT->Update();
 }
 
 void cMain::Render()
@@ -38,6 +41,7 @@ void cMain::Render()
 	IMAGE->Begin(FALSE);
 
 	SCENE->Render();
+	FONT->Render();
 
 	IMAGE->End();
 }

@@ -41,20 +41,25 @@ cStage1Scene::cStage1Scene()
 	m_spellBlack = IMAGE->FindImage("spell_black");
 
 	m_fullPower = IMAGE->FindImage("fullPowerMode");
+	m_powerMax = IMAGE->FindImage("ingame_powerMax");
 
 	m_pause.push_back(new cButton("pause_pauseBT", VEC2(0.7, 0.7)));
 	m_pause.push_back(new cButton("pause_cancelBT", VEC2(1, 1), 0.2f));
 	m_pause.push_back(new cButton("pause_exitBT", VEC2(1, 1), 0.2f));
-
 	for (size_t i = 0; i < m_pause.size(); i++)
 		m_pause[i]->SetPos(VEC2(50 + INGAMEX / 2, 50 + INGAMEY / 2 - 150 + i * 100));
 
 	m_exit.push_back(new cButton("exit_sureBT", VEC2(0.7, 0.7)));
 	m_exit.push_back(new cButton("exit_noBT", VEC2(1, 1), 0.2f));
 	m_exit.push_back(new cButton("exit_yesBT", VEC2(1, 1), 0.2f));
-
 	for (size_t i = 0; i < m_exit.size(); i++)
 		m_exit[i]->SetPos(VEC2(50 + INGAMEX / 2, 50 + INGAMEY / 2 - 150 + i * 100));
+
+	m_continue.push_back(new cButton("continueBT", VEC2(1, 1), 0.2f));
+	m_continue.push_back(new cButton("exit_yesBT", VEC2(1, 1), 0.2f));
+	m_continue.push_back(new cButton("exit_noBT", VEC2(1, 1), 0.2f));
+	for (size_t i = 0; i < m_continue.size(); i++)
+		m_continue[i]->SetPos(VEC2(50 + INGAMEX / 2, 50 + INGAMEY / 2 - 150 + i * 100));
 }
 
 cStage1Scene::~cStage1Scene()
@@ -63,10 +68,14 @@ cStage1Scene::~cStage1Scene()
 
 	for (auto iter : m_pause)
 		SAFE_DELETE(iter);
-	m_pause.clear();
 	for (auto iter : m_exit)
 		SAFE_DELETE(iter);
+	for (auto iter : m_continue)
+		SAFE_DELETE(iter);
+
+	m_pause.clear();
 	m_exit.clear();
+	m_continue.clear();
 }
 
 void cStage1Scene::Init()
@@ -84,17 +93,16 @@ void cStage1Scene::Init()
 	m_exit[0]->m_isOn = TRUE;
 	m_exit[1]->m_isOn = TRUE;
 
-	m_isPause = FALSE;
-	m_isExit = FALSE;
+	m_continue[0]->m_isOn = TRUE;
+	m_continue[1]->m_isOn = TRUE;
+
+	m_isPause = m_isExit = m_isContinue = FALSE;
 
 	((cBalls*)OBJFIND(BALLS))->Release();
 	((cPlayer*)OBJFIND(PLAYER))->Release();
 	((cPlayer*)OBJFIND(PLAYER))->Init();
 
 	((cBulletAdmin*)OBJFIND(BULLETS))->Release();
-
-	playerLife = stoi(FILEMANAGER->ReadFile("./gameInfo/LifeInfo.txt"));
-	playerBomb = stoi(FILEMANAGER->ReadFile("./gameInfo/BombInfo.txt"));
 
 	//ui내에 있는 게임 플레이 공간은
 	//745 X 620 이고 시작 위치는 50,50에서 795, 670 까지임
@@ -131,6 +139,17 @@ void cStage1Scene::Update()
 {
 	cPlayer* player = ((cPlayer*)OBJFIND(PLAYER));
 
+	if (m_isContinue == TRUE) {
+		Lerp(m_spellBlack->m_a, 150.f, 0.05);
+		m_spellBlack->SetNowRGB();
+		Continue();
+		return;
+	}
+	else if ((INT)m_spellBlack->m_a != 0) {
+		Lerp(m_spellBlack->m_a, 0.f, 0.02);
+		m_spellBlack->SetNowRGB();
+	}
+
 	if (KEYDOWN(DIK_ESCAPE)) {
 		if (m_isExit == TRUE) {
 			m_isExit = m_isPause = FALSE;
@@ -162,7 +181,7 @@ void cStage1Scene::Update()
 		}
 	}
 	
-	if (player->m_isBomb == TRUE || m_isPause == TRUE || m_isExit == TRUE) {
+	if (player->m_isBomb == TRUE || m_isPause == TRUE || m_isExit == TRUE ) {
 		Lerp(m_spellBlack->m_a, 150.f, 0.05);
 		m_spellBlack->SetNowRGB();
 	}
@@ -188,10 +207,11 @@ void cStage1Scene::Update()
 	OBJFIND(ENEMYS)->Update();
 	OBJFIND(BULLETS)->Update();
 
-	//if (player->GetLive() == FALSE){
-		//continue();
-		//return;
-	//}
+	if (player->GetLive() == FALSE){
+		if (m_nowContinue > 0) m_isContinue = TRUE;
+		else SCENE->ChangeScene("titleScene");
+		return;
+	}
 
 	if (player->m_isFullPower == TRUE) {
 		Lerp(m_fullPower->m_a, 256.f, 0.03);
@@ -243,7 +263,7 @@ void cStage1Scene::Render()
 	IMAGE->Render(m_circle, VEC2(50 + INGAMEX + 180, 50 + INGAMEY - 130), 1.f, m_circle->m_rot, TRUE, m_circle->m_color);
 	IMAGE->Render(m_title, VEC2(50 + INGAMEX + 180, 50 + INGAMEY - 130), 1.f, 0.f, TRUE, m_title->m_color);
 
-	for (size_t i = 0; i < ((cPlayer*)OBJFIND(PLAYER))->m_life; i++)
+	for (size_t i = 0; i < ((cPlayer*)OBJFIND(PLAYER))->m_life - 1; i++)
 		IMAGE->Render(m_life, VEC2(880 + i * 25, 200), 1.f);
 	for(size_t i = 0; i < ((cPlayer*)OBJFIND(PLAYER))->m_bomb; i++)
 		IMAGE->Render(m_bomb, VEC2(880 + i * 25, 235), 1.f);
@@ -259,8 +279,11 @@ void cStage1Scene::Render()
 	INT graze = ((cPlayer*)OBJFIND(PLAYER))->m_graze;
 	INT jum = ((cPlayer*)OBJFIND(PLAYER))->m_jum;
 
-	sprintf(numText, "%d", (INT)power);
-	DRAW_NUM(string(numText), VEC2(890, 300));
+	if (power != 128) {
+		sprintf(numText, "%d", (INT)power);
+		DRAW_NUM(string(numText), VEC2(890, 300));
+	}
+	else IMAGE->Render(m_powerMax, VEC2(890, 300), 1.f);
 
 	sprintf(numText, "%d", (INT)graze);
 	DRAW_NUM(string(numText), VEC2(890, 340));
@@ -270,16 +293,22 @@ void cStage1Scene::Render()
 
 	DRAW_FRAME(to_string(DXUTGetFPS()), VEC2(1000, 680));
 
-	if (m_isPause == TRUE || m_isExit == TRUE) {
+	if (m_isPause == TRUE || m_isExit == TRUE || m_isContinue == TRUE) {
 		IMAGE->Render(m_spellBlack, VEC2(50, 50), 1.f, 0.f, FALSE, m_spellBlack->m_color);
 
 		if (m_isPause == TRUE) {
 			for (auto iter : m_pause)
 				iter->Render();
 		}
-		else {
+		else if (m_isExit == TRUE) {
 			for (auto iter : m_exit)
 				iter->Render();
+		}
+		else if (m_isContinue == TRUE) {
+			for (auto iter : m_continue)
+				iter->Render();
+			sprintf(numText, "%d", (INT)m_nowContinue);
+			DRAW_NUM_SIZE(string(numText), VEC2(50 + INGAMEX / 2 + 30, 225), 1.3f);
 		}
 	}
 	IMAGE->ReBegin(FALSE);
@@ -299,6 +328,36 @@ void cStage1Scene::Release()
 	((cBulletAdmin*)OBJFIND(BULLETS))->Release();
 	((cItemAdmin*)OBJFIND(ITEMS))->Release();
 	EFFECT->Reset();
+}
+
+void cStage1Scene::Continue()
+{
+	if (INPUT->KeyDown(DIK_UP) || INPUT->KeyDown(DIK_DOWN)) {
+		SOUND->Play("keymoveSND");
+		m_continue[m_nowButton]->m_isOn = FALSE;
+		m_nowButton = (m_nowButton != 1) ? 1 : 2;
+		m_continue[m_nowButton]->m_isOn = TRUE;
+	}
+	else if (INPUT->KeyDown(DIK_RETURN) || INPUT->KeyDown(DIK_Z)) {
+		SOUND->Play("selectSND");
+		switch (m_nowButton) {
+		case 1:
+			OBJFIND(PLAYER)->GetRefLive() = TRUE;
+			m_nowContinue--;
+			break;
+		case 2:
+			//일단 타이틀씬으로 이동. 원래는 게임오버씬으로 이동해야함
+			SCENE->ChangeScene("titleScene");
+			break;
+		}
+		m_isContinue = FALSE;
+		m_continue[1]->m_isOn = TRUE;
+		m_continue[2]->m_isOn = FALSE;
+		m_nowButton = 1;
+	}
+
+	for (auto iter : m_continue)
+		iter->Update();
 }
 
 void cStage1Scene::PauseOrExit()
@@ -409,7 +468,7 @@ void cStage1Scene::LevelDesign()
 			nowOne->m_bulletCnt = 8;
 			nowOne->SetDelay(300 + rand() % 21 * 50);
 			nowOne->SetSpeed(70);
-			nowOne->GetItemNames().push_back("item_smallPower");
+			nowOne->GetItemNames().push_back("item_jum");
 
 			one.push_back(new cOne(2, 2, VEC2(50 + INGAMEX, 200)));
 			idx = one.size() - 1;

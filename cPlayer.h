@@ -8,9 +8,15 @@ public:
 	cTexture* m_bombFace = nullptr;
 	cTexture* m_bombName = nullptr;
 
+	cImage* m_spellB_RED[2] = { nullptr };
+	cImage* m_spellB_BLUE[2] = { nullptr };
+
 	cTimer* m_bulletTimer = nullptr;
 	cTimer* m_subBulletTimer = nullptr;
 	
+	time_t m_reimouA_BulletTime;
+	time_t m_reimouB_SpreadTime;
+
 	time_t m_bombTime = timeGetTime();
 	time_t m_notDeadTime = timeGetTime();
 
@@ -26,39 +32,43 @@ public:
 			"player_marisa_right"
 		}
 	};
-	int m_nowPlayerStatus = pIDLE;
+	INT m_nowPlayerStatus = pIDLE;
 
-	int m_nowBulletCnt = 0;
-	int m_bulletCnt = 5;
-	int m_nowSubBulletCnt = 0;
+	INT m_nowBulletCnt = 0;
+	INT m_bulletCnt = 5;
+	INT m_nowSubBulletCnt = 0;
 
-	int m_life = playerLife;
-	int m_bomb = playerBomb;
+	INT m_life = playerLife;
+	INT m_bomb = playerBomb;
 
-	int m_level = 1;
-	int m_wasPower = 0;
-	int m_power = 0;
-	int m_graze = 0;
-	int m_jum = 0;
+	INT m_level = 1;
+	INT m_wasPower = 0;
+	INT m_power = 0;
+	INT m_graze = 0;
+	INT m_jum = 0;
 
-	int m_bRot[2][3] = {
+	INT m_bRot[2][3] = {
 		{ -110, -130, -150 },
 		{ -70, -50, -30 }
 	};
 
-	int m_nowRot = 0;
+	INT m_nowRot = 0;
 
-	float m_score = 0.f;
-	float m_pAlpha = 255.f;
+	FLOAT m_score = 0.f;
+	FLOAT m_pAlpha = 255.f;
 
-	bool m_hasBall = FALSE;
-	bool m_isHit = FALSE;
-	bool m_isNotDead = FALSE;
-	bool m_isShot = FALSE;
-	bool m_isSubShot = FALSE;
-	bool m_isBomb = FALSE;
-	bool m_isLevelUp = FALSE;
-	bool m_isFullPower = FALSE;
+	FLOAT m_shotAtk = 1.f;
+	FLOAT m_subShotAtk = 1.f;
+
+	BOOL m_hasBall = FALSE;
+	BOOL m_isHit = FALSE;
+	BOOL m_isNotDead = FALSE;
+	BOOL m_isShot = FALSE;
+	BOOL m_isSubShot = FALSE;
+	BOOL m_isBomb = FALSE;
+	BOOL m_isBombShot = FALSE; 
+	BOOL m_isLevelUp = FALSE;
+	BOOL m_isFullPower = FALSE;
 public:
 	cPlayer();
 	~cPlayer();
@@ -75,6 +85,11 @@ public:
 	void SubFire();
 
 	void Bomb();
+
+	void ReimouA();
+	void ReimouB();
+	void MarisaA();
+	void MarisaB();
 
 	void Move();
 };

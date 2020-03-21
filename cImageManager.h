@@ -9,6 +9,7 @@ private:
 private:
 	map<string, cMultiTexture*> m_imgs;
 	LPD3DXSPRITE m_sprite;
+	LPD3DXFONT m_font;
 public:
 	cImageManager();
 	virtual ~cImageManager();
@@ -27,10 +28,13 @@ public:
 	void Render(cTexture* text, VEC2 pos, VEC2 size = VEC2(1.f, 1.f), float rot = 0, bool center = false, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
 	void CenterRender(cTexture* text, VEC2 pos, VEC2 center, float size = 1, float rot = 0, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
 
-	void DrawNum(string text, VEC2 pos);
+	void DrawNum(string text, VEC2 pos, FLOAT size = 1.f);
 	void DrawFrame(string text, VEC2 pos);
+
+	void DrawFont(string text, VEC2 pos, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
 };
 
 #define IMAGE cImageManager::GetInst()
 #define DRAW_NUM(i, j) IMAGE->DrawNum(i, j)
+#define DRAW_NUM_SIZE(i, j, k) IMAGE->DrawNum(i, j, k)
 #define DRAW_FRAME(i, j) IMAGE->DrawFrame(i, j)

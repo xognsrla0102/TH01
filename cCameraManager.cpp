@@ -58,26 +58,23 @@ void cCameraManager::SetTransform()
 
 void cCameraManager::Shake()
 {
-	static time_t start2 = timeGetTime();
+	if (m_isShake == FALSE) return;
 
-	static int accel = 1.f;
-	static int dir = 1.f;
-
-	if (timeGetTime() - start2 > 30) {
-		m_pos.x = rand() % accel - rand() % accel;
-		m_pos.y = rand() % accel - rand() % accel;
-		accel += dir;
-		start2 = timeGetTime();
+	if (timeGetTime() - start > m_delay) {
+		m_pos.x = rand() % m_accel - rand() % m_accel;
+		m_pos.y = rand() % m_accel - rand() % m_accel;
+		m_accel += m_velocity;
+		start = timeGetTime();
 	}
 	
-	if (accel > 30) {
-		accel = 30;
-		dir = -dir;
+	if (m_accel > 40) {
+		m_accel = 40;
+		m_velocity = -m_velocity;
 	}
-
-	else if (accel < 1) {
-		accel = 1;
-		dir = -dir;
-		m_isShake = false;
+	else if (m_accel < 1) {
+		m_accel = 1;
+		m_velocity = -m_velocity;
+		m_pos = VEC2(0, 0);
+		m_isShake = FALSE;
 	}
 }

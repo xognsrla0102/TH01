@@ -1,4 +1,5 @@
 #include "DXUT.h"
+#include "cPlayer.h"
 #include "cEnemy.h"
 #include "cEnemyAdmin.h"
 #include "cPlayerBullet.h"
@@ -8,7 +9,6 @@ cPlayerBullet::cPlayerBullet(string key, VEC2 pos, VEC2 dir, VEC2 size, FLOAT ro
 	m_img = IMAGE->FindImage(key);
 	m_img->m_color = D3DCOLOR_ARGB(200, 255, 255, 255);
 
-	m_atk = 1;
 	m_pos = pos;
 	m_dir = dir;
 	m_size = size;
@@ -33,7 +33,7 @@ void cPlayerBullet::OutMapChk()
 		m_pos.x + m_img->m_info.Width / 2 < 50 ||
 		m_pos.y - m_img->m_info.Height / 2 > 50 + INGAMEY ||
 		m_pos.y + m_img->m_info.Height / 2 < 50
-		) m_isLive = false;
+		) m_isLive = FALSE;
 	else return;
 }
 
@@ -62,23 +62,25 @@ void cPlayerBullet::Collision()
 		};
 
 		//레이무 기본샷은 회전되면서 날아가기 때문에 OBB로 체크
-		if (isMarisa == false) {
-			if (OBB(m_pos, onePos, pBulletRect, oneRect, m_rot, eOne[i]->GetRot()) == true) {
+		if (isMarisa == FALSE) {
+			if (OBB(m_pos, onePos, pBulletRect, oneRect, m_rot, eOne[i]->GetRot()) == TRUE) {
 				SOUND->Copy("hitSND");
-				m_isLive = false;
-				eOne[i]->m_hp -= m_atk;
+				((cPlayer*)OBJFIND(PLAYER))->m_score += 10;
+				m_isLive = FALSE;
+				eOne[i]->m_hp -= ((cPlayer*)OBJFIND(PLAYER))->m_shotAtk;
 				if(eOne[i]->m_hp <= 0.f)
-					eOne[i]->GetRefLive() = false;
+					eOne[i]->GetRefLive() = FALSE;
 				return;
 			}
 		}
 		else {
-			if (AABB(pBulletRect, oneRect) == true) {
+			if (AABB(pBulletRect, oneRect) == TRUE) {
 				SOUND->Copy("hitSND");
-				m_isLive = false;
-				eOne[i]->m_hp -= m_atk;
+				((cPlayer*)OBJFIND(PLAYER))->m_score += 10;
+				m_isLive = FALSE;
+				eOne[i]->m_hp -= ((cPlayer*)OBJFIND(PLAYER))->m_shotAtk;
 				if (eOne[i]->m_hp <= 0.f)
-					eOne[i]->GetRefLive() = false;
+					eOne[i]->GetRefLive() = FALSE;
 				return;
 			}
 		}
@@ -97,23 +99,25 @@ void cPlayerBullet::Collision()
 		};
 
 		//레이무 기본샷은 회전되면서 날아가기 때문에 OBB로 체크
-		if (isMarisa == false) {
-			if (OBB(m_pos, fryPos, pBulletRect, fryRect, m_rot, eFairy[i]->GetRot()) == true) {
+		if (isMarisa == FALSE) {
+			if (OBB(m_pos, fryPos, pBulletRect, fryRect, m_rot, eFairy[i]->GetRot()) == TRUE) {
 				SOUND->Copy("hitSND");
-				m_isLive = false;
-				eFairy[i]->m_hp -= m_atk;
+				((cPlayer*)OBJFIND(PLAYER))->m_score += 10;
+				m_isLive = FALSE;
+				eFairy[i]->m_hp -= ((cPlayer*)OBJFIND(PLAYER))->m_shotAtk;
 				if (eFairy[i]->m_hp <= 0.f)
-					eFairy[i]->GetRefLive() = false;
+					eFairy[i]->GetRefLive() = FALSE;
 				return;
 			}
 		}
 		else {
-			if (AABB(pBulletRect, fryRect) == true) {
+			if (AABB(pBulletRect, fryRect) == TRUE) {
 				SOUND->Copy("hitSND");
-				m_isLive = false;
-				eFairy[i]->m_hp -= m_atk;
+				((cPlayer*)OBJFIND(PLAYER))->m_score += 10;
+				m_isLive = FALSE;
+				eFairy[i]->m_hp -= ((cPlayer*)OBJFIND(PLAYER))->m_shotAtk;
 				if (eFairy[i]->m_hp <= 0.f)
-					eFairy[i]->GetRefLive() = false;
+					eFairy[i]->GetRefLive() = FALSE;
 				return;
 			}
 		}

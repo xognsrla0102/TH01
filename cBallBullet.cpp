@@ -1,4 +1,5 @@
 #include "DXUT.h"
+#include "cPlayer.h"
 #include "cEnemy.h"
 #include "cEnemyAdmin.h"
 #include "cBallBullet.h"
@@ -10,7 +11,6 @@ cBallBullet::cBallBullet(string key, VEC2 pos, VEC2 dir, VEC2 size, FLOAT rot, B
 
 	m_isHoming = isHoming;
 
-	m_atk = 1;
 	m_pos = pos;
 	m_dir = dir;
 	m_size = size;
@@ -37,7 +37,7 @@ void cBallBullet::OutMapChk()
 		m_pos.x + m_img->m_info.Width / 2 < 50 ||
 		m_pos.y - m_img->m_info.Height / 2 > 50 + INGAMEY ||
 		m_pos.y + m_img->m_info.Height / 2 < 50
-		) m_isLive = false;
+		) m_isLive = FALSE;
 	else return;
 }
 
@@ -68,9 +68,9 @@ void cBallBullet::Collision()
 		if (OBB(m_pos, onePos, bBulletRect, oneRect, m_rot, eOne[i]->GetRot()) == TRUE) {
 			SOUND->Copy("hitSND");
 			m_isLive = FALSE;
-			eOne[i]->m_hp -= m_atk;
+			eOne[i]->m_hp -= ((cPlayer*)OBJFIND(PLAYER))->m_subShotAtk;
 			if (eOne[i]->m_hp <= 0.f)
-				eOne[i]->GetRefLive() = false;
+				eOne[i]->GetRefLive() = FALSE;
 			return;
 		}
 	}
@@ -90,9 +90,9 @@ void cBallBullet::Collision()
 		if (OBB(m_pos, fryPos, bBulletRect, fryRect, m_rot, eFairy[i]->GetRot()) == TRUE) {
 			SOUND->Copy("hitSND");
 			m_isLive = FALSE;
-			eFairy[i]->m_hp -= m_atk;
+			eFairy[i]->m_hp -= ((cPlayer*)OBJFIND(PLAYER))->m_subShotAtk;
 			if (eFairy[i]->m_hp <= 0.f)
-				eFairy[i]->GetRefLive() = false;
+				eFairy[i]->GetRefLive() = FALSE;
 			return;
 		}
 	}
@@ -108,21 +108,20 @@ void cBallBullet::Homing()
 	VEC2 shortPos(WINSIZEX, WINSIZEY);
 	FLOAT shortDist = DistPoint(VEC2(0, 0), shortPos);
 
-	for (size_t i = 0; i < one.size(); i++) {
-		if (DistPoint(m_pos, one[i]->GetPos()) < shortDist) {
-			shortPos = one[i]->GetPos();
+	for (auto iter : one) {
+		if (DistPoint(m_pos, iter->GetPos()) < shortDist) {
+			shortPos = iter->GetPos();
 			shortDist = DistPoint(m_pos, shortPos);
 		}
 	}
-	for (size_t i = 0; i < fairy.size(); i++) {
-		if (DistPoint(m_pos, fairy[i]->GetPos()) < shortDist) {
-			shortPos = fairy[i]->GetPos();
+	for (auto iter : fairy) {
+		if (DistPoint(m_pos, iter->GetPos()) < shortDist) {
+			shortPos = iter->GetPos();
 			shortDist = DistPoint(m_pos, shortPos);
 		}
 	}
 
-	if (shortPos == VEC2(WINSIZEX, WINSIZEY))
-		return;
+	if (shortPos == VEC2(WINSIZEX, WINSIZEY)) return;
 
 	VEC2 normDir;
 	D3DXVec2Normalize(&normDir, &VEC2(shortPos - m_pos));

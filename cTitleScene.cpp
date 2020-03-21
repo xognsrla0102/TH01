@@ -71,16 +71,15 @@ cTitleScene::cTitleScene()
 	//버튼 세팅
 	m_buttons.push_back(new cButton("startBT", VEC2(1.5f, 1.5f)));
 	m_buttons.push_back(new cButton("howtoBT", VEC2(1.5f, 1.5f)));
-	m_buttons.push_back(new cButton("replayBT", VEC2(1.5f, 1.5f)));
 	m_buttons.push_back(new cButton("scoreBT", VEC2(1.5f, 1.5f)));
 	m_buttons.push_back(new cButton("musicBT", VEC2(1.5f, 1.5f)));
 	m_buttons.push_back(new cButton("optionBT", VEC2(1.5f, 1.5f)));
 	m_buttons.push_back(new cButton("quitBT", VEC2(1.5f, 1.5f)));
 
 	for(size_t i = 0; i < m_buttons.size(); i++)
-		m_buttons[i]->SetPos(VEC2(1000 - i * 15, 150 + i * 70));
+		m_buttons[i]->SetPos(VEC2(1000 - i * 15, 150 + i * 80));
 
-	m_buttons[0]->m_isOn = true;
+	m_buttons[0]->m_isOn = TRUE;
 
 	//버튼 이어주기
 
@@ -213,10 +212,6 @@ void cTitleScene::Update()
 				break;
 			case tHOWTO:
 				SCENE->ChangeScene("howtoScene");
-				break;
-			case tREPLAY:
-				PostQuitMessage(0);
-				//SCENE->ChangeScene("replayScene");
 				break;
 			case tSCORE:
 				PostQuitMessage(0);

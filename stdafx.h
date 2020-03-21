@@ -55,7 +55,6 @@ enum INTRO_POS {
 enum TITLE_BUTTON {
 	tSTART,
 	tHOWTO,
-	tREPLAY,
 	tSCORE,
 	tMUSIC,
 	tOPTION,
@@ -116,6 +115,7 @@ FLOAT DistPoint(VEC2 a, VEC2 b);
 #include "collision.h"
 #include "cTexture.h"
 #include "cMultiTexture.h"
+#include "cImage.h"
 #include "cAnimation.h"
 #include "cEffect.h"
 #include "cPath.h"
@@ -127,6 +127,7 @@ FLOAT DistPoint(VEC2 a, VEC2 b);
 #include "cEffectManager.h"
 #include "cFileManager.h"
 #include "cCameraManager.h"
+#include "cFontManager.h"
 //STL의 clear 함수는 요소 갯수를 지워주지 포인터가 가르키는 곳까지 해제해주진 않으므로
 //포인터 시퀀스라면 모든 원소에 접근해서 SAFE_DELETE 해줘야함.
 //포인터 시퀀스가 아니라면 굳이 일일이 SAFE_DELETE 해줄 필요없음

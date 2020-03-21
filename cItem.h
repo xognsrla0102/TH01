@@ -6,8 +6,9 @@ private:
 	string m_key;
 	VEC2 m_endPos;
 	BOOL m_isEndPos = FALSE;
-	BOOL m_followPlayer = FALSE;
 	FLOAT m_accel = 0.f;
+public:
+	BOOL m_followPlayer = FALSE;
 public:
 	cItem(string key, VEC2 pos, VEC2 endPos);
 	virtual ~cItem() {}

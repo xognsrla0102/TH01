@@ -2,6 +2,7 @@
 #include "cBalls.h"
 #include "cBall.h"
 #include "cPlayerBullet.h"
+#include "cReimouA_Bullet.h"
 #include "cBallBullet.h"
 #include "cBulletAdmin.h"
 #include "cItem.h"
@@ -11,15 +12,39 @@
 
 cPlayer::cPlayer()
 {	
+	m_spellB_RED[0] = new cImage;
+	m_spellB_RED[1] = new cImage;
+	m_spellB_BLUE[0] = new cImage;
+	m_spellB_BLUE[1] = new cImage;
+
+	m_spellB_RED[0]->m_img = IMAGE->FindImage("spell_reimouB_RED");
+	m_spellB_RED[1]->m_img = IMAGE->FindImage("spell_reimouB_RED");
+	m_spellB_RED[1]->m_rot = 180;
+
+	m_spellB_BLUE[0]->m_img = IMAGE->FindImage("spell_reimouB_BLUE");
+	m_spellB_BLUE[1]->m_img = IMAGE->FindImage("spell_reimouB_BLUE");
+	m_spellB_BLUE[1]->m_rot = 180;
 }
 
 cPlayer::~cPlayer()
 {
+	for (auto iter : m_spellB_RED)
+		SAFE_DELETE(iter);
+	for (auto iter : m_spellB_BLUE)
+		SAFE_DELETE(iter);
+
 	Release();
 }
 
 void cPlayer::Init()
 {
+	m_spellB_RED[0]->m_a = m_spellB_RED[1]->m_a = 0.f;
+	m_spellB_BLUE[0]->m_a = m_spellB_BLUE[1]->m_a = 0.f;;
+	m_spellB_RED[0]->SetNowRGB();
+	m_spellB_RED[1]->SetNowRGB();
+	m_spellB_BLUE[0]->SetNowRGB();
+	m_spellB_BLUE[1]->SetNowRGB();
+
 	if (isMarisa == FALSE) {
 		m_bombFace = IMAGE->FindImage("spell_reimou_face");
 		if (isB == FALSE)
@@ -66,32 +91,51 @@ void cPlayer::Init()
 	m_score = 0.f;
 	m_pAlpha = 255.f;
 
+	m_shotAtk = 1.f;
+	m_subShotAtk = 1.f;
+
 	m_hasBall = FALSE;
 	m_isHit = FALSE;
 	m_isNotDead = FALSE;
 	m_isShot = FALSE;
 	m_isSubShot = FALSE;
 	m_isBomb = FALSE;
+	m_isBombShot = FALSE;
 	m_isLevelUp = FALSE;
 	m_isFullPower = FALSE;
 
 	m_bulletTimer = new cTimer(80);
-	m_subBulletTimer = new cTimer(100);
+	m_subBulletTimer = new cTimer(450);
 
+	m_reimouA_BulletTime = timeGetTime();
 	m_bombTime = timeGetTime();
 
 	m_ani = new cAnimation(100, 4);
+	//레이무 IDLE일 땐 4장, LEFT, RIGHT는 7장
+	//마리사 IDLE일 땐 4장, LEFT, RIGHT는 8장
 
-	if (isMarisa == FALSE)
+	if (isMarisa == FALSE) {
 		if (isB == FALSE) m_subBulletTimer->m_delay = 450;
 		else m_subBulletTimer->m_delay = 200;
-	else
+	}
+	else {
 		if (isB == FALSE) m_subBulletTimer->m_delay = 200;
 		else m_subBulletTimer->m_delay = 200;
+	}
 }
 
 void cPlayer::Update()
 {
+	if (m_hasBall == FALSE && m_level > 1) {
+		for (size_t i = 0; i < 2; i++) {
+			//오른쪽 볼 만들고 왼쪽 볼 만듦
+			((cBalls*)OBJFIND(BALLS))->GetPlayerBalls().push_back(
+				new cBall(OBJFIND(PLAYER)->GetRefPos(), i)
+			);
+		}
+		m_hasBall = TRUE;
+	}
+
 	INT wasLevel = m_level;
 
 	//플레이어 파워 올리는 치트
@@ -142,25 +186,12 @@ void cPlayer::Update()
 		m_isLevelUp = FALSE;
 	}
 
-	if (m_hasBall == FALSE && m_level > 1) {
-		for (size_t i = 0; i < 2; i++) {
-			//오른쪽 볼 만들고 왼쪽 볼 만듦
-			((cBalls*)OBJFIND(BALLS))->GetPlayerBalls().push_back(
-				new cBall(OBJFIND(PLAYER)->GetRefPos(), i)
-			);
-		}
-		m_hasBall = TRUE;
-	}
-
 	m_ani->Update();
 
 	m_img = IMAGE->FindImage(
 		m_pStatus[isMarisa][m_nowPlayerStatus],
 		m_ani->m_nowFrame
 	);
-
-	if(m_nowPlayerStatus != pIDLE)
-		m_nowPlayerStatus = pIDLE;
 
 	if (m_isHit == TRUE) {
 		Hit();
@@ -178,11 +209,26 @@ void cPlayer::Update()
 	Fire();
 	SubFire();
 	Bomb();
+
+	if (m_isBombShot == TRUE) {
+		if (isMarisa == FALSE) {
+			if (isB == FALSE) ReimouA();
+			else ReimouB();
+		}
+		else {
+			if (isB == FALSE) MarisaA();
+			else MarisaB();
+		}
+	}
 }
 
 void cPlayer::Render()
 {
-	IMAGE->Render(m_img, m_pos, m_size, m_rot, TRUE, D3DCOLOR_ARGB((int)m_pAlpha, 255, 255, 255));
+	for (size_t i = 0; i < 2; i++) {
+		IMAGE->Render(m_spellB_RED[i]->m_img, m_spellB_RED[i]->m_pos, 1.f, m_spellB_RED[i]->m_rot, TRUE, m_spellB_RED[i]->m_color);
+		IMAGE->Render(m_spellB_BLUE[i]->m_img, m_spellB_BLUE[i]->m_pos, 1.f, m_spellB_BLUE[i]->m_rot, TRUE, m_spellB_BLUE[i]->m_color);
+	}
+	IMAGE->Render(m_img, m_pos, m_size, m_rot, TRUE, D3DCOLOR_ARGB((INT)m_pAlpha, 255, 255, 255));
 }
 
 void cPlayer::Release()
@@ -202,7 +248,7 @@ void cPlayer::Hit()
 	for (auto iter : eBullet) {
 		EFFECT->AddEffect(
 			new cEffect("enemy_dead_EFFECT", 1, iter->GetPos(),
-				VEC2(0.5f, 0.5f), VEC2(0.3f, 0.3f)
+				VEC2(0.2f, 0.2f), VEC2(0.3f, 0.3f)
 			)
 		);
 		iter->GetRefLive() = FALSE;
@@ -210,6 +256,7 @@ void cPlayer::Hit()
 
 	if ((INT)m_pAlpha == 0) {
 		m_ani->m_nowFrame = 0;
+		m_ani->m_endFrame = 4;
 		m_nowPlayerStatus = pIDLE;
 		m_bomb = playerBomb;
 		m_isHit = FALSE;
@@ -227,21 +274,38 @@ void cPlayer::Hit()
 		INT randNum, resultX;
 		string key = "item_smallPower";
 
-		for (size_t i = 0; i < 6; i++) {
-			if (i == 5) key = "item_bigPower";
+		if (m_life > 0) {
+			for (size_t i = 0; i < 6; i++) {
+				if (i == 5) key = "item_bigPower";
 
-			randNum = 50 + rand() % 50;
-			randNum *= rand() % 2 ? 1 : -1;
-			resultX = m_pos.x + randNum;
+				randNum = 50 + rand() % 50;
+				randNum *= rand() % 2 ? 1 : -1;
+				resultX = m_pos.x + randNum;
 
-			if (resultX < 50) resultX = 50 + 10;
-			else if (resultX > 50 + INGAMEX) resultX = 50 + INGAMEX - 10;
+				if (resultX < 50) resultX = 50 + 10;
+				else if (resultX > 50 + INGAMEX) resultX = 50 + INGAMEX - 10;
 
-			((cItemAdmin*)OBJFIND(ITEMS))->m_items.push_back(
-				new cItem(key, VEC2(m_pos.x, m_pos.y - 10), VEC2(resultX, m_pos.y - (200 + rand() % 200)))
-			);
+				((cItemAdmin*)OBJFIND(ITEMS))->m_items.push_back(
+					new cItem(key, VEC2(m_pos.x, m_pos.y - 10), VEC2(resultX, m_pos.y - (200 + rand() % 200)))
+				);
+			}
 		}
+		else {
+			key = "item_fullPower";
+			for (size_t i = 0; i < 5; i++) {
+				randNum = 50 + rand() % 50;
+				randNum *= rand() % 2 ? 1 : -1;
+				resultX = m_pos.x + randNum;
 
+				if (resultX < 50) resultX = 50 + 10;
+				else if (resultX > 50 + INGAMEX) resultX = 50 + INGAMEX - 10;
+
+				((cItemAdmin*)OBJFIND(ITEMS))->m_items.push_back(
+					new cItem(key, VEC2(m_pos.x, m_pos.y - 10), VEC2(resultX, m_pos.y - (200 + rand() % 200)))
+				);
+			}
+			m_life = playerLife;
+		}
 		m_pos = VEC2(50 + INGAMEX / 2, 50 + INGAMEY - 100);
 	}
 }
@@ -433,6 +497,7 @@ void cPlayer::Fire()
 		if (isB == FALSE) {
 			switch (m_level) {
 			case 5:
+			case 6:
 				if (m_subBulletTimer->m_delay != 150)
 					m_subBulletTimer->m_delay = 150;
 				break;
@@ -441,6 +506,7 @@ void cPlayer::Fire()
 					m_subBulletTimer->m_delay = 100;
 				break;
 			case 8:
+			case 9:
 				if (m_subBulletTimer->m_delay != 50)
 					m_subBulletTimer->m_delay = 50;
 				break;
@@ -453,10 +519,14 @@ void cPlayer::Fire()
 					m_subBulletTimer->m_delay = 150;
 				break;
 			case 4:
+			case 5:
+			case 6:
 				if (m_subBulletTimer->m_delay != 100)
 					m_subBulletTimer->m_delay = 100;
 				break;
 			case 7:
+			case 8:
+			case 9:
 				if (m_subBulletTimer->m_delay != 50)
 					m_subBulletTimer->m_delay = 50;
 				break;
@@ -483,7 +553,7 @@ void cPlayer::SubFire()
 {
 	if (m_hasBall == TRUE && m_isSubShot == TRUE && m_subBulletTimer->Update()) {
 		//보조 총알 발사
-		char key[256];
+		CHAR key[256];
 		if (isMarisa == FALSE)
 			if (isB == FALSE) sprintf(key, "player_reimou_subShot0");
 			else sprintf(key, "player_reimou_subShot1");
@@ -499,7 +569,7 @@ void cPlayer::SubFire()
 		};
 
 		VEC2 rotVec;
-		int rot;
+		INT rot;
 
 		if (isMarisa == FALSE) {
 			if (isB == FALSE) {
@@ -630,7 +700,7 @@ void cPlayer::Bomb()
 			if (isB == FALSE) {
 				EFFECT->AddEffect(
 					new cEffect("enemy_dead_EFFECT", 1, m_pos,
-						VEC2(4, 4), VEC2(5, 5)
+						VEC2(3, 3), VEC2(5, 5), 500.f
 					)
 				);
 
@@ -645,14 +715,29 @@ void cPlayer::Bomb()
 					)) {
 						EFFECT->AddEffect(
 							new cEffect("enemy_dead_EFFECT", 1, iter->GetPos(),
-								VEC2(0.5f, 0.5f), VEC2(0.3f, 0.3f)
+								VEC2(0.2f, 0.2f), VEC2(0.3f, 0.3f)
 							)
+						);
+						((cItemAdmin*)OBJFIND(ITEMS))->m_items.push_back(
+							new cItem("item_tan", iter->GetPos(), iter->GetPos())
 						);
 						iter->GetRefLive() = FALSE;
 					}
 				}
+				m_reimouA_BulletTime = timeGetTime();
 			}
-			else SOUND->Copy("reimouBbombSND");
+			else {
+				SOUND->Copy("reimouBbombSND");
+				SOUND->Copy("reimouBbombSND");
+
+				CAMERA->m_velocity = 1;
+				CAMERA->m_isShake = TRUE;
+
+				m_spellB_RED[0]->m_pos = VEC2(m_pos.x, 50 + INGAMEY / 2);
+				m_spellB_RED[1]->m_pos = VEC2(m_pos.x, 50 + INGAMEY / 2);
+				m_spellB_BLUE[0]->m_pos = VEC2(50 + INGAMEX / 2, m_pos.y);
+				m_spellB_BLUE[1]->m_pos = VEC2(50 + INGAMEX / 2, m_pos.y);
+			}
 		}
 		else {
 			if (isB == FALSE) SOUND->Copy("marisaAbombSND");
@@ -661,6 +746,7 @@ void cPlayer::Bomb()
 
 		m_bomb--;
 		m_isBomb = TRUE;
+		m_isBombShot = TRUE;
 		m_isNotDead = TRUE;
 		m_notDeadTime = timeGetTime();
 		m_bombTime = timeGetTime();
@@ -683,7 +769,7 @@ void cPlayer::Bomb()
 			m_bombName->SetNowRGB();
 		}
 
-		if ((int)m_bombFace->m_a == 0 && (int)m_bombName->m_a == 0) {
+		if ((INT)m_bombFace->m_a == 0 && (INT)m_bombName->m_a == 0) {
 			m_bombFace->m_pos = VEC2(-200, 50 + INGAMEY - 300);
 			m_bombFace->m_size = VEC2(1, 1);
 			m_bombFace->m_a = 200.f;
@@ -692,6 +778,121 @@ void cPlayer::Bomb()
 			m_isBomb = FALSE;
 		}
 	}
+}
+
+void cPlayer::ReimouA()
+{
+	static INT m_bulletCnt = 0;
+	static time_t firstShot = timeGetTime();
+
+	if (timeGetTime() - firstShot < 1000) return;
+
+	INT nowTime = timeGetTime() - m_reimouA_BulletTime;
+	if (nowTime > 250) {
+		SOUND->Copy("reimouAbombSND");
+		SOUND->Copy("reimouAbombSND");
+		((cBulletAdmin*)OBJFIND(BULLETS))->GetSpellBullet().push_back(
+			new cReimouA_Bullet(VEC2(-10 + m_pos.x + rand() % 30, -10 + m_pos.y + rand() % 30))
+		);
+		m_bulletCnt++;
+		m_reimouA_BulletTime = timeGetTime();
+	}
+
+	if (m_bulletCnt > 7) {
+		m_isBombShot = FALSE;
+		m_bulletCnt = 0;
+	}
+}
+
+void cPlayer::ReimouB()
+{
+	auto& eBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetEnemyBullet();
+
+	RECT spell[2][2];
+
+	for (size_t i = 0; i < 2; i++) {
+		spell[0][i].left = m_spellB_RED[i]->m_pos.x - m_spellB_RED[i]->m_img->m_info.Width / 2;
+		spell[0][i].top = m_spellB_RED[i]->m_pos.y - m_spellB_RED[i]->m_img->m_info.Height / 2;
+		spell[0][i].right = m_spellB_RED[i]->m_pos.x + m_spellB_RED[i]->m_img->m_info.Width / 2;
+		spell[0][i].bottom = m_spellB_RED[i]->m_pos.y + m_spellB_RED[i]->m_img->m_info.Height / 2;
+	}
+	for (size_t i = 0; i < 2; i++) {
+		spell[1][i].left = m_spellB_BLUE[i]->m_pos.x - m_spellB_BLUE[i]->m_img->m_info.Width / 2;
+		spell[1][i].top = m_spellB_BLUE[i]->m_pos.y - m_spellB_BLUE[i]->m_img->m_info.Height / 2;
+		spell[1][i].right = m_spellB_BLUE[i]->m_pos.x + m_spellB_BLUE[i]->m_img->m_info.Width / 2;
+		spell[1][i].bottom = m_spellB_BLUE[i]->m_pos.y + m_spellB_BLUE[i]->m_img->m_info.Height / 2;
+	}
+
+	//스펠과 충돌하는 모든 적 총알들은 탄 소거 아이템이 된다.
+	for (auto iter : eBullet) {
+		RECT bulletRect{
+			iter->GetPos().x - iter->GetImg()->m_info.Width / 2,
+			iter->GetPos().y - iter->GetImg()->m_info.Height / 2,
+			iter->GetPos().x + iter->GetImg()->m_info.Width / 2,
+			iter->GetPos().y + iter->GetImg()->m_info.Height / 2
+		};
+
+		if (AABB(spell[0][0], bulletRect) ||
+			AABB(spell[0][1], bulletRect) ||
+			AABB(spell[1][0], bulletRect) ||
+			AABB(spell[1][1], bulletRect))
+		{
+			EFFECT->AddEffect(
+				new cEffect("enemy_dead_EFFECT", 1, iter->GetPos(),
+					VEC2(0.2f, 0.2f), VEC2(0.3f, 0.3f)
+				)
+			);
+			auto& items = ((cItemAdmin*)OBJFIND(ITEMS))->m_items;
+			items.push_back(
+				new cItem("item_tan", iter->GetPos(), iter->GetPos())
+			);
+			//탄 소거아이템은 항상 플레이어에게 흡수됨
+			items[items.size() - 1]->m_followPlayer = TRUE;
+
+			iter->GetRefLive() = FALSE;
+		}
+	}
+
+	if ((INT)m_spellB_RED[0]->m_a != 200) {
+		Lerp(m_spellB_RED[0]->m_a, 201.f, 0.05);
+		Lerp(m_spellB_RED[1]->m_a, 201.f, 0.05);
+		Lerp(m_spellB_BLUE[0]->m_a, 201.f, 0.05);
+		Lerp(m_spellB_BLUE[1]->m_a, 201.f, 0.05);
+		m_spellB_RED[0]->SetNowRGB();
+		m_spellB_RED[1]->SetNowRGB();
+		m_spellB_BLUE[0]->SetNowRGB();
+		m_spellB_BLUE[1]->SetNowRGB();
+
+		//계속 최신시간으로 갱신시켜줌
+		m_reimouB_SpreadTime = timeGetTime();
+	}
+	else {
+		if (timeGetTime() - m_reimouB_SpreadTime < 2000) {
+			Lerp(m_spellB_RED[0]->m_pos.x, 50.f, 0.05);
+			Lerp(m_spellB_RED[1]->m_pos.x, 50.f + INGAMEX, 0.05);
+			Lerp(m_spellB_BLUE[0]->m_pos.y, 50.f, 0.05);
+			Lerp(m_spellB_BLUE[1]->m_pos.y, 50.f + INGAMEY, 0.05);
+		}
+		else {
+			m_isBombShot = FALSE;
+
+			m_spellB_RED[0]->m_a = m_spellB_RED[1]->m_a
+			= m_spellB_BLUE[0]->m_a = m_spellB_BLUE[1]->m_a = 0.f;
+			m_spellB_RED[0]->SetNowRGB();
+			m_spellB_RED[1]->SetNowRGB();
+			m_spellB_BLUE[0]->SetNowRGB();
+			m_spellB_BLUE[1]->SetNowRGB();
+		}
+	}
+	DEBUG_LOG("%d\n", (INT)m_spellB_RED[0]->m_a);
+}
+
+void cPlayer::MarisaA()
+{
+}
+
+void cPlayer::MarisaB()
+{
 }
 
 void cPlayer::Move()
@@ -717,27 +918,37 @@ void cPlayer::Move()
 	}
 
 	if (INPUT->KeyPress(DIK_LEFT) && INPUT->KeyPress(DIK_RIGHT)) {
-		m_ani->m_nowFrame = 0;
-		m_nowPlayerStatus = pIDLE;
-	}
-
-	else if (INPUT->KeyPress(DIK_LEFT) || INPUT->KeyPress(DIK_RIGHT)) {
-		if (INPUT->KeyDown(DIK_LEFT) || INPUT->KeyDown(DIK_RIGHT))
-			//좌우키가 최초로 눌린 경우 애니메이션을 변경해야 하므로
-			//현재 프레임을 초기화
+		if (m_nowPlayerStatus != pIDLE) {
 			m_ani->m_nowFrame = 0;
+			m_ani->m_endFrame = 4;
+			m_nowPlayerStatus = pIDLE;
+		}
+	}
+	else if (INPUT->KeyPress(DIK_LEFT) || INPUT->KeyPress(DIK_RIGHT)) {
+		//좌우키가 최초로 눌린 경우 애니메이션을 변경해야 하므로
+		//현재 프레임을 초기화
+		if (m_nowPlayerStatus == pIDLE) {
+			m_ani->m_nowFrame = 0;
+			if (isMarisa == FALSE) m_ani->m_endFrame = 7;
+			else m_ani->m_endFrame = 8;
+		}
 		if (INPUT->KeyPress(DIK_LEFT)) {
 			//왼쪽으로 가는 애니메이션으로 변경시켜줘야 함
-			m_nowPlayerStatus = pLEFT;
+			if (m_nowPlayerStatus != pLEFT) m_nowPlayerStatus = pLEFT;
 			if (m_pos.x - 10 > 50) m_pos.x -= m_speed * D_TIME;
 			else m_pos.x = 50 + 10;
 		}
-		if (INPUT->KeyPress(DIK_RIGHT)) {
+		else {
 			//오른쪽으로 가는 애니메이션으로 변경시켜줘야 함
-			m_nowPlayerStatus = pRIGHT;
+			if (m_nowPlayerStatus != pRIGHT) m_nowPlayerStatus = pRIGHT;
 			if (m_pos.x + 10 < 50 + INGAMEX) m_pos.x += m_speed * D_TIME;
 			else m_pos.x = 50 + INGAMEX - 10;
 		}
+	}
+	else if(m_nowPlayerStatus != pIDLE) {
+		m_ani->m_nowFrame = 0;
+		m_ani->m_endFrame = 4;
+		m_nowPlayerStatus = pIDLE;
 	}
 
 	if (INPUT->KeyPress(DIK_UP)) {

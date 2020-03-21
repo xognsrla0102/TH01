@@ -10,11 +10,14 @@ public:
 
 	BOOL m_isPause = FALSE;
 	BOOL m_isExit = FALSE;
+	BOOL m_isContinue = FALSE;
 
 	vector<cButton*> m_pause;
 	vector<cButton*> m_exit;
+	vector<cButton*> m_continue;
 
 	INT m_nowButton = 1;
+	INT m_nowContinue = 3;
 
 	cTexture* m_img2 = nullptr;
 	cTexture* m_black = nullptr;
@@ -30,6 +33,7 @@ public:
 	cTexture* m_spellBlack = nullptr;
 
 	cTexture* m_fullPower = nullptr;
+	cTexture* m_powerMax = nullptr;
 
 	VEC2 m_img1Pos = VEC2(50, 50);
 	VEC2 m_img2Pos = VEC2(50, 50);
@@ -46,10 +50,9 @@ public:
 	virtual void Render() override;
 	virtual void Release() override;
 
+	void Continue();
 	void PauseOrExit();
-
 	void ScroolMap();
-
 	void LevelDesign();
 };
 

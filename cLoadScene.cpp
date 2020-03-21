@@ -45,10 +45,10 @@ void cLoadScene::Init()
 		//디폴트 윈도우 모드가 창모드(isWindowed = true)이므로
 		//정보를 받았을 때 전체화면일 경우에만 전환시켜주고
 		//창모드일 때는 따로 처리시켜줄 필요가 없음
-		if (isWindowed != true) {
-			DXUTPause(true, true);
+		if (isWindowed != TRUE) {
+			DXUTPause(TRUE, TRUE);
 			DXUTToggleFullScreen();
-			DXUTPause(false, false);
+			DXUTPause(FALSE, FALSE);
 		}
 	}
 
@@ -126,7 +126,7 @@ void cLoadScene::Init()
 	Load("item_fullPower", "./resource/item/fullPower.png");
 	Load("item_bigPower", "./resource/item/bigPower.png");
 	Load("item_smallPower", "./resource/item/smallPower.png");
-	Load("item_bonus", "./resource/item/bonus.png");
+	Load("item_tan", "./resource/item/tan.png");
 	Load("item_extend", "./resource/item/extend.png");
 	Load("item_boom", "./resource/item/boom.png");
 	Load("item_jum", "./resource/item/jum.png");
@@ -143,10 +143,6 @@ void cLoadScene::Init()
 	Load("player_reimou_subShot1", "./resource/scene/ingameScene/player/reimou/needleShot.png");
 	Load("player_reimou_ball", "./resource/scene/ingameScene/player/reimou/ball.png");
 
-	//레이무 스펠 A 나중에 만들어야징
-	Load("player_reimou_spellB0", "./resource/scene/ingameScene/player/reimou/spellB0.png");
-	Load("player_reimou_spellB1", "./resource/scene/ingameScene/player/reimou/spellB1.png");
-
 	Load("player_marisa_idle", "./resource/scene/ingameScene/player/marisa/idle%d.png", 4);
 	Load("player_marisa_left", "./resource/scene/ingameScene/player/marisa/left%d.png", 8);
 	Load("player_marisa_right", "./resource/scene/ingameScene/player/marisa/right%d.png", 8);
@@ -155,8 +151,12 @@ void cLoadScene::Init()
 	Load("player_marisa_subShot0", "./resource/scene/ingameScene/player/marisa/missileShot.png");
 	Load("player_marisa_subShot1", "./resource/scene/ingameScene/player/marisa/razerShot.png");
 	Load("player_marisa_ball", "./resource/scene/ingameScene/player/marisa/ball.png");
-	Load("player_marisa_spellA", "./resource/scene/ingameScene/player/marisa/spellA.png");
-	Load("player_marisa_spellB", "./resource/scene/ingameScene/player/marisa/spellB.png");
+
+	Load("spell_reimouA", "./resource/spell/reimouA_Bullet.png");
+	Load("spell_reimouB_RED", "./resource/spell/reimouB_RED.png");
+	Load("spell_reimouB_BLUE", "./resource/spell/reimouB_BLUE.png");
+	Load("spell_marisaA", "./resource/spell/marisaA_Bullet.png");
+	Load("spell_marisaB", "./resource/spell/marisaB_razer.png");
 
 	Load("spell_reimou_face", "./resource/spell/reimouFace.png");
 	Load("spell_reimouA_name", "./resource/spell/reimouA.png");
@@ -180,6 +180,7 @@ void cLoadScene::Init()
 	Load("ingame_title", "./resource/scene/ingameScene/ui/title.png");
 	Load("ingame_circle", "./resource/scene/ingameScene/ui/circle.png");
 
+	Load("ingame_powerMax", "./resource/scene/ingameScene/ui/powerMax.png");
 	//적 이미지
 	Load("enemy_one", "./resource/enemy/one/one.png");
 
@@ -265,7 +266,6 @@ void cLoadScene::Init()
 	//타이틀 씬 버튼
 	Load("startBT", "./resource/button/start.png");
 	Load("howtoBT", "./resource/button/howto.png");
-	Load("replayBT", "./resource/button/replay.png");
 	Load("scoreBT", "./resource/button/score.png");
 	Load("musicBT", "./resource/button/musicroom.png");
 	Load("optionBT", "./resource/button/option.png");
@@ -316,6 +316,8 @@ void cLoadScene::Init()
 	Load("exit_sureBT", "./resource/scene/ingameScene/ui/exit/sure.png");
 	Load("exit_yesBT", "./resource/scene/ingameScene/ui/exit/yes.png");
 	Load("exit_noBT", "./resource/scene/ingameScene/ui/exit/no.png");
+
+	Load("continueBT", "./resource/scene/ingameScene/continue.png");
 }
 
 void cLoadScene::Update()

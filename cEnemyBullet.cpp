@@ -53,7 +53,7 @@ void cEnemyBullet::OutMapChk()
 		m_pos.x + m_img->m_info.Width / 2 * m_size.x < -300 ||
 		m_pos.y - m_img->m_info.Height / 2 * m_size.y > WINSIZEY + 300 ||
 		m_pos.y + m_img->m_info.Height / 2 * m_size.y  < -300
-		) m_isLive = false;
+		) m_isLive = FALSE;
 	else return;
 }
 
@@ -75,10 +75,12 @@ void cEnemyBullet::Collision()
 				)
 			);
 			player->m_life--;
-			player->m_nowBulletCnt = player->m_isShot = 0;
-			player->m_isHit = TRUE;
 		}
-		else player->GetRefLive() = FALSE;
+		else {
+			player->GetRefLive() = FALSE;
+		}
+		player->m_nowBulletCnt = player->m_isShot = 0;
+		player->m_isHit = TRUE;
 		return;
 	}
 }

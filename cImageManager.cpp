@@ -5,11 +5,27 @@
 cImageManager::cImageManager()
 {
 	D3DXCreateSprite(g_device, &m_sprite);
+
+	D3DXCreateFont(
+		g_device,
+		20,
+		0,
+		FW_NORMAL,
+		1,
+		FALSE,
+		DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS,
+		DEFAULT_QUALITY,
+		DEFAULT_PITCH | FF_DONTCARE,
+		L"Arial",
+		&m_font
+	);
 }
 
 cImageManager::~cImageManager()
 {
 	SAFE_RELEASE(m_sprite);
+	m_font->Release();
 
 	for (auto iter : m_imgs)
 		SAFE_DELETE(iter.second);
@@ -18,13 +34,15 @@ cImageManager::~cImageManager()
 
 void cImageManager::Begin(bool isUI)
 {
-	if (isUI)
+	if (isUI) {
 		//OBJECTSPACE를 설정하지 않을 경우 이미지가 윈도우 좌표 기준으로 그려진다.
 		m_sprite->Begin(D3DXSPRITE_ALPHABLEND);
-	else
+	}
+	else {
 		//OBJECTSPACE를 설정하면 카메라가 움직이더라도 이미지는 윈도우 좌표 기준이 아닌
 		//월드 좌표 기준으로 그려진다.
 		m_sprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_OBJECTSPACE);
+	}
 }
 
 void cImageManager::End()
@@ -127,14 +145,14 @@ void cImageManager::CenterRender(cTexture* text, VEC2 pos, VEC2 center, float si
 	else DEBUG_LOG("텍스쳐가 비었소\n");
 }
 
-void cImageManager::DrawNum(string text, VEC2 pos)
+void cImageManager::DrawNum(string text, VEC2 pos, FLOAT size)
 {
 	cTexture* nowImg;
 	for (size_t i = 0; i < text.size(); i++) {
 		char key[256];
 		sprintf(key, "num_%c", text[i]);
 		nowImg = FindImage(key);
-		Render(nowImg, VEC2(pos.x + (i * 23), pos.y), 1.f);
+		Render(nowImg, VEC2(pos.x + (i * 23), pos.y), size);
 	}
 }
 
@@ -151,5 +169,19 @@ void cImageManager::DrawFrame(string text, VEC2 pos)
 		}
 		Render(nowImg, VEC2(pos.x + (i * 20), pos.y), 1.f);
 	}
+}
+
+void cImageManager::DrawFont(string text, VEC2 pos, D3DCOLOR color)
+{
+	RECT rt = { pos.x, pos.y, 0, 0 };
+
+	m_font->DrawTextA(
+		nullptr,
+		text.c_str(),
+		-1,
+		&rt,
+		DT_NOCLIP,
+		color
+	);
 }
 

@@ -9,12 +9,13 @@ private:
 	D3DXMATRIX m_matProj;
 
 	VEC2 m_pos = VEC2(0, 0);
-
-	float m_size = 1.f;
-
+	FLOAT m_size = 1.f;
+	time_t start = timeGetTime();
 public:
-	bool m_isShake = false;
-
+	BOOL m_isShake = FALSE;
+	INT m_accel = 1;
+	INT m_velocity = 1;
+	INT m_delay = 30;
 public:
 	cCameraManager();
 	virtual ~cCameraManager();
@@ -24,7 +25,6 @@ public:
 	void SetTransform();
 
 	void Shake();
-
 };
 
 #define CAMERA cCameraManager::GetInst()
