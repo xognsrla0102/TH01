@@ -67,18 +67,18 @@ void cEnemyBullet::Collision()
 
 	//총알의 반지름은 이미지의 가로 길이의 절반으로
 	if (CIRCLE(m_pos, pPos, bRad, 1)) {
-		if (player->m_life > 0) {
+		if (player->m_life > 1) {
 			SOUND->Copy("deadSND");
 			EFFECT->AddEffect(
 				new cEffect("enemy_dead_EFFECT", 1, player->GetPos(),
 					VEC2(2.5, 2.5), VEC2(5, 5)
 				)
 			);
-			player->m_life--;
 		}
 		else {
 			player->GetRefLive() = FALSE;
 		}
+		player->m_life--;
 		player->m_nowBulletCnt = player->m_isShot = 0;
 		player->m_isHit = TRUE;
 		return;

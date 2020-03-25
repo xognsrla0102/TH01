@@ -7,6 +7,7 @@ class cStage1Scene : public cScene
 public:
 	time_t m_startTime = timeGetTime();
 	time_t m_pauseTime = 0;
+	time_t m_continueTime = 0;
 
 	BOOL m_isPause = FALSE;
 	BOOL m_isExit = FALSE;

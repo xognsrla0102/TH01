@@ -20,17 +20,17 @@ private:
 
 	vector<cButton*> m_charWeapon[2];
 
-	int m_nowButton = 0;
-	int m_nowButPosState = mSTART_POS;
+	INT m_nowButton = 0;
+	INT m_nowButPosState = mSTART_POS;
 
-	int m_charButton = 0;
-	int m_weaponButton = 0;
+	INT m_charButton = 0;
+	INT m_weaponButton = 0;
 
-	int m_nowEnter = 0;
+	INT m_nowEnter = 0;
 
-	bool m_isNextEnter[3] = { false };
-	bool isCharUp = false;
-	bool isCharDown = false;
+	BOOL m_isNextEnter[3] = { FALSE };
+	BOOL isCharUp = FALSE;
+	BOOL isCharDown = FALSE;
 public:
 	cStartScene();
 	virtual ~cStartScene();

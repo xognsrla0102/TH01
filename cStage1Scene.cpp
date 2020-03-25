@@ -84,6 +84,7 @@ void cStage1Scene::Init()
 
 	m_startTime = timeGetTime();
 	m_pauseTime = 0;
+	m_continueTime = 0;
 
 	m_nowButton = 1;
 
@@ -97,6 +98,7 @@ void cStage1Scene::Init()
 	m_continue[1]->m_isOn = TRUE;
 
 	m_isPause = m_isExit = m_isContinue = FALSE;
+	m_nowContinue = 3;
 
 	((cBalls*)OBJFIND(BALLS))->Release();
 	((cPlayer*)OBJFIND(PLAYER))->Release();
@@ -208,8 +210,14 @@ void cStage1Scene::Update()
 	OBJFIND(BULLETS)->Update();
 
 	if (player->GetLive() == FALSE){
-		if (m_nowContinue > 0) m_isContinue = TRUE;
-		else SCENE->ChangeScene("titleScene");
+		if (m_nowContinue > 0) {
+			m_isContinue = TRUE;
+			m_continueTime = timeGetTime();
+		}
+		else {
+			player->GetRefLive() = TRUE;
+			SCENE->ChangeScene("titleScene");
+		}
 		return;
 	}
 
@@ -237,8 +245,8 @@ void cStage1Scene::Render()
 
 	OBJFIND(PLAYER)->Render();
 	OBJFIND(BALLS)->Render();
-	OBJFIND(BULLETS)->Render();
 	OBJFIND(ITEMS)->Render();
+	OBJFIND(BULLETS)->Render();
 
 	EFFECT->Render();
 
@@ -263,21 +271,20 @@ void cStage1Scene::Render()
 	IMAGE->Render(m_circle, VEC2(50 + INGAMEX + 180, 50 + INGAMEY - 130), 1.f, m_circle->m_rot, TRUE, m_circle->m_color);
 	IMAGE->Render(m_title, VEC2(50 + INGAMEX + 180, 50 + INGAMEY - 130), 1.f, 0.f, TRUE, m_title->m_color);
 
-	for (size_t i = 0; i < ((cPlayer*)OBJFIND(PLAYER))->m_life - 1; i++)
+	for (INT i = 0; i < player->m_life - 1; i++)
 		IMAGE->Render(m_life, VEC2(880 + i * 25, 200), 1.f);
-	for(size_t i = 0; i < ((cPlayer*)OBJFIND(PLAYER))->m_bomb; i++)
+	for(INT i = 0; i < player->m_bomb; i++)
 		IMAGE->Render(m_bomb, VEC2(880 + i * 25, 235), 1.f);
 
 	CHAR numText[256];
 	
-	((cPlayer*)OBJFIND(PLAYER))->m_score;
-	FLOAT score = ((cPlayer*)OBJFIND(PLAYER))->m_score;
+	FLOAT score = player->m_score;
 	sprintf(numText, "%09d", (INT)score);
 	DRAW_NUM(string(numText), VEC2(880, 137));
 
-	INT power = ((cPlayer*)OBJFIND(PLAYER))->m_power;
-	INT graze = ((cPlayer*)OBJFIND(PLAYER))->m_graze;
-	INT jum = ((cPlayer*)OBJFIND(PLAYER))->m_jum;
+	INT power = player->m_power;
+	INT graze = player->m_graze;
+	INT jum = player->m_jum;
 
 	if (power != 128) {
 		sprintf(numText, "%d", (INT)power);
@@ -342,14 +349,17 @@ void cStage1Scene::Continue()
 		SOUND->Play("selectSND");
 		switch (m_nowButton) {
 		case 1:
-			OBJFIND(PLAYER)->GetRefLive() = TRUE;
+			SOUND->Copy("deadSND");
 			m_nowContinue--;
+			//컨티뉴한 만큼의 시간을 스타트에서 더해줘야함. 일시정지처럼
+			m_startTime += timeGetTime() - m_continueTime;
 			break;
 		case 2:
 			//일단 타이틀씬으로 이동. 원래는 게임오버씬으로 이동해야함
 			SCENE->ChangeScene("titleScene");
 			break;
 		}
+		OBJFIND(PLAYER)->GetRefLive() = TRUE;
 		m_isContinue = FALSE;
 		m_continue[1]->m_isOn = TRUE;
 		m_continue[2]->m_isOn = FALSE;

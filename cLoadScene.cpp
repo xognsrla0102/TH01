@@ -149,7 +149,9 @@ void cLoadScene::Init()
 	
 	Load("player_marisa_mainShot", "./resource/scene/ingameScene/player/marisa/mainShot.png");
 	Load("player_marisa_subShot0", "./resource/scene/ingameScene/player/marisa/missileShot.png");
-	Load("player_marisa_subShot1", "./resource/scene/ingameScene/player/marisa/razerShot.png");
+	Load("player_marisa_subShot1_0", "./resource/scene/ingameScene/player/marisa/razerShot_0.png");
+	Load("player_marisa_subShot1_1", "./resource/scene/ingameScene/player/marisa/razerShot_1.png");
+	Load("player_marisa_subShot1_2", "./resource/scene/ingameScene/player/marisa/razerShot_2.png");
 	Load("player_marisa_ball", "./resource/scene/ingameScene/player/marisa/ball.png");
 
 	Load("spell_reimouA", "./resource/spell/reimouA_Bullet.png");

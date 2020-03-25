@@ -119,8 +119,8 @@ void cPlayer::Init()
 		else m_subBulletTimer->m_delay = 200;
 	}
 	else {
-		if (isB == FALSE) m_subBulletTimer->m_delay = 200;
-		else m_subBulletTimer->m_delay = 200;
+		if (isB == FALSE) m_subBulletTimer->m_delay = 600;
+		else m_subBulletTimer->m_delay = 2000;
 	}
 }
 
@@ -134,6 +134,13 @@ void cPlayer::Update()
 			);
 		}
 		m_hasBall = TRUE;
+	}
+	else if (m_hasBall == TRUE && m_level < 2) {
+		for (auto iter : ((cBalls*)OBJFIND(BALLS))->GetPlayerBalls())
+			SAFE_DELETE(iter);
+		((cBalls*)OBJFIND(BALLS))->GetPlayerBalls().clear();
+
+		m_hasBall = FALSE;
 	}
 
 	INT wasLevel = m_level;
@@ -224,6 +231,7 @@ void cPlayer::Update()
 
 void cPlayer::Render()
 {
+	DEBUG_LOG("%d %d\n", m_isShot, m_isSubShot);
 	for (size_t i = 0; i < 2; i++) {
 		IMAGE->Render(m_spellB_RED[i]->m_img, m_spellB_RED[i]->m_pos, 1.f, m_spellB_RED[i]->m_rot, TRUE, m_spellB_RED[i]->m_color);
 		IMAGE->Render(m_spellB_BLUE[i]->m_img, m_spellB_BLUE[i]->m_pos, 1.f, m_spellB_BLUE[i]->m_rot, TRUE, m_spellB_BLUE[i]->m_color);
@@ -409,8 +417,6 @@ void cPlayer::Fire()
 						new cPlayerBullet(key, m_pos, rotVec)
 					);
 					break;
-				default:
-					break;
 				}
 			}
 			else {
@@ -467,23 +473,100 @@ void cPlayer::Fire()
 					}
 					rot = -90.f;
 					break;
-				default:
-					break;
 				}
 			}
 		}
 		else {
 			if (isB == FALSE) {
 				switch (m_level) {
+				case 1:
+				case 2:
+				case 3:
+				case 4:
+				case 5:
+					((cBulletAdmin*)(OBJFIND(BULLETS)))->GetPlayerBullet().push_back(
+						new cPlayerBullet(key, m_pos)
+					);
+					break;
+				case 6:
+				case 7:
+					((cBulletAdmin*)(OBJFIND(BULLETS)))->GetPlayerBullet().push_back(
+						new cPlayerBullet(key, VEC2(m_pos.x - 10, m_pos.y))
+					);
+					((cBulletAdmin*)(OBJFIND(BULLETS)))->GetPlayerBullet().push_back(
+						new cPlayerBullet(key, VEC2(m_pos.x + 10, m_pos.y))
+					);
+					break;
+				case 8:
+				case 9:
+					rot -= 5;
+					for (size_t i = 0; i < 3; i++) {
+						rotVec.x = cos(D3DXToRadian(rot));
+						rotVec.y = sin(D3DXToRadian(rot));
+						D3DXVec2Normalize(&rotVec, &rotVec);
 
-				default:
+						((cBulletAdmin*)(OBJFIND(BULLETS)))->GetPlayerBullet().push_back(
+							new cPlayerBullet(key, m_pos, rotVec)
+						);
+						rot += 5;
+					}
+					rot = -90.f;
 					break;
 				}
 			}
 			else {
 				switch (m_level) {
+				case 1:
+				case 2:
+				case 3:
+					((cBulletAdmin*)(OBJFIND(BULLETS)))->GetPlayerBullet().push_back(
+						new cPlayerBullet(key, m_pos)
+					);
+					break;
+				case 4:
+				case 5:
+				case 6:
+					rot -= 2;
+					for (size_t i = 0; i < 2; i++) {
+						rotVec.x = cos(D3DXToRadian(rot));
+						rotVec.y = sin(D3DXToRadian(rot));
+						D3DXVec2Normalize(&rotVec, &rotVec);
 
-				default:
+						((cBulletAdmin*)(OBJFIND(BULLETS)))->GetPlayerBullet().push_back(
+							new cPlayerBullet(key, m_pos, rotVec)
+						);
+						rot += 4;
+					}
+					rot = -90.f;
+					break;
+				case 7:
+				case 8:
+					rot -= 5;
+					for (size_t i = 0; i < 3; i++) {
+						rotVec.x = cos(D3DXToRadian(rot));
+						rotVec.y = sin(D3DXToRadian(rot));
+						D3DXVec2Normalize(&rotVec, &rotVec);
+
+						((cBulletAdmin*)(OBJFIND(BULLETS)))->GetPlayerBullet().push_back(
+							new cPlayerBullet(key, m_pos, rotVec)
+						);
+						rot += 5;
+					}
+					rot = -90.f;
+					break;
+				case 9:
+					rot -= 10;
+					for (size_t i = 0; i < 5; i++) {
+						rotVec.x = cos(D3DXToRadian(rot));
+						rotVec.y = sin(D3DXToRadian(rot));
+						D3DXVec2Normalize(&rotVec, &rotVec);
+
+						((cBulletAdmin*)(OBJFIND(BULLETS)))->GetPlayerBullet().push_back(
+							new cPlayerBullet(key, m_pos, rotVec)
+						);
+						rot += 5;
+					}
+					rot = -90.f;
 					break;
 				}
 			}
@@ -536,13 +619,49 @@ void cPlayer::Fire()
 	else {
 		if (isB == FALSE) {
 			switch (m_level) {
-			case 1:
+			case 3:
+				if (m_subBulletTimer->m_delay != 550)
+					m_subBulletTimer->m_delay = 550;
+			case 4:
+				if (m_subBulletTimer->m_delay != 400)
+					m_subBulletTimer->m_delay = 400;
+				break;
+			case 5:
+				if (m_subBulletTimer->m_delay != 300)
+					m_subBulletTimer->m_delay = 300;
+				break;
+			case 6:
+				if (m_subBulletTimer->m_delay != 200)
+					m_subBulletTimer->m_delay = 200;
+				break;
+			case 7:
+			case 8:
+			case 9:
+				if (m_subBulletTimer->m_delay != 100)
+					m_subBulletTimer->m_delay = 100;
 				break;
 			}
 		}
 		else {
 			switch (m_level) {
-			case 1:
+			case 3:
+				if (m_subBulletTimer->m_delay != 2000)
+					m_subBulletTimer->m_delay = 2000;
+				break;
+			case 4:
+			case 5:
+				if (m_subBulletTimer->m_delay != 3000)
+					m_subBulletTimer->m_delay = 3000;
+				break;
+			case 6:
+			case 7:
+			case 8:
+				if (m_subBulletTimer->m_delay != 4000)
+					m_subBulletTimer->m_delay = 4000;
+				break;
+			case 9:
+				if (m_subBulletTimer->m_delay != 5000)
+					m_subBulletTimer->m_delay = 5000;
 				break;
 			}
 		}
@@ -551,16 +670,21 @@ void cPlayer::Fire()
 
 void cPlayer::SubFire()
 {
+	if (m_isShot == FALSE)
+		m_isSubShot = FALSE;
+
 	if (m_hasBall == TRUE && m_isSubShot == TRUE && m_subBulletTimer->Update()) {
 		//보조 총알 발사
-		CHAR key[256];
-		if (isMarisa == FALSE)
-			if (isB == FALSE) sprintf(key, "player_reimou_subShot0");
-			else sprintf(key, "player_reimou_subShot1");
-		else
-			if (isB == FALSE) sprintf(key, "player_marisa_subShot0");
-			else sprintf(key, "player_marisa_subShot1");
-
+		string key;
+		if (isMarisa == FALSE) {
+			if (isB == FALSE) key = "player_reimou_subShot0";
+			else key = "player_reimou_subShot1";
+		}
+		else {
+			if (isB == FALSE) key = "player_marisa_subShot0";
+			else key = "player_marisa_subShot1_%d";
+		}
+		
 		VEC2 m_pos[2] = {
 			//left ball
 			((cBalls*)OBJFIND(BALLS))->GetPlayerBalls()[0]->GetPos(),
@@ -684,9 +808,64 @@ void cPlayer::SubFire()
 				}
 			}
 		}
+		else {
+			if (isB == FALSE) {
+				//미사일
+				switch (m_level) {
+				case 2:
+				case 3:
+				case 4:
+				case 5:
+				case 6:
+				case 7:
+				case 8:
+					for (size_t i = 0; i < 2; i++)
+						((cBulletAdmin*)(OBJFIND(BULLETS)))->GetBallBullet().push_back(
+							new cBallBullet(key, m_pos[i])
+						);
+					break;
+				case 9:
+					((cBulletAdmin*)(OBJFIND(BULLETS)))->GetBallBullet().push_back(
+						new cBallBullet(key, VEC2(m_pos[0].x - 10, m_pos[0].y))
+					);
+					((cBulletAdmin*)(OBJFIND(BULLETS)))->GetBallBullet().push_back(
+						new cBallBullet(key, VEC2(m_pos[0].x + 10, m_pos[0].y))
+					);
 
-		if (m_isShot == FALSE)
-			m_isSubShot = FALSE;
+					((cBulletAdmin*)(OBJFIND(BULLETS)))->GetBallBullet().push_back(
+						new cBallBullet(key, VEC2(m_pos[1].x - 10, m_pos[1].y))
+					);
+					((cBulletAdmin*)(OBJFIND(BULLETS)))->GetBallBullet().push_back(
+						new cBallBullet(key, VEC2(m_pos[1].x + 10, m_pos[1].y))
+					);
+					break;
+				}
+			}
+			else {
+				//레이저
+				auto& ballBullet = ((cBulletAdmin*)(OBJFIND(BULLETS)))->GetBallBullet();
+				switch (m_level) {
+				case 2:
+				case 3:
+				case 4:
+				case 5:
+				case 6:
+				case 7:
+				case 8:
+				case 9:
+					for (size_t i = 0; i < 2; i++) {
+						ballBullet.push_back(
+							new cBallBullet(key, VEC2(m_pos[i].x, m_pos[i].y - 310))
+						);
+						//레이저 지속시간은 입력 딜레이보다 1초 짧게(페이드인,아웃되는 시간은 1초 미만이므로)
+						((cBallBullet*)(ballBullet[ballBullet.size() - 1]))->m_atkDelay
+							= m_subBulletTimer->m_delay - 1000;
+						((cBallBullet*)(ballBullet[ballBullet.size() - 1]))->m_index = i;
+					}
+					break;
+				}
+			}
+		}
 	}
 }
 
@@ -884,7 +1063,6 @@ void cPlayer::ReimouB()
 			m_spellB_BLUE[1]->SetNowRGB();
 		}
 	}
-	DEBUG_LOG("%d\n", (INT)m_spellB_RED[0]->m_a);
 }
 
 void cPlayer::MarisaA()
@@ -901,8 +1079,8 @@ void cPlayer::Move()
 	if (INPUT->KeyPress(DIK_LSHIFT)) {
 		m_speed = 350.f * 0.5f;
 		if (m_hasBall == TRUE) {
-			auto& ballPos0 = ((cBalls*)OBJFIND(BALLS))->GetPlayerBalls()[0]->GetRefPos();
-			auto& ballPos1 = ((cBalls*)OBJFIND(BALLS))->GetPlayerBalls()[1]->GetRefPos();
+			VEC2& ballPos0 = ((cBalls*)OBJFIND(BALLS))->GetPlayerBalls()[0]->GetRefPos();
+			VEC2& ballPos1 = ((cBalls*)OBJFIND(BALLS))->GetPlayerBalls()[1]->GetRefPos();
 			Lerp(ballPos0, VEC2(m_pos.x - 15, m_pos.y - 50), 0.1);
 			Lerp(ballPos1, VEC2(m_pos.x + 10, m_pos.y - 50), 0.1);
 		}
@@ -910,8 +1088,8 @@ void cPlayer::Move()
 	else {
 		if (m_speed != 350.f) m_speed = 350.f;
 		if (m_hasBall == TRUE) {
-			auto& ballPos0 = ((cBalls*)OBJFIND(BALLS))->GetPlayerBalls()[0]->GetRefPos();
-			auto& ballPos1 = ((cBalls*)OBJFIND(BALLS))->GetPlayerBalls()[1]->GetRefPos();
+			VEC2& ballPos0 = ((cBalls*)OBJFIND(BALLS))->GetPlayerBalls()[0]->GetRefPos();
+			VEC2& ballPos1 = ((cBalls*)OBJFIND(BALLS))->GetPlayerBalls()[1]->GetRefPos();
 			Lerp(ballPos0, VEC2(m_pos.x - 50, m_pos.y), 0.1);
 			Lerp(ballPos1, VEC2(m_pos.x + 45, m_pos.y), 0.1);
 		}

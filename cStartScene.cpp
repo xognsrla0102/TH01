@@ -35,7 +35,7 @@ cStartScene::cStartScene()
 	m_charWeapon[1].push_back(new cButton("marisa2BT", VEC2(1.f, 1.f), 0.15f));
 
 	//mSTART_POS
-	if (isExtra == true)
+	if (isExtra == TRUE)
 		m_buttons[mLUNATIC]->m_butEndPos.push_back(VEC2(WINSIZEX / 2, 300));
 	else
 		m_buttons[mLUNATIC]->m_butEndPos.push_back(VEC2(WINSIZEX / 2, 400));
@@ -77,8 +77,8 @@ void cStartScene::Init()
 	m_nowEnter = 0;
 
 	for (auto iter : m_isNextEnter)
-		iter = false;
-	m_isNextEnter[0] = true;
+		iter = FALSE;
+	m_isNextEnter[0] = TRUE;
 
 	m_img->m_a = 0;
 
@@ -96,9 +96,9 @@ void cStartScene::Init()
 	nowBut->SetSize(VEC2(1.5f, 1.5f));
 	nowBut->m_oldSize = nowBut->GetSize().x;
 
-	m_buttons[m_nowButton]->m_button->m_isOn = false;
+	m_buttons[m_nowButton]->m_button->m_isOn = FALSE;
 	m_nowButton = 0;
-	m_buttons[0]->m_button->m_isOn = true;
+	m_buttons[0]->m_button->m_isOn = TRUE;
 
 	m_buttons[mLUNATIC]->m_button->SetPos(VEC2(WINSIZEX + 300, m_buttons[mLUNATIC]->m_butEndPos[mSTART_POS].y));
 	m_buttons[mEXTRA]->m_button->SetPos(VEC2(WINSIZEX + 300, 500));
@@ -112,8 +112,8 @@ void cStartScene::Init()
 	m_charButtons[0]->m_isOn = -1;
 	m_charButtons[1]->m_isOn = -1;
 
-	m_charWeapon[m_charButton][m_weaponButton]->m_isOn = false;
-	m_charWeapon[m_charButton][m_weaponButton]->m_isOn = false;
+	m_charWeapon[m_charButton][m_weaponButton]->m_isOn = FALSE;
+	m_charWeapon[m_charButton][m_weaponButton]->m_isOn = FALSE;
 
 	m_charButton = 0;
 	m_weaponButton = 0;
@@ -125,26 +125,29 @@ void cStartScene::Init()
 		m_charWeapon[0][i]->m_alpha = 0;
 		m_charWeapon[1][i]->m_alpha = 0;
 	}
-	m_charWeapon[0][0]->m_isOn = true;
-	m_charWeapon[1][0]->m_isOn = true;
+	m_charWeapon[0][0]->m_isOn = TRUE;
+	m_charWeapon[1][0]->m_isOn = TRUE;
 }
 
 void cStartScene::Update()
 {
-	if (m_isNextEnter[0] == true)
+	if (m_isNextEnter[0] == TRUE) {
 		for (auto iter : m_buttons)
 			iter->m_button->Update();
-	else if (m_isNextEnter[1] == true)
+	}
+	else if (m_isNextEnter[1] == TRUE) {
 		for (auto iter : m_charButtons)
 			iter->Update();
-	else
+	}
+	else {
 		for (auto iter : m_charWeapon[m_charButton])
 			iter->Update();
+	}
 
 	//난이도 선택씬
-	if (m_isNextEnter[0] == true && isExtra == true && (KEYDOWN(DIK_UP) || KEYDOWN(DIK_DOWN))) {
+	if (m_isNextEnter[0] == TRUE && isExtra == TRUE && (KEYDOWN(DIK_UP) || KEYDOWN(DIK_DOWN))) {
 		SOUND->Play("keymoveSND");
-		m_buttons[m_nowButton]->m_button->m_isOn = false;
+		m_buttons[m_nowButton]->m_button->m_isOn = FALSE;
 		if (KEYDOWN(DIK_UP)) {
 			if (m_nowButton > 0) m_nowButton--;
 			else m_nowButton = m_buttons.size() - 1;
@@ -153,33 +156,33 @@ void cStartScene::Update()
 			if (m_nowButton < m_buttons.size() - 1) m_nowButton++;
 			else m_nowButton = 0;
 		}
-		m_buttons[m_nowButton]->m_button->m_isOn = true;
+		m_buttons[m_nowButton]->m_button->m_isOn = TRUE;
 	}
 	//캐릭터 선택씬
-	else if (m_isNextEnter[1] == true && (isCharUp == false && isCharDown == false)
+	else if (m_isNextEnter[1] == TRUE && (isCharUp == FALSE && isCharDown == FALSE)
 		&& (KEYDOWN(DIK_UP) || KEYDOWN(DIK_DOWN))
 		) {
 		SOUND->Play("keymoveSND");
 		if (KEYDOWN(DIK_UP)) {
-			isCharUp = true;
+			isCharUp = TRUE;
 			//새로 올라올 캐릭터 아래로 보내기
 			m_charButtons[!m_charButton]->SetPos(VEC2(800, 700));
 		}
 		else {
-			isCharDown = true;
+			isCharDown = TRUE;
 			//새로 올라올 캐릭터 위로 보내기
 			m_charButtons[!m_charButton]->SetPos(VEC2(800, 0));
 		}
 	}
 	//무기 선택씬
-	else if (m_isNextEnter[2] == true && (KEYDOWN(DIK_UP) || KEYDOWN(DIK_DOWN))) {
+	else if (m_isNextEnter[2] == TRUE && (KEYDOWN(DIK_UP) || KEYDOWN(DIK_DOWN))) {
 		SOUND->Play("keymoveSND");
-		m_charWeapon[m_charButton][m_weaponButton]->m_isOn = false;
+		m_charWeapon[m_charButton][m_weaponButton]->m_isOn = FALSE;
 		m_weaponButton = !m_weaponButton;
-		m_charWeapon[m_charButton][m_weaponButton]->m_isOn = true;
+		m_charWeapon[m_charButton][m_weaponButton]->m_isOn = TRUE;
 	}
 	
-	if (isCharUp == true) {
+	if (isCharUp == TRUE) {
 		//현재 선택된 버튼 올라가면서 사라짐
 		Lerp(m_charButtons[m_charButton]->GetRefPos().y, 100.f, 0.1);
 		Lerp(m_charButtons[m_charButton]->m_alpha, 0.f, 0.1);
@@ -192,10 +195,10 @@ void cStartScene::Update()
 			m_charButtons[!m_charButton]->GetRefPos().y = 350.f;
 			m_charButtons[m_charButton]->m_alpha = 0.f;
 			m_charButton = !m_charButton;
-			isCharUp = false;
+			isCharUp = FALSE;
 		}
 	}
-	else if (isCharDown == true) {
+	else if (isCharDown == TRUE) {
 		//현재 선택된 버튼 내려가면서 사라짐
 		Lerp(m_charButtons[m_charButton]->GetRefPos().y, 700.f, 0.1);
 		Lerp(m_charButtons[m_charButton]->m_alpha, 0.f, 0.1);
@@ -208,16 +211,16 @@ void cStartScene::Update()
 			m_charButtons[!m_charButton]->GetRefPos().y = 350.f;
 			m_charButtons[m_charButton]->m_alpha = 0.f;
 			m_charButton = !m_charButton;
-			isCharDown = false;
+			isCharDown = FALSE;
 		}
 	}
-	else if (m_isNextEnter[1] == true && (isCharUp == false && isCharDown == false))
+	else if (m_isNextEnter[1] == TRUE && (isCharUp == FALSE && isCharDown == FALSE))
 		Lerp(m_charButtons[m_charButton]->m_alpha, 255.f, 0.03);
 
 	if (KEYDOWN(DIK_RETURN) || KEYDOWN(DIK_Z)) {
 		SOUND->Copy("selectSND");
 
-		if (m_isNextEnter[0] == true) {
+		if (m_isNextEnter[0] == TRUE) {
 			m_char->m_pos = m_char->m_endPos[0];
 			m_nowButPosState = mLEFT_POS;
 
@@ -225,7 +228,7 @@ void cStartScene::Update()
 			nowBut->SetSize(VEC2(1.3f, 1.3f));
 			nowBut->m_oldSize = nowBut->GetSize().x;
 		}
-		else if (m_isNextEnter[1] == true) {
+		else if (m_isNextEnter[1] == TRUE) {
 			m_weapon->m_pos = m_weapon->m_endPos[0];
 			m_nowButPosState = mENTER_POS;
 
@@ -233,8 +236,8 @@ void cStartScene::Update()
 			nowBut->SetSize(VEC2(1.f, 1.f));
 			nowBut->m_oldSize = nowBut->GetSize().x;
 
-			if (isCharUp == true || isCharDown == true) {
-				isCharUp = isCharDown = false;
+			if (isCharUp == TRUE || isCharDown == TRUE) {
+				isCharUp = isCharDown = FALSE;
 				m_charButton = !m_charButton;
 			}
 			m_charButtons[m_charButton]->SetPos(VEC2(800, 350));
@@ -246,10 +249,11 @@ void cStartScene::Update()
 				m_charWeapon[0][i]->m_alpha = 0;
 				m_charWeapon[1][i]->m_alpha = 0;
 			}
-			m_charWeapon[0][m_weaponButton]->m_isOn = false;
-			m_charWeapon[1][m_weaponButton]->m_isOn = false;
-			m_charWeapon[0][0]->m_isOn = true;
-			m_charWeapon[1][0]->m_isOn = true;
+			m_charWeapon[0][m_weaponButton]->m_isOn = FALSE;
+			m_charWeapon[1][m_weaponButton]->m_isOn = FALSE;
+			m_weaponButton = 0;
+			m_charWeapon[0][0]->m_isOn = TRUE;
+			m_charWeapon[1][0]->m_isOn = TRUE;
 		}
 		else {
 			isMarisa = m_charButton;
@@ -259,26 +263,26 @@ void cStartScene::Update()
 			
 			if(m_nowButton == mLUNATIC)
 				SCENE->ChangeScene("stage1Scene");
-			//else
-				//SCENE->ChangeScene("extraScene");
+			else
+				SCENE->ChangeScene("stage1Scene");
 			return;
 		}
 
-		m_isNextEnter[m_nowEnter] = false;
+		m_isNextEnter[m_nowEnter] = FALSE;
 		m_nowEnter++;
-		m_isNextEnter[m_nowEnter] = true;
+		m_isNextEnter[m_nowEnter] = TRUE;
 	}
 
 	if (KEYDOWN(DIK_X) || KEYDOWN(DIK_ESCAPE)) {
 		SOUND->Copy("cancelSND");
 		if (m_nowEnter != 0) {
-			m_isNextEnter[m_nowEnter] = false;
+			m_isNextEnter[m_nowEnter] = FALSE;
 			m_nowEnter--;
-			m_isNextEnter[m_nowEnter] = true;
+			m_isNextEnter[m_nowEnter] = TRUE;
 		}
 		else SCENE->ChangeScene("titleScene");
 
-		if (m_isNextEnter[0] == true) {
+		if (m_isNextEnter[0] == TRUE) {
 			m_mode->m_pos = m_mode->m_endPos[0];
 
 			m_nowButPosState = mSTART_POS;
@@ -292,7 +296,7 @@ void cStartScene::Update()
 			m_charButtons[1]->SetPos(VEC2(0, 0));
 
 			m_charButton = 0;
-			isCharUp = isCharDown = false;
+			isCharUp = isCharDown = FALSE;
 		}
 		else {
 			m_char->m_pos = m_char->m_endPos[0];
@@ -307,9 +311,9 @@ void cStartScene::Update()
 	for (size_t i = 0; i < m_buttons.size(); i++)
 		Lerp(m_buttons[i]->m_button->GetRefPos(), m_buttons[i]->m_butEndPos[m_nowButPosState], 0.08);
 
-	if (m_isNextEnter[0] == true)
+	if (m_isNextEnter[0] == TRUE)
 		Lerp(m_mode->m_pos, m_mode->m_endPos[1], 0.05);
-	else if (m_isNextEnter[1] == true)
+	else if (m_isNextEnter[1] == TRUE)
 		Lerp(m_char->m_pos, m_char->m_endPos[1], 0.05);
 	else
 		Lerp(m_weapon->m_pos, m_weapon->m_endPos[1], 0.05);
@@ -320,30 +324,30 @@ void cStartScene::Update()
 
 void cStartScene::Render()
 {
-	IMAGE->Render(m_img, VEC2(0, 0), 1.f, 0.f, false, m_img->m_color);
+	IMAGE->Render(m_img, VEC2(0, 0), 1.f, 0.f, FALSE, m_img->m_color);
 
-	if (m_isNextEnter[0] == true) {
+	if (m_isNextEnter[0] == TRUE) {
 		m_buttons[mLUNATIC]->m_button->Render();
-		if (isExtra == true) m_buttons[mEXTRA]->m_button->Render();
+		if (isExtra == TRUE) m_buttons[mEXTRA]->m_button->Render();
 	}
 	else {
 		m_buttons[m_nowButton]->m_button->Render();
-		if (m_isNextEnter[0] != true) {
+		if (m_isNextEnter[0] != TRUE) {
 			for (auto iter : m_charButtons)
 				iter->Render();
-			if (m_isNextEnter[2] == true) {
+			if (m_isNextEnter[2] == TRUE) {
 				for (auto iter : m_charWeapon[m_charButton])
 					iter->Render();
 			}
 		}
 	}
 
-	if(m_isNextEnter[0] == true)
-		IMAGE->Render(m_mode, m_mode->m_pos, 1.5f, 0.f, true);
-	else if (m_isNextEnter[1] == true)
-		IMAGE->Render(m_char, m_char->m_pos, 1.5f, 0.f, true);
+	if(m_isNextEnter[0] == TRUE)
+		IMAGE->Render(m_mode, m_mode->m_pos, 1.5f, 0.f, TRUE);
+	else if (m_isNextEnter[1] == TRUE)
+		IMAGE->Render(m_char, m_char->m_pos, 1.5f, 0.f, TRUE);
 	else
-		IMAGE->Render(m_weapon, m_weapon->m_pos, 1.5f, 0.f, true);
+		IMAGE->Render(m_weapon, m_weapon->m_pos, 1.5f, 0.f, TRUE);
 
 	DRAW_FRAME(to_string(DXUTGetFPS()), VEC2(1000, 680));
 }
