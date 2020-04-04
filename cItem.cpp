@@ -68,10 +68,10 @@ void cItem::Collision()
 	};
 
 	RECT playerRect = {
-		playerPos.x - 5,
-		playerPos.y - 5,
-		playerPos.x + 5,
-		playerPos.y + 5
+		playerPos.x - player->GetImg()->m_info.Width / 2,
+		playerPos.y - player->GetImg()->m_info.Height / 2,
+		playerPos.x + player->GetImg()->m_info.Width / 2,
+		playerPos.y + player->GetImg()->m_info.Height / 2
 	};
 
 	if (AABB(itemRect, playerRect)) {

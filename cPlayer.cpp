@@ -3,10 +3,14 @@
 #include "cBall.h"
 #include "cPlayerBullet.h"
 #include "cReimouA_Bullet.h"
+#include "cMarisaA_Bullet.h"
 #include "cBallBullet.h"
+#include "cEnemyBullet.h"
 #include "cBulletAdmin.h"
 #include "cItem.h"
 #include "cItemAdmin.h"
+#include "cEnemy.h"
+#include "cEnemyAdmin.h"
 #include "cTimer.h"
 #include "cPlayer.h"
 
@@ -24,6 +28,9 @@ cPlayer::cPlayer()
 	m_spellB_BLUE[0]->m_img = IMAGE->FindImage("spell_reimouB_BLUE");
 	m_spellB_BLUE[1]->m_img = IMAGE->FindImage("spell_reimouB_BLUE");
 	m_spellB_BLUE[1]->m_rot = 180;
+
+	m_spellB_Razer = new cImage;
+	m_spellB_Razer->m_img = IMAGE->FindImage("spell_marisaB");
 }
 
 cPlayer::~cPlayer()
@@ -32,6 +39,7 @@ cPlayer::~cPlayer()
 		SAFE_DELETE(iter);
 	for (auto iter : m_spellB_BLUE)
 		SAFE_DELETE(iter);
+	SAFE_DELETE(m_spellB_Razer);
 
 	Release();
 }
@@ -44,6 +52,9 @@ void cPlayer::Init()
 	m_spellB_RED[1]->SetNowRGB();
 	m_spellB_BLUE[0]->SetNowRGB();
 	m_spellB_BLUE[1]->SetNowRGB();
+
+	m_spellB_Razer->m_a = 0.f;
+	m_spellB_Razer->SetNowRGB();
 
 	if (isMarisa == FALSE) {
 		m_bombFace = IMAGE->FindImage("spell_reimou_face");
@@ -103,6 +114,7 @@ void cPlayer::Init()
 	m_isBombShot = FALSE;
 	m_isLevelUp = FALSE;
 	m_isFullPower = FALSE;
+	m_isExtend = FALSE;
 
 	m_bulletTimer = new cTimer(80);
 	m_subBulletTimer = new cTimer(450);
@@ -126,6 +138,16 @@ void cPlayer::Init()
 
 void cPlayer::Update()
 {
+	//천만점 되면 익스텐드
+	if (m_isExtend == FALSE && m_score >= 10000000) {
+		if (m_life < 8) {
+			SOUND->Copy("extendSND");
+			SOUND->Copy("extendSND");
+			m_life++;
+			m_isExtend = TRUE;
+		}
+	}
+
 	if (m_hasBall == FALSE && m_level > 1) {
 		for (size_t i = 0; i < 2; i++) {
 			//오른쪽 볼 만들고 왼쪽 볼 만듦
@@ -154,33 +176,15 @@ void cPlayer::Update()
 	if (m_power == 128 && m_wasPower != 128)
 		m_isFullPower = TRUE;
 
-	if (m_power >= 128) {
-		if (m_level != 9) m_level = 9;
-	}
-	else if (m_power >= 96)	{
-		if(m_level != 8) m_level = 8;
-	}
-	else if (m_power >= 80)	{
-		if(m_level != 7) m_level = 7;
-	}
-	else if (m_power >= 64)	{
-		if(m_level != 6) m_level = 6;
-	}
-	else if (m_power >= 48)	{
-		if(m_level != 5) m_level = 5;
-	}
-	else if (m_power >= 32)	{
-		if(m_level != 4) m_level = 4;
-	}
-	else if (m_power >= 16)	{
-		if(m_level != 3) m_level = 3;
-	}
-	else if (m_power >= 8) {
-		if (m_level != 2) m_level = 2;
-	}
-	else {
-		if (m_level != 1) m_level = 1;
-	}
+	if (m_power >= 128)		{ if(m_level != 9) m_level = 9; }
+	else if (m_power >= 96) { if(m_level != 8) m_level = 8; }
+	else if (m_power >= 80) { if(m_level != 7) m_level = 7; }
+	else if (m_power >= 64) { if(m_level != 6) m_level = 6; }
+	else if (m_power >= 48) { if(m_level != 5) m_level = 5; }
+	else if (m_power >= 32) { if(m_level != 4) m_level = 4; }
+	else if (m_power >= 16) { if(m_level != 3) m_level = 3; }
+	else if (m_power >= 8)  { if(m_level != 2) m_level = 2; }
+	else if (m_level != 1)  {				   m_level = 1; }
 
 	if (wasLevel != m_level && wasLevel < m_level)
 		m_isLevelUp = TRUE;
@@ -188,7 +192,7 @@ void cPlayer::Update()
 	if (m_isLevelUp == TRUE) {
 		SOUND->Copy("powerupSND");
 		EFFECT->AddEffect(
-			new cEffect("powerUp_EFFECT", 1, VEC2(m_pos.x, m_pos.y - 20), TRUE, VEC2(0, -1))
+			new cEffect("powerUp_EFFECT", 1, VEC2(m_pos.x, m_pos.y - 20), VEC2(0, -1))
 		);
 		m_isLevelUp = FALSE;
 	}
@@ -209,6 +213,8 @@ void cPlayer::Update()
 	}
 
 	Move();
+	if(m_isHit == FALSE && m_isNotDead == FALSE)
+		Graze();
 
 	if (m_isShot == FALSE && INPUT->KeyPress(DIK_Z))
 		m_isShot = m_isSubShot = TRUE;
@@ -231,11 +237,11 @@ void cPlayer::Update()
 
 void cPlayer::Render()
 {
-	DEBUG_LOG("%d %d\n", m_isShot, m_isSubShot);
 	for (size_t i = 0; i < 2; i++) {
 		IMAGE->Render(m_spellB_RED[i]->m_img, m_spellB_RED[i]->m_pos, 1.f, m_spellB_RED[i]->m_rot, TRUE, m_spellB_RED[i]->m_color);
 		IMAGE->Render(m_spellB_BLUE[i]->m_img, m_spellB_BLUE[i]->m_pos, 1.f, m_spellB_BLUE[i]->m_rot, TRUE, m_spellB_BLUE[i]->m_color);
 	}
+	IMAGE->Render(m_spellB_Razer->m_img, m_spellB_Razer->m_pos, 1.f, 0.f, TRUE, m_spellB_Razer->m_color);
 	IMAGE->Render(m_img, m_pos, m_size, m_rot, TRUE, D3DCOLOR_ARGB((INT)m_pAlpha, 255, 255, 255));
 }
 
@@ -244,6 +250,32 @@ void cPlayer::Release()
 	SAFE_DELETE(m_ani);
 	SAFE_DELETE(m_bulletTimer);
 	SAFE_DELETE(m_subBulletTimer);
+}
+
+void cPlayer::Graze()
+{
+	auto& enemyBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetEnemyBullet();
+	for (size_t i = 0; i < enemyBullet.size(); i++) {
+		cEnemyBullet* eBullet = ((cEnemyBullet*)enemyBullet[i]);
+		if (eBullet->m_isGraze == FALSE) {
+			if (DistPoint(m_pos, eBullet->GetPos()) <= 50.f) {
+				SOUND->Copy("grazeSND");
+				SOUND->Copy("grazeSND");
+				m_graze++;
+				m_score += 500;
+
+				eBullet->m_isGraze = TRUE;
+
+				int theta = rand() % 360;
+				VEC2 dir(cos(D3DXToRadian(theta)), sin(D3DXToRadian(theta)));
+				D3DXVec2Normalize(&dir, &dir);
+
+				EFFECT->AddEffect(
+					new cEffect("graze_EFFECT", 1, m_pos, dir, VEC2(-0.5f, -0.5f), VEC2(1, 1), 800.f)
+				);
+			}
+		}
+	}
 }
 
 void cPlayer::Hit()
@@ -255,14 +287,21 @@ void cPlayer::Hit()
 	auto& eBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetEnemyBullet();
 	for (auto iter : eBullet) {
 		EFFECT->AddEffect(
-			new cEffect("enemy_dead_EFFECT", 1, iter->GetPos(),
+			new cEffect("enemy_dead_EFFECT", 1, iter->GetPos(), VEC2(0, 0),
 				VEC2(0.2f, 0.2f), VEC2(0.3f, 0.3f)
 			)
 		);
 		iter->GetRefLive() = FALSE;
 	}
 
-	if ((INT)m_pAlpha == 0) {
+	if ((INT)m_pAlpha > 30 && KEYDOWN(DIK_X)) {
+		Bomb();
+		m_life++;
+		m_isHit = FALSE;
+		m_size = VEC2(1.f, 1.f);
+		m_pAlpha = 255.f;
+	}
+	else if ((INT)m_pAlpha == 0) {
 		m_ani->m_nowFrame = 0;
 		m_ani->m_endFrame = 4;
 		m_nowPlayerStatus = pIDLE;
@@ -871,18 +910,17 @@ void cPlayer::SubFire()
 
 void cPlayer::Bomb()
 {
-	if (m_isBomb == FALSE && m_bomb > 0 && INPUT->KeyDown(DIK_X)) {
+	if (m_isBombShot == FALSE && m_isBomb == FALSE && m_bomb > 0 && INPUT->KeyDown(DIK_X)) {
 		//붐 사운드 너무 작게 들려서 2개 걸음
 		SOUND->Copy("bombSND");
 		SOUND->Copy("bombSND");
 		if (isMarisa == FALSE) {
 			if (isB == FALSE) {
 				EFFECT->AddEffect(
-					new cEffect("enemy_dead_EFFECT", 1, m_pos,
+					new cEffect("enemy_dead_EFFECT", 1, m_pos, VEC2(0, 0),
 						VEC2(3, 3), VEC2(5, 5), 500.f
 					)
 				);
-
 				auto& eBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetEnemyBullet();
 				for (auto iter : eBullet) {
 					//플레이어 주위에 있는 총알을 모두 없앤다.
@@ -893,7 +931,7 @@ void cPlayer::Bomb()
 							230
 					)) {
 						EFFECT->AddEffect(
-							new cEffect("enemy_dead_EFFECT", 1, iter->GetPos(),
+							new cEffect("enemy_dead_EFFECT", 1, iter->GetPos(), VEC2(0, 0),
 								VEC2(0.2f, 0.2f), VEC2(0.3f, 0.3f)
 							)
 						);
@@ -909,6 +947,7 @@ void cPlayer::Bomb()
 				SOUND->Copy("reimouBbombSND");
 				SOUND->Copy("reimouBbombSND");
 
+				CAMERA->m_delay = 30;
 				CAMERA->m_velocity = 1;
 				CAMERA->m_isShake = TRUE;
 
@@ -919,10 +958,47 @@ void cPlayer::Bomb()
 			}
 		}
 		else {
-			if (isB == FALSE) SOUND->Copy("marisaAbombSND");
-			else SOUND->Copy("marisaBbombSND");
-		}
+			if (isB == FALSE) {
+				SOUND->Copy("marisaAbombSND");
 
+				VEC2 pos[3] = {
+					VEC2(m_pos.x, m_pos.y + 30),
+					VEC2(m_pos.x - 30, m_pos.y ),
+					VEC2(m_pos.x, m_pos.y)
+				};
+				BOOL rotLeft[8] = { TRUE, FALSE, TRUE, FALSE, TRUE, TRUE, FALSE, TRUE };
+				VEC4 color[8] = {
+					VEC4(100, 200, 200, 255),
+					VEC4(100, 200, 255, 200),
+					VEC4(100, 200, 200, 255),
+					VEC4(100, 200, 255, 200),
+					VEC4(100, 255, 200, 200),
+					VEC4(100, 200, 200, 255),
+					VEC4(100, 200, 255, 200),
+					VEC4(100, 255, 200, 200)
+				};
+
+				for (INT i = 0, rot = 0; i < 8; i++, rot += 45) {
+					VEC2 dir;
+					dir.x = cos(D3DXToRadian(rot - 90));
+					dir.y = sin(D3DXToRadian(rot - 90));
+					D3DXVec2Normalize(&dir, &dir);
+
+					for (size_t j = 0; j < 3; j++) {
+						((cBulletAdmin*)OBJFIND(BULLETS))->GetSpellBullet().push_back(
+							new cMarisaA_Bullet(
+								pos[j], dir, VEC2((j + 1) / 3.f, (j + 1) / 3.f), rotLeft[i], color[i]
+							)
+						);
+					}
+				}
+				m_marisaA_BulletTime = timeGetTime();
+			}
+			else {
+				SOUND->Copy("marisaBbombSND");
+				m_marisaB_RazerTime = timeGetTime();
+			}
+		}
 		m_bomb--;
 		m_isBomb = TRUE;
 		m_isBombShot = TRUE;
@@ -971,7 +1047,7 @@ void cPlayer::ReimouA()
 		SOUND->Copy("reimouAbombSND");
 		SOUND->Copy("reimouAbombSND");
 		((cBulletAdmin*)OBJFIND(BULLETS))->GetSpellBullet().push_back(
-			new cReimouA_Bullet(VEC2(-10 + m_pos.x + rand() % 30, -10 + m_pos.y + rand() % 30))
+			new cReimouA_Bullet(VEC2(-50 + m_pos.x + rand() % 8 * 10, m_pos.y))
 		);
 		m_bulletCnt++;
 		m_reimouA_BulletTime = timeGetTime();
@@ -986,6 +1062,8 @@ void cPlayer::ReimouA()
 void cPlayer::ReimouB()
 {
 	auto& eBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetEnemyBullet();
+	auto& eOne = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne();
+	auto& eFairy = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetFairy();
 
 	RECT spell[2][2];
 
@@ -1017,7 +1095,7 @@ void cPlayer::ReimouB()
 			AABB(spell[1][1], bulletRect))
 		{
 			EFFECT->AddEffect(
-				new cEffect("enemy_dead_EFFECT", 1, iter->GetPos(),
+				new cEffect("enemy_dead_EFFECT", 1, iter->GetPos(), VEC2(0, 0),
 					VEC2(0.2f, 0.2f), VEC2(0.3f, 0.3f)
 				)
 			);
@@ -1029,6 +1107,46 @@ void cPlayer::ReimouB()
 			items[items.size() - 1]->m_followPlayer = TRUE;
 
 			iter->GetRefLive() = FALSE;
+		}
+	}
+
+	for (auto iter : eOne) {
+		RECT eRect = {
+			iter->GetPos().x - iter->GetImg()->m_info.Width / 2,
+			iter->GetPos().y - iter->GetImg()->m_info.Height / 2,
+			iter->GetPos().x + iter->GetImg()->m_info.Width / 2,
+			iter->GetPos().y + iter->GetImg()->m_info.Height / 2
+		};
+
+		if (AABB(spell[0][0], eRect) ||
+			AABB(spell[0][1], eRect) ||
+			AABB(spell[1][0], eRect) ||
+			AABB(spell[1][1], eRect))
+		{
+			SOUND->Copy("hitSND");
+			m_score += 10;
+			iter->m_hp -= m_shotAtk / 2;
+			if (iter->m_hp < 1) iter->GetRefLive() = FALSE;
+		}
+	}
+
+	for (auto iter : eFairy) {
+		RECT eRect = {
+			iter->GetPos().x - iter->GetImg()->m_info.Width / 2,
+			iter->GetPos().y - iter->GetImg()->m_info.Height / 2,
+			iter->GetPos().x + iter->GetImg()->m_info.Width / 2,
+			iter->GetPos().y + iter->GetImg()->m_info.Height / 2
+		};
+
+		if (AABB(spell[0][0], eRect) ||
+			AABB(spell[0][1], eRect) ||
+			AABB(spell[1][0], eRect) ||
+			AABB(spell[1][1], eRect))
+		{
+			SOUND->Copy("hitSND");
+			m_score += 10;
+			iter->m_hp -= m_shotAtk / 2;
+			if (iter->m_hp < 1) iter->GetRefLive() = FALSE;
 		}
 	}
 
@@ -1067,10 +1185,108 @@ void cPlayer::ReimouB()
 
 void cPlayer::MarisaA()
 {
+	if (timeGetTime() - m_marisaA_BulletTime > 3000)
+		m_isBombShot = FALSE;
 }
 
 void cPlayer::MarisaB()
 {
+	auto& eBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetEnemyBullet();
+	auto& eOne = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne();
+	auto& eFairy = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetFairy();
+
+	RECT razerRect = {
+		m_spellB_Razer->m_pos.x - m_spellB_Razer->m_img->m_info.Width / 2,
+		m_spellB_Razer->m_pos.y - m_spellB_Razer->m_img->m_info.Height / 2,
+		m_spellB_Razer->m_pos.x + m_spellB_Razer->m_img->m_info.Width / 2,
+		m_spellB_Razer->m_pos.y + m_spellB_Razer->m_img->m_info.Height / 2
+	};
+
+	for (auto iter : eBullet) {
+		RECT bulletRect{
+			iter->GetPos().x - iter->GetImg()->m_info.Width / 2,
+			iter->GetPos().y - iter->GetImg()->m_info.Height / 2,
+			iter->GetPos().x + iter->GetImg()->m_info.Width / 2,
+			iter->GetPos().y + iter->GetImg()->m_info.Height / 2
+		};
+
+		if (AABB(razerRect, bulletRect)) {
+			EFFECT->AddEffect(
+				new cEffect("enemy_dead_EFFECT", 1, iter->GetPos(), VEC2(0, 0),
+					VEC2(0.2f, 0.2f), VEC2(0.3f, 0.3f)
+				)
+			);
+			auto& items = ((cItemAdmin*)OBJFIND(ITEMS))->m_items;
+			items.push_back(
+				new cItem("item_tan", iter->GetPos(), iter->GetPos())
+			);
+			//탄 소거아이템은 항상 플레이어에게 흡수됨
+			items[items.size() - 1]->m_followPlayer = TRUE;
+
+			iter->GetRefLive() = FALSE;
+		}
+	}
+
+	for (auto iter : eOne) {
+		RECT eRect = {
+			iter->GetPos().x - iter->GetImg()->m_info.Width /2,
+			iter->GetPos().y - iter->GetImg()->m_info.Height / 2,
+			iter->GetPos().x + iter->GetImg()->m_info.Width / 2,
+			iter->GetPos().y + iter->GetImg()->m_info.Height / 2
+		};
+
+		if (AABB(razerRect, eRect)) {
+			SOUND->Copy("hitSND");
+			m_score += 10;
+			iter->m_hp -= m_shotAtk;
+			if (iter->m_hp < 1) iter->GetRefLive() = FALSE;
+		}
+	}
+
+	for (auto iter : eFairy) {
+		RECT eRect = {
+			iter->GetPos().x - iter->GetImg()->m_info.Width / 2,
+			iter->GetPos().y - iter->GetImg()->m_info.Height / 2,
+			iter->GetPos().x + iter->GetImg()->m_info.Width / 2,
+			iter->GetPos().y + iter->GetImg()->m_info.Height / 2
+		};
+
+		if (AABB(razerRect, eRect)) {
+			SOUND->Copy("hitSND");
+			m_score += 10;
+			iter->m_hp -= m_shotAtk;
+			if (iter->m_hp < 1) iter->GetRefLive() = FALSE;
+		}
+	}
+
+	INT nowTime = timeGetTime() - m_marisaB_RazerTime;
+
+	m_spellB_Razer->m_pos = VEC2(
+		m_pos.x,
+		m_pos.y
+		- m_spellB_Razer->m_img->m_info.Height / 2
+		- m_img->m_info.Height / 2
+	);
+
+	if (nowTime < 1000) {
+		Lerp(m_spellB_Razer->m_a, 200.f, 0.05);
+		m_spellB_Razer->SetNowRGB();
+	}
+	else if (1500 < nowTime && nowTime < 1520) {
+		m_spellB_Razer->m_a = 200.f;
+		m_spellB_Razer->SetNowRGB();
+
+		CAMERA->m_delay = 30;
+		CAMERA->m_velocity = 1;
+		CAMERA->m_isShake = TRUE;
+	}
+	else if (2500 < nowTime && (INT)m_spellB_Razer->m_a != 0.f) {
+		Lerp(m_spellB_Razer->m_a, 0.f, 0.1);
+		m_spellB_Razer->SetNowRGB();
+	}
+	else if ((INT)m_spellB_Razer->m_a == 0.f) {
+		m_isBombShot = FALSE;
+	}
 }
 
 void cPlayer::Move()
@@ -1085,6 +1301,15 @@ void cPlayer::Move()
 			Lerp(ballPos1, VEC2(m_pos.x + 10, m_pos.y - 50), 0.1);
 		}
 	} 
+	else if (isMarisa == TRUE && isB == TRUE && m_isBombShot == TRUE) {
+		m_speed = 350.f * 0.5f;
+		if (m_hasBall == TRUE) {
+			VEC2& ballPos0 = ((cBalls*)OBJFIND(BALLS))->GetPlayerBalls()[0]->GetRefPos();
+			VEC2& ballPos1 = ((cBalls*)OBJFIND(BALLS))->GetPlayerBalls()[1]->GetRefPos();
+			Lerp(ballPos0, VEC2(m_pos.x - 50, m_pos.y), 0.1);
+			Lerp(ballPos1, VEC2(m_pos.x + 45, m_pos.y), 0.1);
+		}
+	}
 	else {
 		if (m_speed != 350.f) m_speed = 350.f;
 		if (m_hasBall == TRUE) {

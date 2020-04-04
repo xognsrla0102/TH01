@@ -39,11 +39,14 @@ void cCameraManager::ResetCamera()
 
 void cCameraManager::Update()
 {
+	DEBUG_LOG("%d %d\n", m_isShake, m_isPause);
+
 	D3DXMATRIX matS, matT;
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixIdentity(&matT);
 
-	if (m_isShake) Shake();
+	if (m_isShake == TRUE && m_isPause == FALSE)
+		Shake();
 
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, 0.f);
 
@@ -56,10 +59,15 @@ void cCameraManager::SetTransform()
 	g_device->SetTransform(D3DTS_VIEW, &m_matView);
 }
 
+void cCameraManager::ResetSetting()
+{
+	if (m_velocity < 0) m_velocity = -m_velocity;
+	m_accel = 1;
+	m_pos = VEC2(0, 0);
+}
+
 void cCameraManager::Shake()
 {
-	if (m_isShake == FALSE) return;
-
 	if (timeGetTime() - start > m_delay) {
 		m_pos.x = rand() % m_accel - rand() % m_accel;
 		m_pos.y = rand() % m_accel - rand() % m_accel;
@@ -72,9 +80,7 @@ void cCameraManager::Shake()
 		m_velocity = -m_velocity;
 	}
 	else if (m_accel < 1) {
-		m_accel = 1;
-		m_velocity = -m_velocity;
-		m_pos = VEC2(0, 0);
+		ResetSetting();
 		m_isShake = FALSE;
 	}
 }

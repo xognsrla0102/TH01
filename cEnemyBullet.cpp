@@ -70,7 +70,7 @@ void cEnemyBullet::Collision()
 		if (player->m_life > 1) {
 			SOUND->Copy("deadSND");
 			EFFECT->AddEffect(
-				new cEffect("enemy_dead_EFFECT", 1, player->GetPos(),
+				new cEffect("enemy_dead_EFFECT", 1, player->GetPos(), VEC2(0, 0),
 					VEC2(2.5, 2.5), VEC2(5, 5)
 				)
 			);

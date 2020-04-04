@@ -11,11 +11,15 @@ public:
 	cImage* m_spellB_RED[2] = { nullptr };
 	cImage* m_spellB_BLUE[2] = { nullptr };
 
+	cImage* m_spellB_Razer = nullptr; 
+
 	cTimer* m_bulletTimer = nullptr;
 	cTimer* m_subBulletTimer = nullptr;
 	
 	time_t m_reimouA_BulletTime;
 	time_t m_reimouB_SpreadTime;
+	time_t m_marisaA_BulletTime;
+	time_t m_marisaB_RazerTime;
 
 	time_t m_bombTime = timeGetTime();
 	time_t m_notDeadTime = timeGetTime();
@@ -69,6 +73,7 @@ public:
 	BOOL m_isBombShot = FALSE; 
 	BOOL m_isLevelUp = FALSE;
 	BOOL m_isFullPower = FALSE;
+	BOOL m_isExtend = FALSE;
 public:
 	cPlayer();
 	~cPlayer();
@@ -77,6 +82,8 @@ public:
 	void Update();
 	void Render();
 	void Release();
+
+	void Graze();
 
 	void Hit();
 	void NotDead();

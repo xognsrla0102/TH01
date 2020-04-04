@@ -61,28 +61,27 @@ void cPlayerBullet::Collision()
 			onePos.y + oneImg->m_info.Height / 2,
 		};
 
-		//레이무 기본샷은 회전되면서 날아가기 때문에 OBB로 체크
-		if (isMarisa == FALSE) {
-			if (OBB(m_pos, onePos, pBulletRect, oneRect, m_rot, eOne[i]->GetRot()) == TRUE) {
-				SOUND->Copy("hitSND");
-				((cPlayer*)OBJFIND(PLAYER))->m_score += 10;
-				m_isLive = FALSE;
-				eOne[i]->m_hp -= ((cPlayer*)OBJFIND(PLAYER))->m_shotAtk;
-				if(eOne[i]->m_hp <= 0.f)
-					eOne[i]->GetRefLive() = FALSE;
-				return;
-			}
-		}
-		else {
-			if (AABB(pBulletRect, oneRect) == TRUE) {
-				SOUND->Copy("hitSND");
-				((cPlayer*)OBJFIND(PLAYER))->m_score += 10;
-				m_isLive = FALSE;
-				eOne[i]->m_hp -= ((cPlayer*)OBJFIND(PLAYER))->m_shotAtk;
-				if (eOne[i]->m_hp <= 0.f)
-					eOne[i]->GetRefLive() = FALSE;
-				return;
-			}
+		if (OBB(m_pos, onePos, pBulletRect, oneRect, m_rot, eOne[i]->GetRot()) == TRUE) {
+			SOUND->Copy("hitSND");
+
+			int theta = rand() % 360;
+			VEC2 dir(cos(D3DXToRadian(theta)), sin(D3DXToRadian(theta)));
+			D3DXVec2Normalize(&dir, &dir);
+
+			VEC4 color;
+			if (isMarisa == FALSE) color = VEC4(200, 255, 130, 130);
+			else color = VEC4(200, 130, 130, 255);
+
+			EFFECT->AddEffect(
+				new cEffect("enemyHit_EFFECT", 1, m_pos, dir, VEC2(-1.f, -1.f), VEC2(3, 3), 300.f, color)
+			);
+
+			((cPlayer*)OBJFIND(PLAYER))->m_score += 10;
+			m_isLive = FALSE;
+			eOne[i]->m_hp -= ((cPlayer*)OBJFIND(PLAYER))->m_shotAtk;
+			if (eOne[i]->m_hp <= 0.f)
+				eOne[i]->GetRefLive() = FALSE;
+			return;
 		}
 	}
 
@@ -98,28 +97,27 @@ void cPlayerBullet::Collision()
 			fryPos.y + fryImg->m_info.Height / 2,
 		};
 
-		//레이무 기본샷은 회전되면서 날아가기 때문에 OBB로 체크
-		if (isMarisa == FALSE) {
-			if (OBB(m_pos, fryPos, pBulletRect, fryRect, m_rot, eFairy[i]->GetRot()) == TRUE) {
-				SOUND->Copy("hitSND");
-				((cPlayer*)OBJFIND(PLAYER))->m_score += 10;
-				m_isLive = FALSE;
-				eFairy[i]->m_hp -= ((cPlayer*)OBJFIND(PLAYER))->m_shotAtk;
-				if (eFairy[i]->m_hp <= 0.f)
-					eFairy[i]->GetRefLive() = FALSE;
-				return;
-			}
-		}
-		else {
-			if (AABB(pBulletRect, fryRect) == TRUE) {
-				SOUND->Copy("hitSND");
-				((cPlayer*)OBJFIND(PLAYER))->m_score += 10;
-				m_isLive = FALSE;
-				eFairy[i]->m_hp -= ((cPlayer*)OBJFIND(PLAYER))->m_shotAtk;
-				if (eFairy[i]->m_hp <= 0.f)
-					eFairy[i]->GetRefLive() = FALSE;
-				return;
-			}
+		if (OBB(m_pos, fryPos, pBulletRect, fryRect, m_rot, eFairy[i]->GetRot()) == TRUE) {
+			SOUND->Copy("hitSND");
+
+			int theta = rand() % 360;
+			VEC2 dir(cos(D3DXToRadian(theta)), sin(D3DXToRadian(theta)));
+			D3DXVec2Normalize(&dir, &dir);
+
+			VEC4 color;
+			if (isMarisa == FALSE) color = VEC4(200, 255, 130, 130);
+			else color = VEC4(200, 130, 130, 255);
+
+			EFFECT->AddEffect(
+				new cEffect("enemyHit_EFFECT", 1, m_pos, dir, VEC2(-1.f, -1.f), VEC2(3, 3), 300.f, color)
+			);
+
+			((cPlayer*)OBJFIND(PLAYER))->m_score += 10;
+			m_isLive = FALSE;
+			eFairy[i]->m_hp -= ((cPlayer*)OBJFIND(PLAYER))->m_shotAtk;
+			if (eFairy[i]->m_hp <= 0.f)
+				eFairy[i]->GetRefLive() = FALSE;
+			return;
 		}
 	}
 }

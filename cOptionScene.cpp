@@ -81,7 +81,7 @@ cOptionScene::cOptionScene()
 	m_buttons.clear();
 
 	//시작위치의 태그 활성화
-	m_manyButtons[0][0]->m_isOn = true;
+	m_manyButtons[0][0]->m_isOn = TRUE;
 
 	//각 라인에 해당 값을 할당하기 전 초기화
 	for (size_t i = 0; i < oBUTTON_END; i++)
@@ -95,28 +95,28 @@ cOptionScene::cOptionScene()
 
 	//BGM이 OFF면 1, ON이면 wav일 경우 2, midi면 3
 	//0 위치는 태그임
-	if (onBGM == true) {
-		if (isMidi == true) optionValue[oBGM] = 3;
+	if (onBGM == TRUE) {
+		if (isMidi == TRUE) optionValue[oBGM] = 3;
 		else optionValue[oBGM] = 2;
 	}
 	else optionValue[oBGM] = 1;
 
 	//SOUND가 OFF면 1 ON이면 2
 	//마찬가지로 0은 태그 위치
-	if (onSND == true) optionValue[oSOUND] = 2;
+	if (onSND == TRUE) optionValue[oSOUND] = 2;
 	else optionValue[oSOUND] = 1;
 
 	//MODE가 WINDOW면 1 FULL이면 2
-	if (isWindowed == true) optionValue[oWINDOWED] = 1;
+	if (isWindowed == TRUE) optionValue[oWINDOWED] = 1;
 	else optionValue[oWINDOWED] = 2;
 
 	//씬이 시작될 때 첫 시작 위치는
 	//첫 번째 라인에 선택된 항목이다.
-	m_manyButtons[0][optionValue[0]]->m_isOn = true;
+	m_manyButtons[0][optionValue[0]]->m_isOn = TRUE;
 
 	//각 라인에 선택된 항목들도 on시켜주기(QUIT, RESTORE 버튼은 제외)
 	for (size_t i = 0; i < m_manyButtons.size() - 2; i++)
-		m_manyButtons[i][optionValue[i]]->m_isOn = true;
+		m_manyButtons[i][optionValue[i]]->m_isOn = TRUE;
 
 	//버튼 이어주기
 
@@ -150,11 +150,11 @@ cOptionScene::~cOptionScene()
 
 void cOptionScene::Init()
 {
-	SOUND->Play("th_04_%s", true, true);
+	SOUND->Play("th_04_%s", TRUE, TRUE);
 
 	m_nowLine = 0;
 	m_BG->m_a = 0;
-	m_manyButtons[m_nowLine][0]->m_isOn = true;
+	m_manyButtons[m_nowLine][0]->m_isOn = TRUE;
 }
 
 void cOptionScene::Update()
@@ -166,30 +166,30 @@ void cOptionScene::Update()
 	if (KEYDOWN(DIK_UP)) {
 		SOUND->Play("keymoveSND");
 		//태그 위치 변경
-		m_manyButtons[m_nowLine][0]->m_isOn = false;
+		m_manyButtons[m_nowLine][0]->m_isOn = FALSE;
 
 		if (m_nowLine > 0) m_nowLine--;
 		else while (m_nowLine < m_manyButtons.size() - 1) m_nowLine++;
 
-		m_manyButtons[m_nowLine][0]->m_isOn = true;
-		m_manyButtons[m_nowLine][optionValue[m_nowLine]]->m_isOn = true;
+		m_manyButtons[m_nowLine][0]->m_isOn = TRUE;
+		m_manyButtons[m_nowLine][optionValue[m_nowLine]]->m_isOn = TRUE;
 	}
 
 	if (KEYDOWN(DIK_DOWN)) {
 		SOUND->Play("keymoveSND");
-		m_manyButtons[m_nowLine][0]->m_isOn = false;
+		m_manyButtons[m_nowLine][0]->m_isOn = FALSE;
 
 		if (m_nowLine < m_manyButtons.size() - 1) m_nowLine++;
 		else while (m_nowLine > 0) m_nowLine--;
 
-		m_manyButtons[m_nowLine][0]->m_isOn = true;
-		m_manyButtons[m_nowLine][optionValue[m_nowLine]]->m_isOn = true;
+		m_manyButtons[m_nowLine][0]->m_isOn = TRUE;
+		m_manyButtons[m_nowLine][optionValue[m_nowLine]]->m_isOn = TRUE;
 	}
 
 	if (KEYDOWN(DIK_LEFT) || KEYDOWN(DIK_RIGHT)) {
 		SOUND->Play("keymoveSND");
 
-		m_manyButtons[m_nowLine][optionValue[m_nowLine]]->m_isOn = false;
+		m_manyButtons[m_nowLine][optionValue[m_nowLine]]->m_isOn = FALSE;
 
 		if (KEYDOWN(DIK_LEFT)) {
 			if (optionValue[m_nowLine] > 1) optionValue[m_nowLine]--;
@@ -213,37 +213,37 @@ void cOptionScene::Update()
 			switch (optionValue[m_nowLine]) {
 			//off
 			case 1:
-				onBGM = false;
+				onBGM = FALSE;
 				break;
 			//wav
 			case 2:
-				onBGM = true;
-				isMidi = false;
+				onBGM = TRUE;
+				isMidi = FALSE;
 				break;
 			//midi
 			case 3:
-				onBGM = true;
-				isMidi = true;
+				onBGM = TRUE;
+				isMidi = TRUE;
 				break;
 			}
-			SOUND->Play("th_04_%s", true, true);
+			SOUND->Play("th_04_%s", TRUE, TRUE);
 			break;
 		case oSOUND:
 			//off
-			if (optionValue[m_nowLine] == 1) onSND = false;
+			if (optionValue[m_nowLine] == 1) onSND = FALSE;
 			//on
-			else if (optionValue[m_nowLine] == 2) onSND = true;
+			else if (optionValue[m_nowLine] == 2) onSND = TRUE;
 			break;
 		case oWINDOWED:
 			if (optionValue[m_nowLine] == 1 || optionValue[m_nowLine] == 2) {
 				isWindowed = !isWindowed;
-				DXUTPause(true, true);
+				DXUTPause(TRUE, TRUE);
 				DXUTToggleFullScreen();
-				DXUTPause(false, false);
+				DXUTPause(FALSE, FALSE);
 			}
 			break;
 		}
-		m_manyButtons[m_nowLine][optionValue[m_nowLine]]->m_isOn = true;
+		m_manyButtons[m_nowLine][optionValue[m_nowLine]]->m_isOn = TRUE;
 	}
 
 	if (KEYDOWN(DIK_RETURN) || KEYDOWN(DIK_Z)) {
@@ -254,42 +254,42 @@ void cOptionScene::Update()
 		switch (m_nowLine) {
 		case oRESTORE:
 			for (size_t i = 0; i < m_manyButtons.size() - 1; i++)
-				m_manyButtons[i][optionValue[i]]->m_isOn = false;
+				m_manyButtons[i][optionValue[i]]->m_isOn = FALSE;
 
-			isWindowed = true;
+			isWindowed = TRUE;
 			if (isWindowed != wasWindowed) {
-				DXUTPause(true, true);
+				DXUTPause(TRUE, TRUE);
 				DXUTToggleFullScreen();
-				DXUTPause(false, false);
+				DXUTPause(FALSE, FALSE);
 			}
 
-			onBGM = true;
-			isMidi = false;
-			onSND = true;
+			onBGM = TRUE;
+			isMidi = FALSE;
+			onSND = TRUE;
 			playerLife = 3;
 			playerBomb = 3;
 
 			optionValue[oLIFE] = playerLife;
 			optionValue[oBOMB] = playerBomb + 1;
 
-			if (onBGM == true) {
-				if (isMidi == true) optionValue[oBGM] = 3;
+			if (onBGM == TRUE) {
+				if (isMidi == TRUE) optionValue[oBGM] = 3;
 				else optionValue[oBGM] = 2;
 			}
 			else optionValue[oBGM] = 1;
 
-			if (onSND == true) optionValue[oSOUND] = 2;
+			if (onSND == TRUE) optionValue[oSOUND] = 2;
 			else optionValue[oSOUND] = 1;
 
-			if (isWindowed == true) optionValue[oWINDOWED] = 1;
+			if (isWindowed == TRUE) optionValue[oWINDOWED] = 1;
 			else optionValue[oWINDOWED] = 2;
 
 			for (size_t i = 0; i < m_manyButtons.size() - 1; i++)
-				m_manyButtons[i][optionValue[i]]->m_isOn = true;
-			SOUND->Play("th_04_%s", true, true);
+				m_manyButtons[i][optionValue[i]]->m_isOn = TRUE;
+			SOUND->Play("th_04_%s", TRUE, TRUE);
 			break;
 		case oQUIT:
-			m_manyButtons[m_nowLine][0]->m_isOn = false;
+			m_manyButtons[m_nowLine][0]->m_isOn = FALSE;
 			SCENE->ChangeScene("titleScene");
 
 			//나갈 때 설정 저장함
@@ -301,8 +301,8 @@ void cOptionScene::Update()
 
 	if (KEYDOWN(DIK_ESCAPE) || KEYDOWN(DIK_X)) {
 		SOUND->Copy("cancelSND");
-		m_manyButtons[m_nowLine][0]->m_isOn = false;
-		m_manyButtons[oQUIT][0]->m_isOn = true;
+		m_manyButtons[m_nowLine][0]->m_isOn = FALSE;
+		m_manyButtons[oQUIT][0]->m_isOn = TRUE;
 		m_nowLine = oQUIT;
 	}
 
@@ -312,7 +312,7 @@ void cOptionScene::Update()
 
 void cOptionScene::Render()
 {
-	IMAGE->Render(m_BG, VEC2(0, 0), 1.f, 0.f, false, m_BG->m_color);
+	IMAGE->Render(m_BG, VEC2(0, 0), 1.f, 0.f, FALSE, m_BG->m_color);
 
 	for (auto iter : m_manyButtons)
 		for(auto jter : iter)

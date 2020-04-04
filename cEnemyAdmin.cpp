@@ -27,7 +27,7 @@ void cEnemyAdmin::Update()
 				50 > onePos.y + 25 || onePos.y - 25 > 50 + INGAMEY )) {
 				SOUND->Copy("enemydeadSND");
 				EFFECT->AddEffect(
-					new cEffect("enemy_dead_EFFECT", 1, onePos,
+					new cEffect("enemy_dead_EFFECT", 1, onePos, VEC2(0, 0),
 						VEC2(0.5f, 0.5f), VEC2(1, 1)
 					)
 				);
@@ -56,7 +56,7 @@ void cEnemyAdmin::Update()
 				50 > fairyPos.y + 23 || fairyPos.y - 23 > 50 + INGAMEY)) {
 				SOUND->Copy("enemydeadSND");
 				EFFECT->AddEffect(
-					new cEffect("enemy_dead_EFFECT", 1, fairyPos,
+					new cEffect("enemy_dead_EFFECT", 1, fairyPos, VEC2(0, 0),
 						VEC2(0.5f, 0.5f), VEC2(1, 1))
 				);
 			}

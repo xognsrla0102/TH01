@@ -119,6 +119,8 @@ void cLoadScene::Init()
 	Load("enemy_dead_EFFECT", "./resource/effect/death.png");
 	Load("createBullet_EFFECT", "./resource/effect/createBullet.png");
 	Load("powerUp_EFFECT", "./resource/effect/powerUp.png");
+	Load("graze_EFFECT", "./resource/effect/graze.png");
+	Load("enemyHit_EFFECT", "./resource/effect/enemyHit.png");
 
 	//이미지 로딩
 

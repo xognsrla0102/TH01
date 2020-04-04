@@ -81,7 +81,7 @@ void cOne::Pattern1()
 				m_bDir.y = sin(D3DXToRadian(newRot));
 				D3DXVec2Normalize(&m_bDir, &m_bDir);
 
-				EFFECT->AddEffect(new cEffect("createBullet_EFFECT", 1, m_pos, VEC2(-0.3f, -0.3f), VEC2(2.f, 2.f)));
+				EFFECT->AddEffect(new cEffect("createBullet_EFFECT", 1, m_pos, VEC2(0, 0), VEC2(-0.3f, -0.3f), VEC2(2.f, 2.f)));
 				eBullet.push_back(new cEnemyBullet("bullet_blueMeal", m_pos, 1, m_bulletSpeed + j * 30, m_bDir, m_isAccel, VEC2(1, 1), newRot + 90));
 				newRot -= m_theta;
 			}
@@ -128,7 +128,7 @@ void cOne::Pattern2()
 				m_bDir.y = sin(D3DXToRadian(newRot));
 				D3DXVec2Normalize(&m_bDir, &m_bDir);
 
-				EFFECT->AddEffect(new cEffect("createBullet_EFFECT", 1, m_pos, VEC2(-0.3f, -0.3f), VEC2(2.5f, 2.5f)));
+				EFFECT->AddEffect(new cEffect("createBullet_EFFECT", 1, m_pos, VEC2(0, 0), VEC2(-0.3f, -0.3f), VEC2(2.5f, 2.5f)));
 				eBullet.push_back(new cEnemyBullet("bullet_blueMeal", m_pos, 1, m_bulletSpeed + j * 30, m_bDir, m_isAccel, VEC2(1, 1), newRot + 90));
 				newRot -= m_theta;
 			}

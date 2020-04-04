@@ -410,6 +410,7 @@
     <ClCompile Include="cItemAdmin.cpp" />
     <ClCompile Include="cLoadScene.cpp" />
     <ClCompile Include="cMain.cpp" />
+    <ClCompile Include="cMarisaA_Bullet.cpp" />
     <ClCompile Include="cMultiTexture.cpp" />
     <ClCompile Include="cMusicScene.cpp" />
     <ClCompile Include="cObject.cpp" />
@@ -447,6 +448,7 @@
     <ClInclude Include="cFontManager.h" />
     <ClInclude Include="cItem.h" />
     <ClInclude Include="cItemAdmin.h" />
+    <ClInclude Include="cMarisaA_Bullet.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="cEffect.h" />
     <ClInclude Include="cEffectManager.h" />

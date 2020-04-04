@@ -160,11 +160,16 @@ void cStage1Scene::Update()
 			m_exit[m_nowButton]->m_isOn = FALSE;
 			m_nowButton = 1;
 			m_exit[m_nowButton]->m_isOn = TRUE;
+
+			CAMERA->m_isPause = FALSE;
 		}
 		else {
 			m_isPause = !m_isPause;
 			//일시정지가 시작되는 순간 일시정지 되는 만큼의 시간을 계산
-			if (m_isPause == TRUE) m_pauseTime = timeGetTime();
+			if (m_isPause == TRUE) {
+				m_pauseTime = timeGetTime();
+				CAMERA->m_isPause = TRUE;
+			}
 
 			//일시정지가 풀리는 순간
 			//게임시작한 시간을 일시정지한 시간만큼 빼서 격차를 줄여줌
@@ -179,6 +184,8 @@ void cStage1Scene::Update()
 				m_pause[m_nowButton]->m_isOn = FALSE;
 				m_nowButton = 1;
 				m_pause[m_nowButton]->m_isOn = TRUE;
+
+				CAMERA->m_isPause = FALSE;
 			}
 		}
 	}
@@ -204,14 +211,15 @@ void cStage1Scene::Update()
 
 	player->m_wasPower = player->m_power;
 	OBJFIND(ITEMS)->Update();
+	OBJFIND(ENEMYS)->Update();
 	OBJFIND(PLAYER)->Update();
 	OBJFIND(BALLS)->Update();
-	OBJFIND(ENEMYS)->Update();
 	OBJFIND(BULLETS)->Update();
 
 	if (player->GetLive() == FALSE){
 		if (m_nowContinue > 0) {
 			m_isContinue = TRUE;
+			CAMERA->m_isPause = TRUE;
 			m_continueTime = timeGetTime();
 		}
 		else {
@@ -364,6 +372,7 @@ void cStage1Scene::Continue()
 		m_continue[1]->m_isOn = TRUE;
 		m_continue[2]->m_isOn = FALSE;
 		m_nowButton = 1;
+		CAMERA->m_isPause = FALSE;
 	}
 
 	for (auto iter : m_continue)
@@ -386,6 +395,7 @@ void cStage1Scene::PauseOrExit()
 			switch (m_nowButton) {
 			case 1:
 				m_startTime += timeGetTime() - m_pauseTime;
+				CAMERA->m_isPause = FALSE;
 				break;
 			case 2:
 				m_isExit = TRUE;
@@ -402,6 +412,8 @@ void cStage1Scene::PauseOrExit()
 				break;
 			case 2:
 				m_isPause = FALSE;
+				CAMERA->m_isPause = FALSE;
+				CAMERA->m_isShake = FALSE;
 				SCENE->ChangeScene("titleScene");
 				break;
 			}
@@ -415,6 +427,7 @@ void cStage1Scene::PauseOrExit()
 		SOUND->Play("cancelSND");
 		if (m_isPause == TRUE) {
 			m_isPause = FALSE;
+			CAMERA->m_isPause = FALSE;
 			m_pause[1]->m_isOn = TRUE;
 			m_pause[2]->m_isOn = FALSE;
 		}
@@ -468,7 +481,7 @@ void cStage1Scene::LevelDesign()
 		m_circle->SetNowRGB();
 	}
 
-	if (nowTime > 5000 && nowTime < 12000) {
+	if (nowTime > 5000 && nowTime < 8000) {
 		if (m_mobSpawn[0]->Update()) {
 			auto& one = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne();
 			one.push_back(new cOne(2, 1, VEC2(50, 200)));
@@ -479,8 +492,16 @@ void cStage1Scene::LevelDesign()
 			nowOne->SetDelay(300 + rand() % 21 * 50);
 			nowOne->SetSpeed(70);
 			nowOne->GetItemNames().push_back("item_jum");
+		}
+	}
 
+	else if (nowTime > 10000 && nowTime < 13000) {
+		if (m_mobSpawn[0]->Update()) {
+			auto& one = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne();
 			one.push_back(new cOne(2, 2, VEC2(50 + INGAMEX, 200)));
+			INT idx = one.size() - 1;
+			cOne* nowOne = ((cOne*)(one[idx]));
+
 			idx = one.size() - 1;
 			nowOne = ((cOne*)(one[idx]));
 			nowOne->m_theta = 15;

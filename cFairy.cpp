@@ -75,7 +75,7 @@ void cFairy::Pattern1(INT cnt)
 
 			auto& eBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetEnemyBullet();
 
-			EFFECT->AddEffect(new cEffect("createBullet_EFFECT", 1, m_pos, VEC2(-0.3f, -0.3f), VEC2(1.5f, 1.5f), 800.f, VEC4(150, 128, 128, 255)));
+			EFFECT->AddEffect(new cEffect("createBullet_EFFECT", 1, m_pos, VEC2(0, 0), VEC2(-0.3f, -0.3f), VEC2(1.5f, 1.5f), 800.f, VEC4(150, 128, 128, 255)));
 			eBullet.push_back(new cEnemyBullet("bullet_blueOne", m_pos, 1, m_bulletSpeed, dir, m_isAccel));
 
 			if (m_isRandShot == TRUE) rot += 10 + rand() % 20;
@@ -99,7 +99,7 @@ void cFairy::Pattern2()
 
 			auto& eBullet = ((cBulletAdmin*)OBJFIND(BULLETS))->GetEnemyBullet();
 
-			EFFECT->AddEffect(new cEffect("createBullet_EFFECT", 1, m_pos, VEC2(-0.3f, -0.3f), VEC2(1.5f, 1.5f), 800.f, VEC4(150, 128, 128, 255)));
+			EFFECT->AddEffect(new cEffect("createBullet_EFFECT", 1, m_pos, VEC2(0, 0), VEC2(-0.3f, -0.3f), VEC2(1.5f, 1.5f), 800.f, VEC4(150, 128, 128, 255)));
 			eBullet.push_back(new cEnemyBullet("bullet_blueOne", m_pos, 1, m_bulletSpeed, dir, m_isAccel));
 		}
 		m_bulletTime = timeGetTime();

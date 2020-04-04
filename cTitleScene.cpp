@@ -4,7 +4,7 @@
 
 cTitleScene::cTitleScene()
 {
-	SOUND->Play("th_01_%s", true, true);
+	SOUND->Play("th_01_%s", TRUE, TRUE);
 
 	m_whiteEffect = IMAGE->FindImage("whiteBG");
 	m_bg = IMAGE->FindImage("titleBG");
@@ -100,7 +100,9 @@ cTitleScene::~cTitleScene()
 
 void cTitleScene::Init()
 {
-	SOUND->Play("th_01_%s", true, true);
+	SOUND->Play("th_01_%s", TRUE, TRUE);
+
+	CAMERA->ResetSetting();
 
 	m_enterTime = timeGetTime();
 
@@ -120,43 +122,43 @@ void cTitleScene::Init()
 
 	m_nowButton = 0;
 
-	m_buttons[0]->m_isOn = true;
+	m_buttons[0]->m_isOn = TRUE;
 
-	isEnter = false;
-	isChangeScene = false;
+	isEnter = FALSE;
+	isChangeScene = FALSE;
 }
 
 void cTitleScene::Update()
 {
-	if(isEnter == true)
+	if(isEnter == TRUE)
 		for (auto iter : m_buttons)
 			iter->Update();
 
 	//버튼 나타났을 때
-	if (isEnter == true) {
+	if (isEnter == TRUE) {
 		if (KEYDOWN(DIK_UP)) {
-			m_buttons[m_nowButton]->m_isOn = false;
+			m_buttons[m_nowButton]->m_isOn = FALSE;
 			if (m_buttons[m_nowButton]->m_up != nullptr) {
 				m_nowButton--;
-				m_buttons[m_nowButton]->m_isOn = true;
+				m_buttons[m_nowButton]->m_isOn = TRUE;
 			}
 			else {
 				while (m_buttons[m_nowButton]->m_down != nullptr)
 					m_nowButton++;
-				m_buttons[m_nowButton]->m_isOn = true;
+				m_buttons[m_nowButton]->m_isOn = TRUE;
 			}
 			SOUND->Play("keymoveSND");
 		}
 		if (KEYDOWN(DIK_DOWN)) {
-			m_buttons[m_nowButton]->m_isOn = false;
+			m_buttons[m_nowButton]->m_isOn = FALSE;
 			if (m_buttons[m_nowButton]->m_down != nullptr) {
 				m_nowButton++;
-				m_buttons[m_nowButton]->m_isOn = true;
+				m_buttons[m_nowButton]->m_isOn = TRUE;
 			}
 			else {
 				while (m_buttons[m_nowButton]->m_up != nullptr)
 					m_nowButton--;
-				m_buttons[m_nowButton]->m_isOn = true;
+				m_buttons[m_nowButton]->m_isOn = TRUE;
 			}
 			SOUND->Play("keymoveSND");
 		}
@@ -166,36 +168,36 @@ void cTitleScene::Update()
 			SOUND->Copy("selectSND");
 
 			nowIntroPos = FADE_OUT_POS;
-			isChangeScene = true;
+			isChangeScene = TRUE;
 
 			//버튼 안 보이게 전환
-			isEnter = false;
+			isEnter = FALSE;
 		}
 
 		if (KEYDOWN(DIK_ESCAPE) || KEYDOWN(DIK_X)) {
 			SOUND->Copy("cancelSND");
-			m_buttons[m_nowButton]->m_isOn = false;
+			m_buttons[m_nowButton]->m_isOn = FALSE;
 			m_nowButton = tEXIT;
-			m_buttons[m_nowButton]->m_isOn = true;
+			m_buttons[m_nowButton]->m_isOn = TRUE;
 		}
 	}
 
 	//버튼 나올 때 진입하기 전
 	if (timeGetTime() - m_enterTime > 1000 &&
 		(KEYDOWN(DIK_RETURN) || KEYDOWN(DIK_Z)) && 
-		(isEnter == false && isChangeScene == false)
+		(isEnter == FALSE && isChangeScene == FALSE)
 		) {
 		SOUND->Play("selectSND");
 		nowIntroPos = LEFT_POS;
 		if (m_whiteEffect->m_a != 0) m_whiteEffect->m_a = 0;
-		isEnter = true;
+		isEnter = TRUE;
 	}
 	
 	//버튼 나올 때 살짝 어두워짐
-	if (isEnter == true) Lerp(m_bg->m_a, 150.f, 0.04);
+	if (isEnter == TRUE) Lerp(m_bg->m_a, 150.f, 0.04);
 
 	//씬 바꿀 때 페이드아웃
-	if (isChangeScene == true) {
+	if (isChangeScene == TRUE) {
 		static time_t chkTime = timeGetTime();
 		//다시 타이틀 씬으로 돌아올 땐 -1이므로 새로 받아야함
 		if (chkTime == -1) chkTime = timeGetTime();
@@ -228,7 +230,7 @@ void cTitleScene::Update()
 				PostQuitMessage(0);
 				break;
 			}
-			m_buttons[m_nowButton]->m_isOn = false;
+			m_buttons[m_nowButton]->m_isOn = FALSE;
 			chkTime = -1;
 			return;
 		}
@@ -239,7 +241,7 @@ void cTitleScene::Update()
 		if (timeGetTime() - m_intro[i].m_startTime > i * 300.f) {
 			D3DXVec2Lerp(&m_intro[i].m_pos, &m_intro[i].m_pos, &m_intro[i].m_end[nowIntroPos], 0.05);
 			//씬 바꿀 땐 이렇게 적용시키면 안됨
-			if (i == 2 && isChangeScene == false) {
+			if (i == 2 && isChangeScene == FALSE) {
 				//홍 글자의 경우엔 점점 나타나면서 회전이 약해짐
 				Lerp(m_intro[i].m_alpha, 255.f, 0.05);
 				Lerp(m_intro[i].m_rot, 0.f, 0.03);
@@ -256,18 +258,18 @@ void cTitleScene::Update()
 
 void cTitleScene::Render()
 {
-	IMAGE->Render(m_bg, VEC2(0, 0), 1.f, 0.f, false, m_bg->m_color);
+	IMAGE->Render(m_bg, VEC2(0, 0), 1.f, 0.f, FALSE, m_bg->m_color);
 
 	for (int i = 0; i < sizeof(m_intro) / sizeof(m_intro[0]); i++)
-		IMAGE->Render(m_intro[i].m_img, m_intro[i].m_pos, m_intro[i].m_size, m_intro[i].m_rot, true,
+		IMAGE->Render(m_intro[i].m_img, m_intro[i].m_pos, m_intro[i].m_size, m_intro[i].m_rot, TRUE,
 			D3DCOLOR_ARGB((int)m_intro[i].m_alpha, 255, 255, 255)
 		);
 
-	if (isEnter == true)
+	if (isEnter == TRUE)
 		for (auto iter : m_buttons)
 			iter->Render();
 
-	IMAGE->Render(m_whiteEffect, VEC2(0, 0), 1.f, 0.f, false, m_whiteEffect->m_color);
+	IMAGE->Render(m_whiteEffect, VEC2(0, 0), 1.f, 0.f, FALSE, m_whiteEffect->m_color);
 
 	DRAW_FRAME(to_string(DXUTGetFPS()), VEC2(1000, 680));
 }

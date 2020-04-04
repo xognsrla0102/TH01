@@ -83,9 +83,6 @@
     <Filter Include="Core\Object\Scenes\MusicScene">
       <UniqueIdentifier>{52de7d90-4fa1-4c66-8298-911bea1a5a39}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Manager\FILE">
-      <UniqueIdentifier>{c7872808-c73b-4478-90a0-ee48960dc918}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Manager\Camera">
       <UniqueIdentifier>{e92ecc13-a831-4406-beb8-6e098de12260}</UniqueIdentifier>
     </Filter>
@@ -175,6 +172,9 @@
     </Filter>
     <Filter Include="Core\Object\Bullet\SpellBullet\MarisaA">
       <UniqueIdentifier>{c2263139-933c-446a-bcff-5d3c01aeaa40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\Image\FILE">
+      <UniqueIdentifier>{c7872808-c73b-4478-90a0-ee48960dc918}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -304,7 +304,7 @@
       <Filter>Core\Object\Scenes\OptionScene</Filter>
     </ClInclude>
     <ClInclude Include="cFileManager.h">
-      <Filter>Core\Manager\FILE</Filter>
+      <Filter>Core\Manager\Image\FILE</Filter>
     </ClInclude>
     <ClInclude Include="cHowtoScene.h">
       <Filter>Core\Object\Scenes\HowtoScene</Filter>
@@ -393,6 +393,9 @@
     <ClInclude Include="cReimouA_Bullet.h">
       <Filter>Core\Object\Bullet\SpellBullet\ReimouA</Filter>
     </ClInclude>
+    <ClInclude Include="cMarisaA_Bullet.h">
+      <Filter>Core\Object\Bullet\SpellBullet\MarisaA</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -456,7 +459,7 @@
       <Filter>Core\Object\Scenes\OptionScene</Filter>
     </ClCompile>
     <ClCompile Include="cFileManager.cpp">
-      <Filter>Core\Manager\FILE</Filter>
+      <Filter>Core\Manager\Image\FILE</Filter>
     </ClCompile>
     <ClCompile Include="cHowtoScene.cpp">
       <Filter>Core\Object\Scenes\HowtoScene</Filter>
@@ -544,6 +547,9 @@
     </ClCompile>
     <ClCompile Include="cReimouA_Bullet.cpp">
       <Filter>Core\Object\Bullet\SpellBullet\ReimouA</Filter>
+    </ClCompile>
+    <ClCompile Include="cMarisaA_Bullet.cpp">
+      <Filter>Core\Object\Bullet\SpellBullet\MarisaA</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -143,6 +143,35 @@ void cBallBullet::Collision()
 
 		if (OBB(m_pos, onePos, bBulletRect, oneRect, m_rot, eOne[i]->GetRot()) == TRUE) {
 			SOUND->Copy("hitSND");
+
+			int theta = rand() % 360;
+			VEC2 dir(cos(D3DXToRadian(theta)), sin(D3DXToRadian(theta)));
+			D3DXVec2Normalize(&dir, &dir);
+
+			VEC4 color;
+			if (isMarisa == FALSE && isB == FALSE)
+				color = VEC4(200, 130, 130, 255);
+			else if (isMarisa == FALSE && isB == TRUE)
+				color = VEC4(200, 255, 255, 255);
+			else if (isMarisa == TRUE && isB == FALSE)
+				color = VEC4(200, 130, 255, 130);
+			else if (isMarisa == TRUE && isB == TRUE)
+				color = VEC4(200, 255, 255, 130);
+
+			//레이무B가 아닐 경우
+			if (!(isMarisa == FALSE && isB == TRUE)) {
+				EFFECT->AddEffect(
+					new cEffect("enemyHit_EFFECT", 1, m_pos, dir, VEC2(-1.f, -1.f), VEC2(3, 3), 300.f, color)
+				);
+			}
+			//레이무B는 세로로 길어짐
+			else {
+				EFFECT->AddEffect(
+					new cEffect("player_reimou_subShot1", 1, m_pos, VEC2(0, 0), VEC2(0.f, 0.1f), VEC2(1, 1), 300.f, color)
+				);
+			}
+
+			//레이저는 관통함
 			if(!(isMarisa == TRUE && isB == TRUE))
 				m_isLive = FALSE;
 			eOne[i]->m_hp -= ((cPlayer*)OBJFIND(PLAYER))->m_subShotAtk;
@@ -166,6 +195,34 @@ void cBallBullet::Collision()
 
 		if (OBB(m_pos, fryPos, bBulletRect, fryRect, m_rot, eFairy[i]->GetRot()) == TRUE) {
 			SOUND->Copy("hitSND");
+
+			int theta = rand() % 360;
+			VEC2 dir(cos(D3DXToRadian(theta)), sin(D3DXToRadian(theta)));
+			D3DXVec2Normalize(&dir, &dir);
+
+			VEC4 color;
+			if (isMarisa == FALSE && isB == FALSE)
+				color = VEC4(200, 130, 130, 255);
+			else if (isMarisa == FALSE && isB == TRUE)
+				color = VEC4(200, 255, 255, 255);
+			else if (isMarisa == TRUE && isB == FALSE)
+				color = VEC4(200, 130, 255, 130);
+			else if (isMarisa == TRUE && isB == TRUE)
+				color = VEC4(200, 255, 255, 130);
+
+			//레이무B가 아닐 경우
+			if (!(isMarisa == FALSE && isB == TRUE)) {
+				EFFECT->AddEffect(
+					new cEffect("enemyHit_EFFECT", 1, m_pos, dir, VEC2(-1.f, -1.f), VEC2(3, 3), 300.f, color)
+				);
+			}
+			//레이무B는 세로로 길어짐
+			else {
+				EFFECT->AddEffect(
+					new cEffect("player_reimou_subShot1", 1, m_pos, VEC2(0, 0), VEC2(0.f, 0.1f), VEC2(1, 1), 300.f, color)
+				);
+			}
+
 			if (!(isMarisa == TRUE && isB == TRUE))
 				m_isLive = FALSE;
 			eFairy[i]->m_hp -= ((cPlayer*)OBJFIND(PLAYER))->m_subShotAtk;

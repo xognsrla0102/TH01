@@ -22,6 +22,9 @@ cReimouA_Bullet::cReimouA_Bullet(VEC2 pos)
 	m_img = new cImage;
 	m_img->m_img = IMAGE->FindImage("spell_reimouA");
 
+	m_img->m_a = 180.f;
+	m_img->SetNowRGB();
+
 	D3DXVec2Normalize(&m_dir, &(OBJFIND(PLAYER)->GetPos() - m_pos));
 
 	m_size = VEC2(0, 0);
@@ -33,13 +36,26 @@ cReimouA_Bullet::~cReimouA_Bullet()
 {
 	for (auto iter : m_rgbTimers)
 		SAFE_DELETE(iter);
-
 	SAFE_DELETE(m_img);
 }
 
 void cReimouA_Bullet::Update()
 {
-	if (timeGetTime() - m_start > 2000) m_isLive = FALSE;
+	if (timeGetTime() - m_start > 2000) {
+		SOUND->Copy("chargeshotSND");
+		SOUND->Copy("chargeshotSND");
+		//죽을 때 이펙트와 함께 카메라 진동
+		EFFECT->AddEffect(
+			new cEffect("enemy_dead_EFFECT", 1, m_pos, VEC2(0, 0),
+				VEC2(1.5f, 1.5f), VEC2(2.f, 2.f), 500.f
+			)
+		);
+
+		CAMERA->m_delay = 30;
+		CAMERA->m_velocity = 30;
+		CAMERA->m_isShake = TRUE;
+		m_isLive = FALSE;
+	}
 
 	for (size_t i = 0; i < 3; i++) {
 		if (m_rgbTimers[i]->Update()) {
@@ -96,7 +112,7 @@ void cReimouA_Bullet::Collision()
 	for (auto iter : eBullet) {
 		if (CIRCLE(m_pos, iter->GetPos(), pRad, iter->GetImg()->m_info.Width / 2.f)) {
 			EFFECT->AddEffect(
-				new cEffect("enemy_dead_EFFECT", 1, iter->GetPos(),
+				new cEffect("enemy_dead_EFFECT", 1, iter->GetPos(), VEC2(0, 0),
 					VEC2(0.2f, 0.2f), VEC2(0.3f, 0.3f)
 				)
 			);
@@ -123,10 +139,12 @@ void cReimouA_Bullet::Collision()
 				SOUND->Copy("chargeshotSND");
 				//죽을 때 이펙트와 함께 카메라 진동
 				EFFECT->AddEffect(
-					new cEffect("enemy_dead_EFFECT", 1, m_pos,
+					new cEffect("enemy_dead_EFFECT", 1, m_pos, VEC2(0, 0),
 						VEC2(1.5f, 1.5f), VEC2(2.f, 2.f), 500.f
 					)
 				);
+
+				CAMERA->m_delay = 30;
 				CAMERA->m_velocity = 15;
 				CAMERA->m_isShake = TRUE;
 
@@ -151,10 +169,11 @@ void cReimouA_Bullet::Collision()
 				SOUND->Copy("chargeshotSND");
 				//죽을 때 이펙트와 함께 카메라 진동
 				EFFECT->AddEffect(
-					new cEffect("enemy_dead_EFFECT", 1, m_pos,
+					new cEffect("enemy_dead_EFFECT", 1, m_pos, VEC2(0, 0),
 						VEC2(1.5f, 1.5f), VEC2(2.f, 2.f), 500.f
 					)
 				);
+				CAMERA->m_delay = 30;
 				CAMERA->m_velocity = 15;
 				CAMERA->m_isShake = TRUE;
 
@@ -202,10 +221,6 @@ void cReimouA_Bullet::Homing()
 	//적이 있다면 그 적을 향한 단위벡터 생성
 	else D3DXVec2Normalize(&normDir, &VEC2(shortPos - m_pos));
 
-	//이전 벡터에서 현재 새로 계산된 벡터를 += 연산해주면 마찰력없는 움직임이 가능함
-	//이전 벡터의 방향과 현재 벡터의 새로운 방향을 합쳐주는 것임 같은 방향이라면 속도는 증가할 것이고
-	//마주 보는 방향이면 상쇄되서 속도가 줄어들 것임
-
-	Lerp(m_dir, normDir, 0.3f);
+	Lerp(m_dir, normDir, 0.08f);
 }
 

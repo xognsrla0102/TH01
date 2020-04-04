@@ -13,6 +13,7 @@ private:
 	time_t start = timeGetTime();
 public:
 	BOOL m_isShake = FALSE;
+	BOOL m_isPause = FALSE;
 	INT m_accel = 1;
 	INT m_velocity = 1;
 	INT m_delay = 30;
@@ -24,6 +25,7 @@ public:
 	void Update();
 	void SetTransform();
 
+	void ResetSetting();
 	void Shake();
 };
 
