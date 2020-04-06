@@ -15,18 +15,18 @@ void DEBUG_LOG(LPCSTR fmt, ...) {
 }
 #endif
 
-int playerLife = 3;
-int playerBomb = 3;
+INT playerLife = 3;
+INT playerBomb = 3;
 
-bool onBGM = true;
-bool isMidi = false;
+BOOL onBGM = TRUE;
+BOOL isMidi = FALSE;
+BOOL onSND = TRUE;
 
-bool onSND = true;
+BOOL isWindowed = TRUE;
 
-bool isWindowed = true;
+BOOL isExtra = FALSE;
 
-bool isExtra = false;
+BOOL isMarisa = FALSE;
+BOOL isB = FALSE;
 
-bool isMarisa = false;
-
-bool isB = false;
+BOOL extraMode = FALSE;

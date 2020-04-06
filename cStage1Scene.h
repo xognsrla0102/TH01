@@ -40,6 +40,7 @@ public:
 	VEC2 m_img2Pos = VEC2(50, 50);
 
 	FLOAT m_scrool = 0.f;
+	FLOAT m_extraDelay = 0.5f;
 
 	vector<cTimer*> m_mobSpawn;
 public:

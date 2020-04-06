@@ -261,10 +261,14 @@ void cStartScene::Update()
 
 			SOUND->Stop("th_01_%s");
 			
-			if(m_nowButton == mLUNATIC)
+			if (m_nowButton == mLUNATIC) {
 				SCENE->ChangeScene("stage1Scene");
-			else
+				extraMode = FALSE;
+			}
+			else {
 				SCENE->ChangeScene("stage1Scene");
+				extraMode = TRUE;
+			}
 			return;
 		}
 

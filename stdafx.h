@@ -89,15 +89,16 @@ enum PLAYER_STATUS {
 	pRIGHT
 };
 
-extern int  playerLife;
-extern int  playerBomb;
-extern bool isMidi;
-extern bool onBGM;
-extern bool onSND;
-extern bool isWindowed;
-extern bool isExtra;
-extern bool isMarisa;
-extern bool isB;
+extern INT  playerLife;
+extern INT  playerBomb;
+extern BOOL isMidi;
+extern BOOL onBGM;
+extern BOOL onSND;
+extern BOOL isWindowed;
+extern BOOL isExtra;
+extern BOOL isMarisa;
+extern BOOL isB;
+extern BOOL extraMode;
 
 template <typename T>
 void Lerp(T& start, T end, float t) {

@@ -15,32 +15,48 @@ void cPath::AddPoint(VEC2 newPos, FLOAT speed, FLOAT delay)
 {
 	//스피드가 0일 경우 delay만큼 현재 위치 유지
 	//딜레이가 0일 경우 스피드만큼 현재 위치 Lerp
-	m_endPoint.push_back(cPointInfo(newPos, speed, delay));
+	m_endPoint.push_back(cPointInfo(FALSE, newPos, speed, delay));
 }
 
-void cPath::AddCurve(VEC2 curvePos, VEC2 endPos) {
-	return;
+void cPath::AddCurve(VEC2 nowPos, VEC2 curvePos, VEC2 endPos, FLOAT speed) {
+	//2차 베지어 곡선을 통해서 움직임을 구현함
+	VEC2 p0(nowPos), p1(curvePos), p2(endPos), m0, m1, b;
+
+	m0 = p0, m1 = p1;
+
+	//곡선을 20등분
+
+	for (size_t i = 1; i <= 20; i++) {
+		D3DXVec2Lerp(&m0, &p0, &p1, 0.05 * i);
+		D3DXVec2Lerp(&m1, &p1, &p2, 0.05 * i);
+		D3DXVec2Lerp(&b, &m0, &m1, 0.05 * i);
+
+		m_endPoint.push_back(cPointInfo(TRUE, b, speed, 0));
+	}
 }
 
 BOOL cPath::Update(VEC2 pos)
 {
 	//현재지점과 목표 지점까지의 거리
 	FLOAT d = DistPoint(pos, m_endPoint[m_nowPos].m_pos);
-	
-	//최종지점에 도착했을 경우
-	if (m_isDone == TRUE) return FALSE;
-	//목표 지점이 최종지점이고 최종지점에 도달했을 때
-	else if (m_nowPos == m_endPoint.size() - 1 && d < 1.f) {
-		m_isDone = TRUE;
-		return FALSE;
-	}
-	//현재 지점과 목표지점의 거리차이가 1.f 미만일 때
-	else if (d < 1.f) {
+
+	//다음 프레임에 이동할 거리
+	VEC2 dir = m_endPoint[m_nowPos].m_pos - pos;
+	D3DXVec2Normalize(&dir, &dir);
+	FLOAT moveDist = D3DXVec2Length(&(dir * m_endPoint[m_nowPos].m_speed * D_TIME));
+
+	//남은 거리보다 이동할 거리보다 작을 때
+	if (d <= moveDist) {
+		//목표 지점이 최종지점일 때
+		if (m_nowPos == m_endPoint.size() - 1) {
+			m_isDone = TRUE;
+			return FALSE;
+		}
 		//딜레이가 존재해서 정지한 상태로 딜레이 만큼 유지하거나
-		if (m_endPoint[m_nowPos].m_delay != 0)
+		else if (m_endPoint[m_nowPos].m_delay != 0) {
 			if (timeGetTime() - m_stay < m_endPoint[m_nowPos].m_delay)
 				return FALSE;
-		//Lerp한 후의 거리차이가 0.01f 미만이 된거라면 다음 포인트로 옮겨주는게 맞음
+		}
 		m_nowPos++;
 		m_stay = timeGetTime();
 		//목표지점으로 이동시켜주는 신호를 보내야 함

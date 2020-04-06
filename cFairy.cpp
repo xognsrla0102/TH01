@@ -12,7 +12,7 @@ cFairy::cFairy(INT hp, INT color, INT kind, VEC2 pos, FLOAT rot, VEC2 size)
 	m_rot = rot;
 	m_size = size;
 
-	m_ani = new cAnimation(100, m_endframes[m_color]);
+	m_ani = new cAnimation((int)(1000.f / m_endframes[m_color]), m_endframes[m_color]);
 } 
 
 cFairy::~cFairy()
@@ -24,6 +24,7 @@ cFairy::~cFairy()
 void cFairy::Update()
 {
 	m_ani->Update();
+
 	m_img = IMAGE->FindImage(m_colorKey[m_color], m_ani->m_nowFrame);
 	
 	BOOL cngNextPoint = m_path->Update(m_pos);
@@ -32,8 +33,9 @@ void cFairy::Update()
 		return;
 	}
 
-	if (cngNextPoint == TRUE)
+	if (cngNextPoint == TRUE) {
 		m_pos = m_path->m_endPoint[m_path->m_nowPos - 1].m_pos;
+	}
 
 	Pattern();
 }
@@ -43,10 +45,15 @@ void cFairy::Pattern()
 	cPointInfo nowPath = m_path->m_endPoint[m_path->m_nowPos];
 
 	//직선일 경우 Lerp
-	Lerp(m_pos, nowPath.m_pos, nowPath.m_speed);
-
+	if(nowPath.m_isCurve == FALSE)
+		Lerp(m_pos, nowPath.m_pos, nowPath.m_speed);
 	//곡선일 경우 단순 이동
 	//곡선 이동 처리
+	else {
+		VEC2 dir = nowPath.m_pos - m_pos;
+		D3DXVec2Normalize(&dir, &dir);
+		m_pos += dir * nowPath.m_speed * D_TIME;
+	}
 
 	if (CanFire()) {
 		switch (m_kind) {
@@ -78,7 +85,7 @@ void cFairy::Pattern1(INT cnt)
 			EFFECT->AddEffect(new cEffect("createBullet_EFFECT", 1, m_pos, VEC2(0, 0), VEC2(-0.3f, -0.3f), VEC2(1.5f, 1.5f), 800.f, VEC4(150, 128, 128, 255)));
 			eBullet.push_back(new cEnemyBullet("bullet_blueOne", m_pos, 1, m_bulletSpeed, dir, m_isAccel));
 
-			if (m_isRandShot == TRUE) rot += 10 + rand() % 20;
+			if (m_isRandShot == TRUE) rot += 360 / cnt + (10 + rand() % 20);
 			else rot += 360 / cnt;
 		}
 		m_bulletTime = timeGetTime();

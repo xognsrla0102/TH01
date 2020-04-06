@@ -39,8 +39,6 @@ void cCameraManager::ResetCamera()
 
 void cCameraManager::Update()
 {
-	DEBUG_LOG("%d %d\n", m_isShake, m_isPause);
-
 	D3DXMATRIX matS, matT;
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixIdentity(&matT);
