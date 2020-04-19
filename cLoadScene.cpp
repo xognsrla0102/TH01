@@ -198,7 +198,7 @@ void cLoadScene::Init()
 	Load("enemy_book_green", "./resource/enemy/book/green.png");
 	Load("enemy_book_pink", "./resource/enemy/book/pink.png");
 
-	Load("enemy_magiczone", "./resource/enemy/book/magic.png");
+	Load("enemy_magiczone", "./resource/enemy/magic.png");
 
 	//보스 이미지
 	Load("enemy_devil", "./resource/enemy/boss/devil.png");
@@ -208,9 +208,22 @@ void cLoadScene::Init()
 	Load("enemy_patchouli_move", "./resource/enemy/boss/patchouli/%d.png", 3);
 
 	//적 총알 이미지
+	Load("bullet_redOne", "./resource/enemy/bullet/redOne.png");
+	Load("bullet_orangeOne", "./resource/enemy/bullet/orangeOne.png");
+	Load("bullet_greenOne", "./resource/enemy/bullet/greenOne.png");
 	Load("bullet_blueOne", "./resource/enemy/bullet/blueOne.png");
+	Load("bullet_purpleOne", "./resource/enemy/bullet/purpleOne.png");
+	Load("bullet_pinkOne", "./resource/enemy/bullet/pinkOne.png");
 
+	Load("bullet_redMeal", "./resource/enemy/bullet/redMeal.png");
+	Load("bullet_orangeMeal", "./resource/enemy/bullet/orangeMeal.png");
+	Load("bullet_greenMeal", "./resource/enemy/bullet/greenMeal.png");
 	Load("bullet_blueMeal", "./resource/enemy/bullet/blueMeal.png");
+	Load("bullet_purpleMeal", "./resource/enemy/bullet/purpleMeal.png");
+
+	Load("bullet_redRazer", "./resource/enemy/bullet/redRazer.png");
+	Load("bullet_greenRazer", "./resource/enemy/bullet/greenRazer.png");
+	Load("bullet_pinkRazer", "./resource/enemy/bullet/pinkRazer.png");
 
 	for (size_t i = 0; i < 5; i++) {
 		char key[256], path[256];

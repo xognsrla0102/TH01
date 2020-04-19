@@ -14,6 +14,7 @@ protected:
 	FLOAT m_bulletSpeed;
 	FLOAT m_dirRot = 0.f;
 public:
+	cPath* m_path = nullptr;
 	FLOAT m_hp = 0.f;
 
 	BOOL m_isAccel = FALSE;

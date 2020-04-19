@@ -23,9 +23,8 @@ VEC2 GetHeightVector(RECT obj, FLOAT rot)
 
 BOOL AABB(RECT obj1, RECT obj2) {
 	RECT tmp;
-	if (IntersectRect(&tmp, &obj1, &obj2) == true)
-		return true;
-	return false;
+	if (IntersectRect(&tmp, &obj1, &obj2) == TRUE) return TRUE;
+	return FALSE;
 }
 
 BOOL OBB(VEC2 objPos1, VEC2 objPos2, RECT obj1, RECT obj2, FLOAT rot1, FLOAT rot2) {
@@ -52,13 +51,13 @@ BOOL OBB(VEC2 objPos1, VEC2 objPos2, RECT obj1, RECT obj2, FLOAT rot1, FLOAT rot
 			fabs(D3DXVec2Dot(&vSA[i], &xV[1]))
 			+ fabs(D3DXVec2Dot(&vSA[i], &yV[1]));
 
-		if (r1 + r2 < d) return false;
+		if (r1 + r2 < d) return FALSE;
 	}
-	return true;
+	return TRUE;
 }
 
 BOOL CIRCLE(VEC2 objPos1, VEC2 objPos2, FLOAT r1, FLOAT r2) {
 	FLOAT length = D3DXVec2Length(&VEC2(objPos1 - objPos2));
-	if (r1 + r2 > length) return true;
-	return false;
+	if (r1 + r2 > length) return TRUE;
+	return FALSE;
 }

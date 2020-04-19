@@ -9,6 +9,7 @@
 
 #include "cOne.h"
 #include "cFairy.h"
+#include "cBook.h"
 
 #include "cBullet.h"
 #include "cBulletAdmin.h"
@@ -136,7 +137,7 @@ void cStage1Scene::Init()
 	m_mobSpawn.push_back(new cTimer(300));
 	m_mobSpawn.push_back(new cTimer(0));
 
-	if (extraMode) m_extraDelay = 0.5f;
+	if (extraMode == TRUE) m_extraDelay = 0.5f;
 	else m_extraDelay = 1.f;
 }
 
@@ -484,7 +485,7 @@ void cStage1Scene::LevelDesign()
 		m_circle->SetNowRGB();
 	}
 
-	/*if (5000 < nowTime && nowTime < 8000) {
+	if (5000 < nowTime && nowTime < 8000) {
 		if (m_mobSpawn[0]->Update()) {
 			auto& one = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne();
 			one.push_back(new cOne(2, 1, VEC2(50, 200)));
@@ -497,9 +498,9 @@ void cStage1Scene::LevelDesign()
 			nowOne->SetSpeed(70);
 			nowOne->GetItemNames().push_back("item_smallPower");
 		}
-	}*/
+	}
 
-	/*else if (10000 < nowTime && nowTime < 13000) {
+	else if (10000 < nowTime && nowTime < 13000) {
 		if (m_mobSpawn[0]->Update()) {
 			auto& one = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne();
 			one.push_back(new cOne(2, 2, VEC2(50 + INGAMEX, 200)));
@@ -514,7 +515,7 @@ void cStage1Scene::LevelDesign()
 		}
 	}
 
-	else if (15000 < nowTime && nowTime < 15020) {
+	else if (18000 < nowTime && nowTime < 18020) {
 		auto& fairy = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetFairy();
 		for (size_t i = 1; i <= 3; i++) {
 			fairy.push_back(new cFairy(10, FAIRY_RED, 1, VEC2(50 + INGAMEX / 4 * i, 0)));
@@ -531,12 +532,13 @@ void cStage1Scene::LevelDesign()
 			nowFairy->SetSpeed(300.f);
 			nowFairy->m_isRandShot = TRUE;
 			nowFairy->m_isAccel = TRUE;
+			nowFairy->GetItemNames().push_back("item_smallPower");
 		}
 	}
 
-	else if (20000 < nowTime && nowTime < 20020) {
+	else if (22000 < nowTime && nowTime < 22020) {
 		auto& fairy = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetFairy();
-		fairy.push_back(new cFairy(30, FAIRY_BLUE, 1, VEC2(50 + INGAMEX / 2, 0)));
+		fairy.push_back(new cFairy(30, FAIRY_PURPLE, 1, VEC2(50 + INGAMEX / 2, 0)));
 		INT idx = fairy.size() - 1;
 		cFairy* nowFairy = ((cFairy*)fairy[idx]);
 
@@ -563,12 +565,12 @@ void cStage1Scene::LevelDesign()
 		nowFairy->m_path->AddPoint(VEC2(nowFairy->GetPos().x, nowFairy->GetPos().y + 50 + 150), 0, 3000);
 		nowFairy->m_path->AddPoint(VEC2(nowFairy->GetPos().x, nowFairy->GetPos().y - 100), 0.02, 0);
 
-		nowFairy->SetDelay(50 * m_extraDelay);
+		nowFairy->SetDelay(100 * m_extraDelay);
 		nowFairy->SetSpeed(250.f);
 		nowFairy->m_isAccel = TRUE;
-	}*/
+	}
 
-	if (30000 - 29000 < nowTime && nowTime < 30020 - 29000) {
+	else if (30000 < nowTime && nowTime < 35000) {
 		if (m_mobSpawn[0]->Update()) {
 			auto& fairy = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetFairy();
 			fairy.push_back(new cFairy(30, FAIRY_GREEN, 1, VEC2(50 + INGAMEX / 2, 0)));
@@ -576,15 +578,64 @@ void cStage1Scene::LevelDesign()
 			cFairy* nowFairy = ((cFairy*)fairy[idx]);
 
 			nowFairy->m_path = new cPath(nowFairy->GetPos());
-			nowFairy->m_path->AddCurve(nowFairy->GetPos(), VEC2(50, 100), VEC2(50 + INGAMEX / 2, 200), 50);
-			nowFairy->m_path->AddCurve(VEC2(50 + INGAMEX / 2, 200), VEC2(50 + INGAMEX, 300), VEC2(50 + INGAMEX / 2, 400), 50);
+			nowFairy->m_path->AddCurve(nowFairy->GetPos(), VEC2(50, 100), VEC2(50 + INGAMEX / 2, 200), 1000);
+			nowFairy->m_path->AddCurve(VEC2(50 + INGAMEX / 2, 200), VEC2(50 + INGAMEX, 300), VEC2(50 + INGAMEX / 2, 400), 1000);
+			nowFairy->m_path->AddCurve(VEC2(50 + INGAMEX / 2, 400), VEC2(50, 500), VEC2(50 + INGAMEX / 2, 600), 1000);
+			nowFairy->m_path->AddCurve(VEC2(50 + INGAMEX / 2, 600), VEC2(50 + INGAMEX, 700), VEC2(50 + INGAMEX / 2, 800), 1000);
+			nowFairy->m_isAccelCurve = TRUE;
+			nowFairy->m_divDelta = 10;
 
-			nowFairy->m_circleCnt = 3;
-			nowFairy->SetDelay(3000 * m_extraDelay);
+			nowFairy->m_circleCnt = 10;
+			nowFairy->SetDelay(1500 * m_extraDelay);
 			nowFairy->SetSpeed(100.f);
 			nowFairy->m_isRandShot = TRUE;
 			nowFairy->m_isAccel = TRUE;
 		}
+	}
+	
+	if (38000 < nowTime && nowTime < 38020) {
+		for (size_t i = 1; i <= 5; i++) {
+			auto& fairy = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetFairy();
+			fairy.push_back(new cFairy(30, FAIRY_BLUE, 1, VEC2(50 + 100 * i, 0)));
+			INT idx = fairy.size() - 1;
+			cFairy* nowFairy = ((cFairy*)fairy[idx]);
+
+			nowFairy->m_path = new cPath(nowFairy->GetPos());
+			nowFairy->m_path->AddPoint(VEC2(nowFairy->GetPos().x, nowFairy->GetPos().y + 50 + 150), 0.03, 0);
+			nowFairy->m_path->AddPoint(VEC2(nowFairy->GetPos().x, nowFairy->GetPos().y + 50 + 150), 0, 200 * i);
+			nowFairy->m_path->AddCurve(
+				VEC2(nowFairy->GetPos().x, nowFairy->GetPos().y + 50 + 150),
+				VEC2(nowFairy->GetPos().x + 100 * i, 50 + INGAMEY - 50),
+				VEC2(50 + INGAMEX + 100 * i, 50 + INGAMEY),
+				1500
+			);
+			nowFairy->m_isAccelCurve = TRUE;
+
+			nowFairy->m_circleCnt = 10;
+			nowFairy->SetDelay(1500 * m_extraDelay);
+			nowFairy->SetSpeed(100.f);
+			nowFairy->m_isRandShot = TRUE;
+			nowFairy->m_isAccel = TRUE;
+		}
+	}
+
+	//책 나오는지 테스트
+	if (40000 < nowTime && nowTime < 40020) {
+		auto& book = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetBook();
+		book.push_back(new cBook(50, BOOK_PINK, 2, FALSE, VEC2(WINSIZEX / 2, 100)));
+		INT idx = book.size() - 1;
+		cBook* nowBook = ((cBook*)book[idx]);
+		nowBook->m_startDelay = 1000;
+		nowBook->m_atkDelay = 1000;
+
+		book.push_back(new cBook(50, BOOK_GREEN, 1, FALSE, VEC2(WINSIZEX / 3, 100)));
+		idx = book.size() - 1;
+		nowBook = ((cBook*)book[idx]);
+		nowBook->m_circleCnt = 10;
+		nowBook->SetDelay(1500 * m_extraDelay);
+		nowBook->SetSpeed(100.f);
+		nowBook->m_isRandShot = TRUE;
+		nowBook->m_isAccel = TRUE;
 	}
 
 	//10분이 되면 게임종료

@@ -59,9 +59,42 @@ void cEnemyAdmin::Update()
 					new cEffect("enemy_dead_EFFECT", 1, fairyPos, VEC2(0, 0),
 						VEC2(0.5f, 0.5f), VEC2(1, 1))
 				);
+				for (size_t j = 0; j < m_fairys[i]->GetItemNames().size(); j++) {
+					string nowItemName = m_fairys[i]->GetItemNames()[j];
+					((cItemAdmin*)OBJFIND(ITEMS))->m_items.push_back(
+						new cItem(nowItemName, fairyPos, VEC2(fairyPos.x, fairyPos.y - (40 + rand() % 30)))
+					);
+				}
 			}
 			SAFE_DELETE(m_fairys[i]);
 			m_fairys.erase(m_fairys.begin() + i);
+			i--, size--;
+		}
+	}
+
+	size = m_books.size();
+	for (size_t i = 0; i < size; i++) {
+		m_books[i]->Update();
+		m_books[i]->OutMapChk();
+
+		if (m_books[i]->GetLive() == FALSE) {
+			VEC2 bookPos = m_books[i]->GetPos();
+			if (!(50 > bookPos.x + 23 || bookPos.x - 23 > 50 + INGAMEX ||
+				50 > bookPos.y + 23 || bookPos.y - 23 > 50 + INGAMEY)) {
+				SOUND->Copy("enemydeadSND");
+				EFFECT->AddEffect(
+					new cEffect("enemy_dead_EFFECT", 1, bookPos, VEC2(0, 0),
+						VEC2(0.5f, 0.5f), VEC2(1, 1))
+				);
+				for (size_t j = 0; j < m_books[i]->GetItemNames().size(); j++) {
+					string nowItemName = m_books[i]->GetItemNames()[j];
+					((cItemAdmin*)OBJFIND(ITEMS))->m_items.push_back(
+						new cItem(nowItemName, bookPos, VEC2(bookPos.x, bookPos.y - (40 + rand() % 30)))
+					);
+				}
+			}
+			SAFE_DELETE(m_books[i]);
+			m_books.erase(m_books.begin() + i);
 			i--, size--;
 		}
 	}
@@ -72,6 +105,8 @@ void cEnemyAdmin::Render()
 	for (auto iter : m_ones)
 		iter->Render();
 	for (auto iter : m_fairys)
+		iter->Render();
+	for (auto iter : m_books)
 		iter->Render();
 }
 
@@ -84,5 +119,9 @@ void cEnemyAdmin::Release()
 	for (auto iter : m_fairys)
 		SAFE_DELETE(iter);
 	m_fairys.clear();
+
+	for (auto iter : m_books)
+		SAFE_DELETE(iter);
+	m_books.clear();
 }
 

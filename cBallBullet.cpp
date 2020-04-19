@@ -158,16 +158,18 @@ void cBallBullet::Collision()
 			else if (isMarisa == TRUE && isB == TRUE)
 				color = VEC4(200, 255, 255, 130);
 
+			VEC2 effPos = { -30 + onePos.x + rand() % 20, -30 + onePos.y + rand() % 20};
+
 			//레이무B가 아닐 경우
 			if (!(isMarisa == FALSE && isB == TRUE)) {
 				EFFECT->AddEffect(
-					new cEffect("enemyHit_EFFECT", 1, m_pos, dir, VEC2(-1.f, -1.f), VEC2(3, 3), 300.f, color)
+					new cEffect("enemyHit_EFFECT", 1, effPos, dir, VEC2(-1.f, -1.f), VEC2(3, 3), 300.f, color)
 				);
 			}
 			//레이무B는 세로로 길어짐
 			else {
 				EFFECT->AddEffect(
-					new cEffect("player_reimou_subShot1", 1, m_pos, VEC2(0, 0), VEC2(0.f, 0.1f), VEC2(1, 1), 300.f, color)
+					new cEffect("player_reimou_subShot1", 1, effPos, VEC2(0, 0), VEC2(0.f, 0.1f), VEC2(1, 1), 300.f, color)
 				);
 			}
 
@@ -210,16 +212,18 @@ void cBallBullet::Collision()
 			else if (isMarisa == TRUE && isB == TRUE)
 				color = VEC4(200, 255, 255, 130);
 
+			VEC2 effPos = { -30 + fryPos.x + rand() % 20, -30 + fryPos.y + rand() % 20 };
+
 			//레이무B가 아닐 경우
 			if (!(isMarisa == FALSE && isB == TRUE)) {
 				EFFECT->AddEffect(
-					new cEffect("enemyHit_EFFECT", 1, m_pos, dir, VEC2(-1.f, -1.f), VEC2(3, 3), 300.f, color)
+					new cEffect("enemyHit_EFFECT", 1, effPos, dir, VEC2(-1.f, -1.f), VEC2(3, 3), 300.f, color)
 				);
 			}
 			//레이무B는 세로로 길어짐
 			else {
 				EFFECT->AddEffect(
-					new cEffect("player_reimou_subShot1", 1, m_pos, VEC2(0, 0), VEC2(0.f, 0.1f), VEC2(1, 1), 300.f, color)
+					new cEffect("player_reimou_subShot1", 1, effPos, VEC2(0, 0), VEC2(0.f, 0.1f), VEC2(1, 1), 300.f, color)
 				);
 			}
 

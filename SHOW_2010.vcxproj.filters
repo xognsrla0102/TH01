@@ -176,6 +176,9 @@
     <Filter Include="Core\Manager\Image\FILE">
       <UniqueIdentifier>{c7872808-c73b-4478-90a0-ee48960dc918}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Object\Bullet\EnemyRazer">
+      <UniqueIdentifier>{384d5fd4-f62b-4399-8e73-6452d3748c48}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -396,6 +399,9 @@
     <ClInclude Include="cMarisaA_Bullet.h">
       <Filter>Core\Object\Bullet\SpellBullet\MarisaA</Filter>
     </ClInclude>
+    <ClInclude Include="cEnemyRazer.h">
+      <Filter>Core\Object\Bullet\EnemyRazer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SHOW.cpp">
@@ -550,6 +556,9 @@
     </ClCompile>
     <ClCompile Include="cMarisaA_Bullet.cpp">
       <Filter>Core\Object\Bullet\SpellBullet\MarisaA</Filter>
+    </ClCompile>
+    <ClCompile Include="cEnemyRazer.cpp">
+      <Filter>Core\Object\Bullet\EnemyRazer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

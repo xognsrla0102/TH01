@@ -16,6 +16,7 @@ class cPath
 public:
 	vector<cPointInfo> m_endPoint;
 	INT m_nowPos = 0;
+	BOOL m_isLoop = FALSE;
 	BOOL m_isDone = FALSE;
 	time_t m_stay;
 public:
@@ -24,6 +25,6 @@ public:
 
 	void AddPoint(VEC2 newPos, FLOAT speed, FLOAT delay);
 	void AddCurve(VEC2 nowPos, VEC2 curvePos, VEC2 endPos, FLOAT speed);
-	BOOL Update(VEC2 pos);
+	BOOL Update(VEC2 pos, FLOAT moveDist);
 };
 

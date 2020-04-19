@@ -31,6 +31,7 @@
     <ProjectGuid>{D3D09108-96D0-4629-88B8-122C0256058C}</ProjectGuid>
     <RootNamespace>SHOW</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -398,6 +399,7 @@
     <ClCompile Include="cEnemy.cpp" />
     <ClCompile Include="cEnemyAdmin.cpp" />
     <ClCompile Include="cEnemyBullet.cpp" />
+    <ClCompile Include="cEnemyRazer.cpp" />
     <ClCompile Include="cFairy.cpp" />
     <ClCompile Include="cFileManager.cpp" />
     <ClCompile Include="cFontManager.cpp" />
@@ -444,6 +446,7 @@
     <ClInclude Include="cButton.h" />
     <ClInclude Include="cCameraManager.h" />
     <ClInclude Include="cEnemyBullet.h" />
+    <ClInclude Include="cEnemyRazer.h" />
     <ClInclude Include="cFairy.h" />
     <ClInclude Include="cFontManager.h" />
     <ClInclude Include="cItem.h" />

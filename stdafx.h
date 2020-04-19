@@ -110,6 +110,8 @@ FLOAT DistPoint(VEC2 a, VEC2 b);
 
 #ifdef _DEBUG
 	void DEBUG_LOG(LPCSTR fmt, ...);
+#else
+	void DEBUG_LOG(LPCSTR fmt, ...);
 #endif
 
 #include "SDKsound.h"

@@ -13,6 +13,8 @@ void DEBUG_LOG(LPCSTR fmt, ...) {
 	va_end(list);
 	OutputDebugStringA(buf);
 }
+#else 
+void DEBUG_LOG(LPCSTR fmt, ...) {}
 #endif
 
 INT playerLife = 3;

@@ -1195,6 +1195,13 @@ void cPlayer::MarisaB()
 	auto& eOne = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetOne();
 	auto& eFairy = ((cEnemyAdmin*)OBJFIND(ENEMYS))->GetFairy();
 
+	m_spellB_Razer->m_pos = VEC2(
+		m_pos.x,
+		m_pos.y
+		- m_spellB_Razer->m_img->m_info.Height / 2
+		- 30
+	);
+
 	RECT razerRect = {
 		m_spellB_Razer->m_pos.x - m_spellB_Razer->m_img->m_info.Width / 2,
 		m_spellB_Razer->m_pos.y - m_spellB_Razer->m_img->m_info.Height / 2,
@@ -1261,18 +1268,11 @@ void cPlayer::MarisaB()
 
 	INT nowTime = timeGetTime() - m_marisaB_RazerTime;
 
-	m_spellB_Razer->m_pos = VEC2(
-		m_pos.x,
-		m_pos.y
-		- m_spellB_Razer->m_img->m_info.Height / 2
-		- m_img->m_info.Height / 2
-	);
-
 	if (nowTime < 1000) {
 		Lerp(m_spellB_Razer->m_a, 200.f, 0.05);
 		m_spellB_Razer->SetNowRGB();
 	}
-	else if (1500 < nowTime && nowTime < 1520) {
+	else if (1000 < nowTime && nowTime < 1020) {
 		m_spellB_Razer->m_a = 200.f;
 		m_spellB_Razer->SetNowRGB();
 

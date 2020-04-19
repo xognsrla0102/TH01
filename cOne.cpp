@@ -17,6 +17,7 @@ cOne::cOne(INT hp, INT kind, VEC2 pos, FLOAT rot, VEC2 size)
 
 cOne::~cOne()
 {
+	SAFE_DELETE(m_path);
 }
 
 void cOne::Update()
